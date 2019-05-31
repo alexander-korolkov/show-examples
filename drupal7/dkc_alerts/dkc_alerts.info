@@ -1,0 +1,7 @@
+name = DKC alerts
+description = Represents DKC alerts module. Allows defining multiple alerts with customisation.
+core = 7.x
+package = DKC
+version = 7.x-1.1
+admin = admin/config/dkc/alerts
+dependencies[] = libraries

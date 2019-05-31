@@ -1,0 +1,15 @@
+.dkc-sidebar-image {
+    margin: 10px 0;
+}
+
+.dkc-cards-header,
+.dkc-footer {
+    text-align: center;
+}
+.dkc-footer {
+    margin-top: 10px;
+}
+
+.dkc-footer p{
+    margin-bottom: 0;
+}

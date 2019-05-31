@@ -1,0 +1,65 @@
+<?php
+/**
+ * @file
+ * Represents all logic related to module installing.
+ */
+
+function dkc_schema() {
+ $schema['dkc_url_alias'] = array(
+    'description' => 'A list of URL aliases for Drupal paths; a user may visit either the source or destination path.',
+    'fields' => array(
+      'pid' => array(
+        'description' => 'A unique path alias identifier.',
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+      ),
+      'source' => array(
+        'description' => 'The Drupal path this alias is for; e.g. node/12.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'alias' => array(
+        'description' => 'The alias for this path; e.g. title-of-the-story.',
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+      'language' => array(
+        'description' => "The language this alias is for; if 'und', the alias will be used for unknown languages. Each Drupal path can have an alias for each supported language.",
+        'type' => 'varchar',
+        'length' => 12,
+        'not null' => TRUE,
+        'default' => '',
+      ),
+    ),
+    'primary key' => array('pid'),
+    'indexes' => array(
+      'alias_language_pid' => array('alias', 'language', 'pid'),
+      'source_language_pid' => array('source', 'language', 'pid'),
+    ),
+  );
+
+  return $schema;
+}
+
+
+/**
+ * Update all menu links which contains pdf and sets target blank.
+ */
+function dkc_update_7001() {
+  $result = db_select('menu_links', 'l')
+    ->fields('l', array('mlid'))
+    ->condition('l.link_path', '%' . db_like('.pdf') . '%', 'LIKE')
+    ->condition('l.options', '%' . db_like('_blank') . '%', 'NOT LIKE')
+    ->execute();
+
+  foreach ($result as $item) {
+    $menu_item = menu_link_load($item->mlid);
+    $menu_item['options']['attributes']['target'] = '_blank';
+    menu_link_save($menu_item);
+  }
+}

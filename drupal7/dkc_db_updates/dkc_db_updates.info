@@ -1,0 +1,5 @@
+name = DKC Database Updates
+description = This is a simple module for developers to use when database updates are required that don't fit into another custom module. Add a hook_update_n function to the install file to define your updates such as changing a variable or enabling a module and they will be run during update.php run when your code is deployed.
+version = 7.x-1.0
+core = 7.x
+package = Custom

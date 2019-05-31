@@ -1,0 +1,32 @@
+<?php
+/**
+ * @file
+ * Represents all logic related to module installation.
+ */
+
+/**
+ * Implements hook_install().
+ */
+function dkc_sidebar_install() {
+  dkc_prepare_cards_image();
+}
+
+/**
+ * Implements hook_update_N().
+ */
+function dkc_sidebar_update_7001() {
+  dkc_prepare_cards_image();
+}
+
+/**
+ * Help function for prepare image.
+ */
+function dkc_prepare_cards_image() {
+  $path = DRUPAL_ROOT . '/' . drupal_get_path('module', 'dkc_sidebar');
+  $path .= '/images/cards.gif';
+  $content = file_get_contents($path);
+  $file = file_save_data($content, 'public://dkc_sidebar.cards.gif', FILE_EXISTS_REPLACE);
+  $file->status = FILE_STATUS_PERMANENT;
+  file_save($file);
+  variable_set('dkc_sidebar_cards', $file->fid);
+}

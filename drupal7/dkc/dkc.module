@@ -1,0 +1,608 @@
+<?php
+/**
+ * @file
+ * Code for the DKC feature.
+ */
+
+include_once 'dkc.features.inc';
+
+/**
+ * Implements hook_form_alter().
+ */
+function dkc_form_alter(&$form, &$form_state, $form_id) {
+
+  if($form_id == 'event_calendar_node_form') {
+    global $user;
+      
+    if(!in_array("administrator", $user->roles)
+      && in_array("Calendar manager", $user->roles)) {
+      $options = array(
+        '498' => 'BOC Meeting'
+      );
+  
+      if (isset($form['field_event_type']['und']['#default_value'][0])) {
+        $default_value = $form['field_event_type']['und']['#default_value'][0];
+        //If event type was not BOC Meeting by default (admin set another type),
+        //then leave only this type and BOC Meeting in the options.
+        if ($default_value != 498) {
+          $options[$default_value] = $form['field_event_type']['und']['#options'][$default_value];
+        }
+      } else {
+        //Set BOC Meeting as default event type.
+        $form['field_event_type']['und']['#default_value'][0] = 498;
+      }
+  
+      $form['field_event_type']['und']['#options'] = $options;
+    }
+  }
+
+  if($form_id == 'file_entity_edit') {
+      $file = file_load($form['fid']['#value']);
+      $filename = str_replace('public://', '', $file->uri);
+      $path['source'] = 'sites/default/files/'.$filename;
+      $default_value = '';
+      if($new_path = dkc_path_load($path)) {
+        $default_value = $new_path['alias'];
+      }
+      $form['alias'] = array(
+          '#type' => 'textfield',
+          '#default_value' => $default_value,
+          '#title' => t('Alias for this file'),
+          '#maxlength' => 255,
+      );
+      $form['actions']['submit']['#submit'][] = 'dkc_aliase_submit';
+
+  }
+
+  if($form_id === 'file_entity_add_upload' && isset($form["#step"])) {
+    if($form["#step"] == 4) {
+        $form['alias'] = array(
+            '#type' => 'textfield',
+            '#default_value' => '',
+            '#title' => t('Alias for this file'),
+            '#maxlength' => 255,
+        );
+        $form['#submit'][] = 'dkc_aliase_submit';
+    }
+  }
+}
+
+function dkc_field_widget_form_alter(&$element, &$form_state, $context) {
+  if ($context['field']['field_name'] == 'field_addenda' || $context['field']['field_name'] == 'field_attachments') {
+    foreach($element as $item) {
+      if(isset($item['#process'])) {
+        $item['#process'][] = 'dkc_field_widget_process';
+      }
+    }
+     // $element['description']['#required'] = true;
+  }
+}
+
+function dkc_form_workbench_moderation_moderate_form_alter(&$form) {
+
+  if (isset($form['#access']) && $form['#access'] === FALSE) {
+    return;
+  }
+  $form['#submit'][] = 'dkc_form_workbench_moderation_moderate_form_submit';
+}
+
+/*
+ * Submit callback to add the note to a workbench record.
+ */
+function dkc_form_workbench_moderation_moderate_form_submit($form, $form_state) {
+  $module = 'workbench_email';
+  $key = 'we_transition';
+  $from = variable_get('site_mail', 'admin@example.com');
+  $node = node_load($form_state['values']['node']->nid);
+  $node_current = workbench_moderation_node_current_load($node);
+  $author = user_load($node_current->workbench_moderation['current']->uid);
+  
+  if ($form_state['values']['note']) {
+    $message = $form_state['values']['note'];
+    // Send the email.
+    $params = array(
+      'subject' => t('There was a Note to your content moderation'),
+      'message' => check_markup(
+        t($message),
+        'plain_text'
+      ),
+    );
+    $params['message'] .= 'Original content: '. l($node->title, $node->path['alias']);
+    drupal_mail($module, $key, $author->mail, language_default(), $params, $from, TRUE);
+  }
+}
+
+/**
+ * Implements hook_mail_alter().
+ */
+function dkc_mail_alter(&$message) {
+  if (isset($message['id']) && $message['id'] == 'workbench_email_we_transition') {
+    $queue_mail = variable_get('workbench_email_queue_mail');
+    if ($queue_mail) {
+      // Store the message for sending on cron.
+      workbench_email_get_queue()->createItem($message);
+      // Prevent the message from being sent.
+      $message['send'] = FALSE;
+    }
+  }
+}
+
+/**
+ * An element #process callback for the file_generic field type.
+ *
+ * Expands the file_generic type to make the description and display fields.
+ */
+function dkc_field_widget_process($element, &$form_state, $form) {
+  if(isset($element['description'])) {
+    $element['description']['#required'] = true;
+  }
+  return $element;
+}
+
+/**
+ * Implements hook_views_query_alter
+ * @param type $view
+ * @param type $query
+ */
+function dkc_views_query_alter(&$view, &$query) {
+/*    if ($view->name == 'bids') {
+        $query->orderby = array(
+            array(
+                'field' => 'CASE WHEN
+field_data_field_project_number_results.field_project_number_results_fid THEN
+(SELECT filename FROM {file_managed} WHERE file_managed.fid = field_data_field_project_number_results.field_project_number_results_fid) ELSE
+(SELECT filename FROM {file_managed} WHERE file_managed.fid = field_data_field_project_number.field_project_number_fid) END',
+                'direction' => 'DESC',
+            )
+        );
+    }
+*/
+}
+
+function dkc_path_load($conditions) {
+    if (is_numeric($conditions)) {
+        $conditions = array('pid' => $conditions);
+    }
+    elseif (is_string($conditions)) {
+        $conditions = array('source' => $conditions);
+    }
+    elseif (!is_array($conditions)) {
+        return FALSE;
+    }
+    $select = db_select('dkc_url_alias');
+    foreach ($conditions as $field => $value) {
+        $select->condition($field, $value);
+    }
+    return $select
+        ->fields('dkc_url_alias')
+        ->execute()
+        ->fetchAssoc();
+}
+
+function dkc_aliase_submit($form, &$form_state) {
+  //$values = $form_state['values'];
+
+  if($form_state['values']['alias'] != '') {
+    $filename = str_replace('public://', '', $form_state['file']->uri);
+      $path['source'] = 'sites/default/files/'.$filename;
+
+      if($new_path = dkc_path_load($path)) {
+        $new_path['alias'] =  $form_state['values']['alias'];
+          dkc_path_save($new_path);
+      } else {
+          dkc_path_save($path = array(
+          'source' => 'sites/default/files/'.$filename,
+          'alias' => $form_state['values']['alias']
+        ));
+      }
+  }
+}
+
+function dkc_path_save(&$path) {
+    $path += array('language' => LANGUAGE_NONE);
+
+    // Load the stored alias, if any.
+    if (!empty($path['pid']) && !isset($path['original'])) {
+        $path['original'] = dkc_path_load($path['pid']);
+    }
+
+    if (empty($path['pid'])) {
+        drupal_write_record('dkc_url_alias', $path);
+    //    module_invoke_all('path_insert', $path);
+    }
+    else {
+        drupal_write_record('dkc_url_alias', $path, array('pid'));
+    //    module_invoke_all('path_update', $path);
+    }
+
+    // Clear internal properties.
+    unset($path['original']);
+
+    // Clear the static alias cache.
+    drupal_clear_path_cache($path['source']);
+}
+
+/**
+ * Implements hook_block_view_alter().
+ */
+function dkc_block_view_alter(&$data, $block) {
+  if ($block->module == "menu" && $block->region == "sidebar_first") {
+    //$request_path = request_path();
+    //$exploded_path = explode('/',$request_path);
+    // $data['subject'] = l($data['subject'], $exploded_path[0]);
+    if ($node = node_load(str_replace("node/", '', $_GET['q']))) {
+      if (isset($node->field_department['und'][0]['tid']) && $node->type == "department_content") {
+        $term = taxonomy_term_load($node->field_department['und'][0]['tid']);
+        $term_nids = taxonomy_select_nodes($node->field_department['und'][0]['tid'], FALSE);
+        $parents = taxonomy_get_parents($node->field_department['und'][0]['tid']);
+        $parents = array_shift($parents);
+        $parent_node = !empty($parents) ? dkc_find_main_department_page($parents->tid) : NULL;
+        $parent = isset($parents->name) ? $parents->name : '';
+        if (!empty($parent) && isset($parent_node->nid)) {
+          $data['subject'] = l($parent, drupal_get_path_alias("node/" . $parent_node->nid));
+        }
+        $term_nodes = node_load_multiple($term_nids);
+        if (!empty($term_nodes)) {
+          foreach ($term_nodes as $term_node) {
+            if (!empty($term_node->field_main_department_page)) {
+              if ($term_node->field_main_department_page['und'][0]['value'] == 1) {
+                $data['subject'] = l($term->name, drupal_get_path_alias("node/" . $term_node->nid));
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+function dkc_find_main_department_page($tid) {
+  $term_nids = taxonomy_select_nodes($tid, FALSE);
+  $term_nodes = node_load_multiple($term_nids);
+  if (!empty($term_nodes)) {
+    foreach ($term_nodes as $term_node) {
+      if (!empty($term_node->field_main_department_page)) {
+        if ($term_node->field_main_department_page['und'][0]['value'] == 1 && $term_node->status) {
+          return $term_node;
+        }
+      }
+    }
+  }
+  return FALSE;
+}
+
+/**
+ * @file
+ * DKC custom functions, form alters etc.
+ */
+
+/**
+ * Implements hook_form_views_exposed_form_alter().
+ */
+/*
+function dkc_form_views_exposed_form_alter(&$form, &$form_state) {
+  if (!isset($form_state['view']->exposed_input['field_department_tid'])) {
+    // Load currently logged in user
+    global $user;
+    $current_user  = user_load($user->uid);
+
+    // If they have a department set to them, filter content by that department
+    if (isset($current_user->field_department[LANGUAGE_NONE][0]['tid'])) {
+      $form_state['input']['field_department_tid'] = $current_user->field_department[LANGUAGE_NONE][0]['tid'];
+      // Disable the department filter
+      $form['field_department_tid']['#attributes'] = array('disabled' => 'disabled');  
+    }
+  }
+}
+*/
+/**
+ * Implements hook_form_alter().
+ */
+/*
+function dkc_form_alter(&$form, $form_state, $form_id) {
+  global $user;
+  if ($form_id === 'department_content_node_form' && $user->uid != 18) {
+    $current_user  = user_load($user->uid);
+    $user_department = $current_user->field_department[LANGUAGE_NONE][0]['tid'];
+    $node_department = $form['#node']->field_department[LANGUAGE_NONE][0]['tid'];
+    if ($user_department != $node_department) {
+      $form['#disabled'] = 1;
+      drupal_set_message('You don\'t have access to edit this content. Please contact your administrator.', 'error');
+    }
+  }
+}
+*/
+
+/**
+ * Implements hook_views_pre_render().
+ */
+function dkc_views_pre_render(&$view) {
+  /*if ($view->name == "twitter_tweet_feed") {
+    $facebook_feed = views_get_view_result("facebook_feed");
+
+    $view->result[0]->node_title = "Follow Us On Twitter";
+    $view->result[1]->node_title = "Follow Us On Facebook";
+    $view->result[2]->node_title = "Follow Us On Twitter";
+    $view->result[3]->node_title = "Follow Us On Facebook";
+    $view->result[4]->node_title = "Follow Us On Twitter";
+    $view->result[5]->node_title = "Follow Us On Facebook";
+
+    $view->result[1]->nid = $facebook_feed[0]->nid;
+    $view->result[1]->node_created = strtotime($facebook_feed[0]->field_data_field_creation_date_field_creation_date_value);
+   // echo "<pre>"; print_r($view->result); die;
+    $view->result[1]->field_field_profile_image = $facebook_feed[0]->field_field_facebook_image;
+    $view->result[1]->field_field_tweet_linked_images = $facebook_feed[0]->field_field_facebook_image;
+    $view->result[1]->field_field_tweet_author = $facebook_feed[0]->field_field_facebook_author;
+    $view->result[1]->field_field_tweet_creation_date = $facebook_feed[0]->field_field_creation_date;
+    $view->result[1]->field_field_tweet_contents = $facebook_feed[0]->field_body;
+    $view->result[1]->field_field_link_to_tweet = $facebook_feed[0]->field_field_link_to_post;
+
+    $view->result[3]->nid = $facebook_feed[1]->nid;
+    $view->result[3]->node_created = strtotime($facebook_feed[1]->field_data_field_creation_date_field_creation_date_value);
+    $view->result[3]->field_field_profile_image = $facebook_feed[1]->field_field_facebook_image;
+    $view->result[3]->field_field_tweet_linked_images = $facebook_feed[1]->field_field_facebook_image;
+    $view->result[3]->field_field_tweet_author = $facebook_feed[1]->field_field_facebook_author;
+    $view->result[3]->field_field_tweet_creation_date = $facebook_feed[1]->field_field_creation_date;
+    $view->result[3]->field_field_tweet_contents = $facebook_feed[1]->field_body;
+    $view->result[3]->field_field_link_to_tweet = $facebook_feed[1]->field_field_link_to_post;
+
+    $view->result[5]->nid = $facebook_feed[2]->nid;
+    $view->result[5]->node_created = strtotime($facebook_feed[2]->field_data_field_creation_date_field_creation_date_value);
+    $view->result[5]->field_field_profile_image = $facebook_feed[2]->field_field_facebook_image;
+    $view->result[5]->field_field_tweet_linked_images = $facebook_feed[2]->field_field_facebook_image;
+    $view->result[5]->field_field_tweet_author = $facebook_feed[2]->field_field_facebook_author;
+    $view->result[5]->field_field_tweet_creation_date = $facebook_feed[2]->field_field_creation_date;
+    $view->result[5]->field_field_tweet_contents = $facebook_feed[2]->field_body;
+    $view->result[5]->field_field_link_to_tweet = $facebook_feed[2]->field_field_link_to_post;
+  }
+*/
+}
+
+/**
+ * Implements hook_admin_paths().
+ *
+ * Add IMCE to admin paths. Avoids conflict with raleway_sub theme.
+ */
+function dkc_admin_paths() {
+  $paths = array(
+    'imce' => TRUE,
+  );
+  return $paths;
+}
+
+/**
+ * Implements hook_block_info().
+ */
+function dkc_block_info() {
+  $blocks = array();
+
+  $blocks['dkc_dctv'] = array(
+    'info' => t('DCTV video'),
+    'status' => 0,
+    'weight' => 101,
+    'cache' => DRUPAL_CACHE_PER_PAGE,
+    'visibility' => BLOCK_VISIBILITY_LISTED,
+    'pages' => '<front>',
+  );
+
+  return $blocks;
+}
+
+/**
+ * Implements hook_block_view().
+ */
+function dkc_block_view($delta = '') {
+  $block = array();
+
+  switch ($delta) {
+    case 'dkc_dctv':
+      $dec = '<p>Tune into DCTV Channel 23 on Comcast Cable in DeKalb County, or check us out here on our website.  We are dedicated to bringing you news, services and events uniquely focused on DeKalb County.</p> <p>DCTV shares information in a way in which everyone can understand how DeKalb County government serves its stakeholders.  Our programming focuses specifically on showcasing the events, programs, services, and activities that positively impact the lives of DeKalb County residents, employees and visitors.</p>';
+      $dctv_logo = '/sites/all/themes/raleway_sub/images/dctv_logo.png';
+      $mpath = drupal_get_path('module', 'dkc');
+      $block['content'] = array(
+        '#markup' => theme('dkc_dctv', array(
+          'description' => $dec,
+          'title' => t('DCTV'),
+          'logo' => $dctv_logo,
+        )),
+        '#attached' => array(
+          'css' => array(
+            $mpath . '/css/dkc.css',
+          ),
+        ),
+      );
+      break;
+  }
+  return $block;
+}
+
+/**
+ * Implements hook_theme().
+ */
+function dkc_theme($existing, $type, $theme, $path) {
+  return array(
+    'dkc_dctv' => array(
+      'variables' => array(
+        'title' => NULL,
+        'body' => NULL,
+      ),
+      'template' => 'templates/dkc_dctv',
+    ),
+  );
+}
+
+/**
+ * Implements hook_menu_alter().
+ */
+function dkc_menu_alter(&$items) {
+  $items['node']['page callback'] = 'drupal_not_found';
+}
+
+/**
+ * Implements hook_menu().
+ */
+function dkc_menu() {
+  $items['admin/config/dkc'] = array(
+    'title' => 'DKC settings',
+    'description' => 'Settings which relates to DKC modules.',
+    'position' => 'left',
+    'weight' => 20,
+    'page callback' => 'system_admin_menu_block_page',
+    'access arguments' => array('administer site configuration'),
+    'file' => 'system.admin.inc',
+    'file path' => drupal_get_path('module', 'system'),
+  );
+/*
+  $items['admin/config/unpublish-duplicate-content'] = array(
+    'title' => 'Unpublish Duplicate Content',
+    'description' => 'Batch form',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('dkc_batch_form'),
+    'access arguments' => array('access administration pages'),
+    'type' => MENU_NORMAL_ITEM,
+  );
+*/
+    $query = db_select('dkc_url_alias', 'ua');
+    $query->fields('ua', array('source','alias'));
+    $query->condition('source', '%' . db_like("sites/default") . '%', 'LIKE');
+    $sources = $query->execute()->fetchAllAssoc('source');
+
+    foreach($sources as $source) {
+        $alias = $source->alias;
+        if($alias[0] == '/') {
+            $alias = substr($alias,1);
+        }
+        $items[$alias] = array(
+            'page callback' => 'dkc_file_alias',
+            'page arguments' => array($source->source),
+            'access arguments' => array('access content'),
+        );
+    }
+
+  return $items;
+}
+
+function dkc_file_alias($sources) {
+    $file = $sources;
+
+    $download_name = basename($file);
+/*
+    if (file_exists($file)) {
+     //   header('Content-Description: File Transfer');
+        header('Content-Type: application/pdf');
+        header('Content-Disposition: attachment; filename="'.$download_name.'"');
+    //    header('Expires: 0');
+   //     header('Cache-Control: must-revalidate');
+        header('Cache-Control: public');
+
+     //   header('Content-Length: ' . filesize($file));
+        readfile($file);
+
+    }
+    //exit;
+*/
+        $content = file_get_contents($file);
+       header('Content-Type: application/pdf');
+       header('Content-Length: '.strlen( $content ));
+       header('Content-disposition: inline; filename="' . $download_name . '"');
+       header('Cache-Control: public, must-revalidate, max-age=0');
+       header('Pragma: public');
+       header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
+       header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
+       echo $content;
+       exit;
+
+     //return "test";
+}
+
+   /**
+    * Custom batch form.
+    */
+function dkc_batch_form($form, &$form_state) {
+
+  $form['function'] = array(
+    '#type' => 'markup',
+    '#markup' => t('Start Batch.'),
+  );
+  $form['submit'] = array(
+    '#type' => 'submit',
+    '#value' => 'Go'
+  );
+
+  return $form;
+}
+
+function dkc_batch_form_submit($form, &$form_state) {
+  $batch = dkc_detail_resave_products();
+  batch_set($batch);
+}
+
+function dkc_detail_resave_products() {
+  $operations = array();
+
+  $query = db_select('node', 'n');
+  $query->fields('n', array('nid'));
+  $query->condition('type', 'news');
+  $nids = $query->execute()->fetchAllAssoc('nid');
+
+  $i = 0;
+  foreach ($nids as $nid) {
+    $operations[] = array(
+      'dkc_resave',
+      array(
+        $nid->nid,
+        t('(Operation @operation)', array('@operation' => $i)),
+      )
+    );
+    $i++;
+  }
+
+  $batch = array(
+    'operations' => $operations,
+    'finished' => 'dkc_detail_finished',
+  );
+
+  return $batch;
+}
+
+function dkc_resave($nid, $operation_details, &$context) {
+  $type = 'node';
+  $node = node_load($nid);
+
+  $same_nodes = array();
+  if(substr($node->path["alias"], -2) == "-0"){
+    $same_nodes = node_load_multiple(array(), array('title' => $node->title));
+    if(count($same_nodes) > 1) {
+      $node->status = 0;
+      node_save($node);
+    }
+  }
+
+  $context['results'][] = $node->nid . ' : ' . check_plain($node->title);
+  $context['message'] = t('Loading node "@title"', array('@title' => $node->title)) . ' ' . $operation_details;
+
+  $_SESSION['http_request_count']++;
+}
+
+function dkc_detail_finished($success, $results, $operations) {
+  if ($success) {
+    drupal_set_message(t('@count results processed in @requests HTTP requests.', array(
+        '@count' => count($results),
+        '@requests' => !empty($_SESSION['http_request_count']) ? $_SESSION['http_request_count'] : 0)
+    ));
+    drupal_set_message(t('The final result was "%final"', array('%final' => end($results))));
+  }
+  else {
+    $error_operation = reset($operations);
+    drupal_set_message(
+      t('An error occurred while processing @operation with arguments : @args',
+        array(
+          '@operation' => $error_operation[0],
+          '@args' => print_r($error_operation[0], TRUE),
+        )
+      ),
+      'error'
+    );
+  }
+}
+

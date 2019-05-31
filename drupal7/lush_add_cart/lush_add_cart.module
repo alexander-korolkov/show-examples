@@ -1,0 +1,573 @@
+<?php
+/**
+ * @file
+ * Lush cart module.
+ */
+
+/**
+ * Return order line items if no value.
+ */
+define('LUSH_ADD_CART_ITEMS_EMPTY_VALUE', -1);
+
+/**
+ * Return order line items if empty.
+ */
+define('LUSH_ADD_CART_EMPTY_ITEMS', -2);
+
+/**
+ * Implements hook_menu().
+ */
+function lush_add_cart_menu() {
+  $items = array();
+  $items['lush/product/ajax'] = array(
+    'page callback' => '_lush_add_cart_ajax_call_product',
+    // No access restriction.
+    'access callback' => TRUE,
+    'file' => 'inc/lush_add_cart.form.inc',
+    'type' => MENU_CALLBACK,
+  );
+  $items['lush/product/change/ajax'] = array(
+    'page callback' => '_lush_add_cart_change_product_image_ajax',
+    // No access restriction.
+    'access callback' => TRUE,
+    'file' => 'inc/lush_add_cart.form.inc',
+    'type' => MENU_CALLBACK,
+  );
+  $items['lush/product/submit/ajax'] = array(
+    'page callback' => '_lush_add_cart_ajax_submit',
+    // No access restriction.
+    'access callback' => TRUE,
+    'file' => 'inc/lush_add_cart.form.inc',
+    'type' => MENU_CALLBACK,
+  );
+  $items['admin/config/lush/lush-cart'] = array(
+    'title' => 'Lush Add To Cart',
+    'description' => 'Add to cart settings',
+    'page callback' => 'drupal_get_form',
+    'page arguments' => array('lush_add_cart_configure_form'),
+    'access arguments' => array('administer lush custom settings'),
+    'file' => 'inc/lush_add_cart.admin.inc',
+    'type' => MENU_NORMAL_ITEM,
+  );
+
+  $items['lush/flag/ajax'] = array(
+    'page callback' => '_lush_add_cart_ajax_flag_lush',
+    // No access restriction.
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+  return $items;
+}
+
+/**
+ * Checks whether current page should be adjusted with add to cart widget.
+ */
+function lush_add_cart_access() {
+  if ($global = variable_get('lush_add_cart_visibility_global')) {
+    return TRUE;
+  }
+
+  if ($home_pages = variable_get('lush_add_cart_visibility_home_pages')) {
+    if (drupal_is_front_page()) {
+      return TRUE;
+    }
+    else {
+      $object = menu_get_object();
+
+      if (!empty($object->type) && $object->type == 'home_page') {
+        return TRUE;
+      }
+    }
+  }
+
+  if (variable_get('lush_add_cart_visibility_categories', TRUE)
+    && ($object = menu_get_object('taxonomy_term', 2))) {
+
+    return $object->vocabulary_machine_name == 'category';
+  }
+
+  return FALSE;
+}
+
+/**
+ * Implements hook_preprocess_node().
+ */
+function lush_add_cart_preprocess_node(&$vars) {
+  if (!lush_add_cart_access()) {
+    return;
+  }
+
+  $list = variable_get('lush_add_cart_content_type_list', []);
+  $list = array_values($list);
+
+  if (in_array($vars['type'], $list, TRUE)) {
+    // Add class to node wrapper.
+    if (variable_get('lush_add_cart_fivestar_disable', TRUE)) {
+      $vars['classes_array'][] = 'hide-five-star';
+    }
+
+    $vars['classes_array'][] = 'node-add-to-basket';
+    $vars['classes_array'][] = 'nid-' . $vars['nid'];
+  }
+}
+
+/**
+ * Updates solr entity view result cache to update css classes for FE logic.
+ *
+ * @param $vars
+ */
+function lush_add_cart_adjust_solr_cached_nodes(&$vars) {
+  if (!lush_add_cart_access()) {
+    return;
+  }
+
+  if (empty($vars['products']['search_results']['#results'])) {
+    return;
+  }
+
+  // Entity view result cached by solr. As node_preprocess isn't triggered
+  // we use solr context & add appropriate properties for allowed nodes.
+  $result = &$vars['products']['search_results']['#results'];
+
+  foreach ($result as &$search_item) {
+    $node = $search_item['node'];
+
+    if (empty($node)) {
+      continue;
+    }
+
+    $list = variable_get('lush_add_cart_content_type_list', []);
+    $list = array_values($list);
+
+    if (in_array($node->bundle, $list, TRUE)) {
+      $solr_nid_parts = explode('/', $node->id);
+      $nid = array_pop($solr_nid_parts);
+
+      // Add class to node wrapper.
+      if (variable_get('lush_add_cart_fivestar_disable', TRUE)) {
+        $search_item['wrapper_classes'] .= ' hide-five-star';
+      }
+
+      $search_item['wrapper_classes'] .= " node-add-to-basket nid-{$nid}";
+    }
+  }
+}
+
+/**
+ * Implements hook_process_hook().
+ */
+function lush_add_cart_process_subcategory_layout(&$vars) {
+  lush_add_cart_adjust_solr_cached_nodes($vars);
+}
+
+/**
+ * Implements hook_process_hook().
+ */
+function lush_add_cart_process_category_layout(&$vars) {
+  lush_add_cart_adjust_solr_cached_nodes($vars);
+}
+
+/**
+ * Implements hook_theme().
+ */
+function lush_add_cart_theme($existing, $type, $theme, $path) {
+  $module_path = drupal_get_path('module', 'lush_add_cart');
+
+  return array(
+    'lush_add_cart_tpl_theme' => array(
+      'variables' => array('node' => NULL, 'form_content' => NULL),
+      'template' => 'lush_add_cart_template',
+      'path' => $module_path . '/templates',
+      'file' => 'theme.inc',
+    ),
+    'lush_add_cart_form_theme' => array(
+      'render element' => 'form',
+      'template' => 'lush_add_cart_form',
+      'path' => $module_path . '/templates',
+      'file' => 'theme.inc',
+    ),
+  );
+}
+
+/**
+ * Return flag link.
+ *
+ * @param string $flag_name
+ *   Flag name.
+ * @param int $entity_id
+ *   Entity id.
+ *
+ * @return string
+ *   Flag link content.
+ */
+function _lush_add_cart_flag_create_link($flag_name, $entity_id) {
+  if (!function_exists('flag_get_flag')) {
+    return '';
+  }
+  $flag = flag_get_flag($flag_name);
+  if (!$flag) {
+    // Flag does not exist.
+    return '';
+  }
+  $flag_link = $flag->theme($flag->is_flagged($entity_id) ? 'unflag' : 'flag', $entity_id);
+
+  return $flag_link;
+}
+
+/**
+ * Lush flag ajax call back.
+ */
+function _lush_add_cart_ajax_flag_lush() {
+  global $user;
+  if ($user->uid == 0) {
+    $path_name = $_POST['url'];
+    if (isset($path_name) && strlen($path_name) > 1) {
+      $path_name = substr($path_name, 1);
+    }
+    else {
+      $path_name = '';
+    }
+    $login = l(t('login', array(), array('context' => 'lush add to cart')), 'user/login', array('query' => array('destination' => $path_name)));
+    $register = l(t('register', array(), array('context' => 'lush add to cart')), 'user/register', array('query' => array('destination' => $path_name)));
+    $message = variable_get('lush_add_cart_flag_anonymous_msg', t('Please log in to add products to your wishlist.'));
+    $message = str_replace(':login', $login, $message);
+    $message = str_replace(':register', $register, $message);
+
+    $output['message'] = $message;
+  }
+  else {
+    $href = $_POST['href'];
+    $output = _lush_add_cart_flag_ajax_callback($href);
+  }
+  drupal_json_output($output);
+  drupal_exit();
+}
+
+/**
+ * Lush flag callback.
+ *
+ * @param string $url
+ *   Flag url.
+ *
+ * @return array
+ *   Output of array.
+ */
+function _lush_add_cart_flag_ajax_callback($url) {
+  $parse_url = drupal_parse_url(trim($url));
+  $path      = $parse_url['path'];
+  $action    = arg(2, $path);
+  $flag_name = arg(3, $path);
+  $entity_id = arg(4, $path);
+  $token     = $parse_url['query']['token'];
+
+  $flag = flag_load($flag_name);
+  if (!flag_check_token($token, $entity_id)) {
+    $output['message'] = t('Bad token. You seem to have followed an invalid link.');
+  }
+  else {
+    $flag->flag($action, $entity_id);
+    $output['wishlist'] = _lush_add_cart_flag_create_link($flag_name, $entity_id);
+  }
+  return $output;
+}
+
+/**
+ * Custom product cart add.
+ *
+ * @param int $product_id
+ *   Product id.
+ * @param int $quantity
+ *   Product quantity.
+ * @param int $uid
+ *   User uid.
+ * @param array $data
+ *   A data array to set on the new line item. The following information in the
+ *   data array may be used on line item creation:
+ *   - $data['context']['display_path']: if present will be used to set the line
+ *   item's display_path field value.
+ * @param string $type
+ *   The type of product line item to create. Must be a product line item as
+ *   defined in the line item type info array, and the line item type must
+ *   include the expected product related fields. Defaults to the base product
+ *   line item type defined by the Product Reference module.
+ *
+ * @return object
+ *   The fully loaded line item populated with the product data as specified.
+ */
+function _lush_add_cart_product_cart_add($product_id, $quantity, $uid = NULL, $data = array(), $type = 'product') {
+  $line_item = NULL;
+
+  if ($uid == NULL) {
+    global $user;
+    $uid = $user->uid;
+  }
+
+  if ($product = commerce_product_load($product_id)) {
+    $line_item = commerce_product_line_item_new($product, $quantity, 0, $data, $type);
+
+    drupal_alter('lush_line_item_update', $line_item);
+
+    // @todo it's legacy logic need to check whether it still needed.
+    $line_item->field_is_point['und'][0]['value']   = 0;
+    $line_item->field_unit_point['und'][0]['value'] = 0;
+
+    $line_item = _lush_add_cart_commerce_cart_product_add($uid, $line_item);
+  }
+  return $line_item;
+}
+
+/**
+ * Custom product delete from cart.
+ *
+ * @param array|int $product_ids
+ *   Product ids.
+ *
+ * @return bool
+ *   Return TRUE or FALSE.
+ */
+function _lush_add_cart_product_delete_cart($product_ids) {
+  global $user;
+  if (!is_array($product_ids)) {
+    $line_item_id = _lush_add_cart_product_in_cart($product_ids);
+    if ($line_item_id != LUSH_ADD_CART_ITEMS_EMPTY_VALUE && $line_item_id != LUSH_ADD_CART_EMPTY_ITEMS) {
+      $current_order = commerce_cart_order_load($user->uid);
+      commerce_cart_order_product_line_item_delete($current_order, $line_item_id);
+    }
+    else {
+      return FALSE;
+    }
+  }
+  else {
+    $line_item_ids = _lush_add_cart_product_in_cart($product_ids);
+    if ($line_item_ids != LUSH_ADD_CART_ITEMS_EMPTY_VALUE && $line_item_ids != LUSH_ADD_CART_EMPTY_ITEMS) {
+      $current_order = commerce_cart_order_load($user->uid);
+      foreach ($line_item_ids as $line_item_id) {
+        commerce_cart_order_product_line_item_delete($current_order, $line_item_id);
+      }
+    }
+    else {
+      return FALSE;
+    }
+  }
+  return TRUE;
+}
+
+/**
+ * Custom product alter quantity.
+ *
+ * @param int $product_id
+ *   Product id.
+ * @param int $quantity
+ *   Product quantity.
+ * @param string $param
+ *   Action add | remove.
+ *
+ * @return bool
+ *   Return TRUE or FALSE.
+ */
+function lush_add_cart_product_alter_quantity($product_id, $quantity, $param) {
+  $line_item_id = _lush_add_cart_product_in_cart($product_id);
+  if ($line_item_id != LUSH_ADD_CART_ITEMS_EMPTY_VALUE && $line_item_id != LUSH_ADD_CART_EMPTY_ITEMS) {
+    if ($param == 'remove') {
+      $product_quantity_in_cart = commerce_line_items_quantity(array($line_item_id));
+      if ($quantity >= $product_quantity_in_cart) {
+        _lush_add_cart_product_delete_cart($product_id);
+      }
+      else {
+        $line_item = commerce_line_item_load($line_item_id);
+        $line_item->quantity = $line_item->quantity - $quantity;
+        commerce_line_item_save($line_item);
+      }
+    }
+    elseif ($param == 'add') {
+      $line_item = commerce_line_item_load($line_item_id);
+      $line_item->quantity = $line_item->quantity + $quantity;
+      commerce_line_item_save($line_item);
+    }
+  }
+  else {
+    return FALSE;
+  }
+  return TRUE;
+}
+
+/**
+ * Check procut in cart or not.
+ *
+ * @param int $product_id
+ *   Product id.
+ *
+ * @return int
+ *   Line item id or LUSH_ADD_CART_ITEMS_EMPTY_VALUE,LUSH_ADD_CART_EMPTY_ITEMS
+ */
+function _lush_add_cart_product_in_cart($product_id) {
+  global $user;
+  if (!is_array($product_id)) {
+    $current_order = commerce_cart_order_load($user->uid);
+
+    if ($current_order && count($current_order->commerce_line_items) > 0) {
+      $line_items = $current_order->commerce_line_items;
+      foreach ($line_items[LANGUAGE_NONE] as $value) {
+        $line_item = commerce_line_item_load($value['line_item_id']);
+        $products = $line_item->commerce_product[LANGUAGE_NONE];
+        foreach ($products as $product_value) {
+          if ($product_id == $product_value['product_id']) {
+            return $value['line_item_id'];
+          }
+        }
+      }
+      return LUSH_ADD_CART_ITEMS_EMPTY_VALUE;
+    }
+    else {
+      return LUSH_ADD_CART_EMPTY_ITEMS;
+    }
+  }
+  else {
+    $current_order = commerce_cart_order_load($user->uid);
+
+    if ($current_order && count($current_order->commerce_line_items) > 0) {
+      $line_items = $current_order->commerce_line_items;
+      foreach ($line_items[LANGUAGE_NONE] as $value) {
+        $line_item = commerce_line_item_load($value['line_item_id']);
+        $products = $line_item->commerce_product[LANGUAGE_NONE][0]['product_id'];
+        foreach ($product_id as $id) {
+          if ($id == $products) {
+            $line_item_ids[] = $value['line_item_id'];
+          }
+        }
+      }
+      if (isset($line_item_ids) >= 1) {
+        return $line_item_ids;
+      }
+      else {
+        return LUSH_ADD_CART_ITEMS_EMPTY_VALUE;
+      }
+    }
+    else {
+      return LUSH_ADD_CART_EMPTY_ITEMS;
+    }
+  }
+}
+
+/**
+ * Overwrite commerce_cart_product_add function.
+ *
+ * @param int $uid
+ *   User id.
+ * @param object $line_item
+ *   Line item.
+ * @param bool $combine
+ *   Boolean indicating whether or not to combine like
+ *   products on the same line item,incrementing an existing
+ *   line item's quantity instead of adding a new line item to the cart order.
+ *
+ * @return bool|object
+ *   The new or updated line item object or FALSE on failure.
+ */
+function _lush_add_cart_commerce_cart_product_add($uid, $line_item, $combine = TRUE) {
+  // Do not add the line item if it doesn't have a unit price.
+  $line_item_wrapper = entity_metadata_wrapper('commerce_line_item', $line_item);
+
+  if (is_null($line_item_wrapper->commerce_unit_price->value())) {
+    return FALSE;
+  }
+
+  // First attempt to load the customer's shopping cart order.
+  $order = commerce_cart_order_load($uid);
+
+  // If no order existed, create one now.
+  if (empty($order)) {
+    $order = commerce_cart_order_new($uid);
+  }
+
+  // Set the incoming line item's order_id.
+  $line_item->order_id = $order->order_id;
+
+  // Wrap the order for easy access to field data.
+  $order_wrapper = entity_metadata_wrapper('commerce_order', $order);
+
+  // Extract the product and quantity we're adding from the incoming line item.
+  $product = $line_item_wrapper->commerce_product->value();
+  $quantity = $line_item->quantity;
+
+  // Invoke the product prepare event with the shopping cart order.
+  rules_invoke_all('commerce_cart_product_prepare', $order, $product, $line_item->quantity);
+
+  // Determine if the product already exists on the order and increment its
+  // quantity instead of adding a new line if it does.
+  $matching_line_item = NULL;
+
+  // If we are supposed to look for a line item to combine into...
+  if ($combine) {
+    // Generate an array of properties and fields to compare.
+    $comparison_properties = array('type', 'commerce_product');
+
+    // Add any field that was exposed on the Add to Cart form to the array.
+    // TODO: Bypass combination when an exposed field is no longer available but
+    // The same base product is added to the cart.
+    foreach (field_info_instances('commerce_line_item', $line_item->type) as $info) {
+      if (!empty($info['commerce_cart_settings']['field_access'])) {
+        $comparison_properties[] = $info['field_name'];
+      }
+    }
+
+    // Allow other modules to specify what properties should be compared when
+    // Determining whether or not to combine line items.
+    $cloned_line_item = clone($line_item);
+    drupal_alter('commerce_cart_product_comparison_properties', $comparison_properties, $cloned_line_item);
+
+    // Loop over each line item on the order.
+    foreach ($order_wrapper->commerce_line_items as $matching_line_item_wrapper) {
+      // Examine each of the comparison properties on the line item.
+      foreach ($comparison_properties as $property) {
+        // If the property is not present on either line item, bypass it.
+        if (!isset($matching_line_item_wrapper->value()->{$property}) && !isset($line_item_wrapper->value()->{$property})) {
+          continue;
+        }
+
+        // If any property does not match the same property on the incoming line
+        // item or exists on one line item but not the other...
+        if ((!isset($matching_line_item_wrapper->value()->{$property}) && isset($line_item_wrapper->value()->{$property})) || (isset($matching_line_item_wrapper->value()->{$property}) && !isset($line_item_wrapper->value()->{$property})) || $matching_line_item_wrapper->{$property}->raw() != $line_item_wrapper->{$property}->raw()) {
+          // Continue the loop with the next line item.
+          continue 2;
+        }
+      }
+
+      // If every comparison line item matched, combine into this line item.
+      $matching_line_item = $matching_line_item_wrapper->value();
+      break;
+    }
+  }
+
+  // If no matching line item was found...
+  if (empty($matching_line_item)) {
+    // Save the incoming line item now so we get its ID.
+    commerce_line_item_save($line_item);
+
+    // Add it to the order's line item reference value.
+    $order_wrapper->commerce_line_items[] = $line_item;
+  }
+  else {
+    // Increment the quantity of the matching line item, update the data array,
+    // And save it.
+    $matching_line_item->quantity += $quantity;
+    $matching_line_item->data = array_merge($line_item->data, $matching_line_item->data);
+
+    commerce_line_item_save($matching_line_item);
+
+    // Clear the line item cache so the updated quantity will be available to
+    // The ensuing load instead of the original quantity as loaded above.
+    entity_get_controller('commerce_line_item')->resetCache(array($matching_line_item->line_item_id));
+
+    // Update the line item variable for use in the invocation and return value.
+    $line_item = $matching_line_item;
+  }
+
+  // Save the updated order.
+  commerce_order_save($order);
+
+  // Invoke the product add event with the newly saved or updated line item.
+  rules_invoke_all('commerce_cart_product_add', $order, $product, $quantity, $line_item);
+
+  return $line_item;
+}

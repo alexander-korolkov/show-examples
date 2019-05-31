@@ -1,0 +1,25 @@
+<?php
+
+/**
+ * @file
+ *
+ * Lush add cart install / update hooks.
+ */
+
+/**
+ * Set field context settings against recent GA platform fields. E.g. we use
+ * field_display_size field for product options instead of old weight field.
+ */
+function lush_add_cart_update_7001() {
+  variable_set(
+    'lush_add_cart_product_items_option',
+    'commerce_price/field_display_size'
+  );
+}
+
+/**
+ * Disable useless jp add to cart module.
+ */
+function lush_add_cart_update_7002() {
+  module_disable(['lush_add_cart_jp']);
+}

@@ -1,0 +1,22 @@
+div#dkc-alerts-wrapper {
+    width: 100%;
+    font-weight: bold;
+    line-height: 1;
+}
+
+div#dkc-alerts-wrapper .dkc-alert-body {
+    padding: 10px 10px 10px 45px;
+    margin: 0;
+    font-size: 18px;
+}
+
+div#dkc-alerts-wrapper div.dkc-alert {
+    border: 1px solid #cc9e9f;
+    margin-bottom: 1.5em;
+}
+div#dkc-alerts-wrapper div.dkc-alert.dkc-error-icon {
+    background-image: url('../images/icon-alert.png');
+    background-repeat: no-repeat;
+    background-size: 30px 30px;
+    background-position: 1% 50%;
+}

@@ -1,0 +1,11 @@
+name = DKC sidebar
+description = Defines block and configuration form for sidebar.
+core = 7.x
+package = DKC
+version = 7.x-1.1
+dependencies[] = features
+dependencies[] = image
+dependencies[] = menu
+features[features_api][] = api:2
+features[image][] = dkc_sidebar_images
+features[menu_custom][] = menu-airport-menu
