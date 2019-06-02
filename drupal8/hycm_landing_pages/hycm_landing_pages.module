@@ -1,0 +1,75 @@
+<?php
+
+/**
+ * @file
+ * Primary module hooks for HYCM Landing pages module.
+ *
+ * @DCG
+ * This file is no longer required in Drupal 8.
+ * @see https://www.drupal.org/node/2217931
+ */
+
+
+/**
+ * Implements hook_theme().
+ */
+function hycm_landing_pages_theme($existing, $type, $theme, $path) {
+  $themes = [];
+  // todo remove
+  $themes['lpblock_wed_webinar'] = [
+    'variables' => [
+      'fields' => NULL,
+    ],
+  ];
+
+  // todo remove
+  $themes['lpblock_noneu_broker_canada'] = [
+    'variables' => [
+      'fields' => NULL,
+    ],
+  ];
+
+  $themes['lpblock_shortform'] = [
+    'variables' => [
+      'items' => NULL,
+      'attributes' => NULL,
+    ],
+  ];
+
+  $themes['lpblock_important_events'] = [
+    'variables' => [
+      'items' => NULL,
+    ],
+  ];
+
+  $themes['lpblock_eurusd_block'] = [
+    'variables' => [
+      'title' => NULL,
+      'points' => NULL,
+      'svg_class' => NULL,
+      'item' => NULL,
+      'item_id' => NULL,
+    ],
+  ];
+
+  return $themes;
+}
+
+
+/**
+ * Implements hook_form_BASE_FORM_ID_alter().
+ */
+function hycm_landing_pages_form_hylp_edit_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function hycm_landing_pages_preprocess_block(&$variables) {
+  /*
+  if ($variables['base_plugin_id'] == 'brand_logo_block') {
+   // $variables['attributes']['class'][] = 'col-12';
+  }
+  */
+}

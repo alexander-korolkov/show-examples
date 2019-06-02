@@ -1,0 +1,46 @@
+<div id="news1" ng-show="showAllNews" class="news-list section pt-120 white">
+  <div class="container">
+    <h2>{{ '<strong>Recent</strong> News'|t }}</h2>
+    <div class="row">
+      <div class="col-lg-6 pr-lg-5">
+        <div class="news-preview bborder with-mw" ng-repeat="entry in feeds[0].item track by $index" ng-if="$index < start">
+          <time datetime="2017-10-02">{ entry.localtime }</time>
+          <p class="semibold">{ entry.title }</p>
+          <div ng-repeat="summary in entry.formatted_summary track by $index">
+            <p> { summary } <span class="light" ng-if="$index == entry.formatted_summary.length - 1">..</span></p>
+          </div>
+          <!--div ng-bind-html="entry.summary_description"></div-->
+          <!--div>{ entry.summary }</div-->
+          <a ng-click="showMore($index)">{{ 'Read More'|t }}</a>
+        </div>
+      </div>
+      <div class="col-lg-6 pl-lg-5">
+        <div class="news-preview bborder with-mw" ng-repeat="entry in feeds[0].item track by $index" ng-if="$index >= start && $index < end">
+          <time datetime="2017-10-02">{ entry.localtime }</time>
+          <p class="semibold">{ entry.title }</p>
+          <div ng-repeat="summary in entry.formatted_summary track by $index">
+            <p> { summary } <span class="light" ng-if="$index == entry.formatted_summary.length - 1">..</span></p>
+          </div>
+          <!--div ng-bind-html="entry.summary_description"></div-->
+          <!--div>{ entry.summaryn }</div-->
+          <a ng-click="showMore($index)">{{ 'Read More'|t }}</a>
+        </div>
+      </div>
+    </div>
+    <a ng-show="showAllNewlink" ng-click="seeAllNews()">{{ 'See all news'|t }}</a>
+  </div>
+</div>
+
+<div ng-show="showSelectedNews" class="news-text section pt-120 white">
+  <div class="container">
+    <h2>{{ '<strong>Recent</strong> News'|t }}</h2>
+    <div class="row">
+      <div class="col-lg-6 my-3 bborder with-mw">
+        <time>{ newsPubDate }</time>
+        <p class="font16"><span class="semibold"><p>{ newsTitle }</p></span></p>
+        <div class="light" ng-bind-html="newDescription"></div>
+      </div>
+    </div>
+    <a ng-click="backToAll()" class="font16">{{ 'Back to all'|t }}</a>
+  </div>
+</div>

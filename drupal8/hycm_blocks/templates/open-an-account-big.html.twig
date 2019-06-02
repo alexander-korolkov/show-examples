@@ -1,0 +1,18 @@
+<div class="row live-account-big">
+    <div class="col-6">
+        <h3>{{ 'Financial Experience You Can Trust'|t }}</h3>
+        <p>{{ 'Providing trading services'|t }}<br>{{ 'since 1977'|t }}</p>
+    </div>
+    <div class="col-6">
+        <div class="annotation">
+            <h3>{{ 'Live Account'|t }}</h3>
+            <p>{{ 'Access our products, trading tools and features.'|t }}</p>
+        </div>
+        <div class="big-button-wrap">
+            {{ button }}
+            {% if is_warning and warning %}
+                <span class="risk-warning">{{ warning }}</span>
+            {% endif %}
+        </div>
+    </div>
+</div>

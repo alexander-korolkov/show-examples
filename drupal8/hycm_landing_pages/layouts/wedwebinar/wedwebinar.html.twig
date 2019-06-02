@@ -1,0 +1,94 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display wedwebinar layout.
+ *
+ * Available variables:
+ * - content: The content for this layout.
+ * - attributes: HTML attributes for the layout wrapper.
+ *
+ * @ingroup themeable
+ */
+#}
+{%
+  set classes = [
+    'layout',
+    'layout--wedwebinar',
+  ]
+%}
+
+{% if content %}
+  <div{{ attributes.addClass(classes) }}>
+
+    {% if content.brand_header %}
+        <div {{ region_attributes.brand_header.addClass('layout__region', 'layout__region--brand_header') }}>
+            <div class="container">
+                <div class="row">
+                    {{ content.brand_header }}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if content.header %}
+        <div {{ region_attributes.header.addClass('layout__region', 'layout__region--header', 'hero-section') }}>
+            <div class="container">
+                <div class="row">
+                    {{ content.header }}
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if content.first_left and content.first_right %}
+        <div {{ region_attributes.first_left.addClass('layout__region', 'layout__region--first') }}>
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6">
+                        {{ content.first_left }}
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 z-index-up">
+                        {{ content.first_right }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if content.second_left and content.second_right %}
+        <div {{ region_attributes.second_left.addClass('layout__region', 'layout__region--second') }}>
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6">
+                        {{ content.second_left }}
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6">
+                        {{ content.second_right }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+    {% if content.main %}
+      <div {{ region_attributes.main.addClass('layout__region', 'layout__region--main') }}>
+        <div class="container">
+          <div class="row">
+            {{ content.main }}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if content.footer %}
+      <div {{ region_attributes.footer.addClass('layout__region', 'layout__region--footer') }}>
+        <div class="container">
+          <div class="row">
+            {{ content.footer }}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+{% endif %}
+

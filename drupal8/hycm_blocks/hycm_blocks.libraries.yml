@@ -1,0 +1,107 @@
+# Custom module library for general purposes.
+vps-request:
+  js:
+    js/vps-request.js: {}
+#  css:
+#    component:
+#      css/hycm-blocks.css: {}
+  dependencies:
+    - core/drupalSettings
+    - core/drupal.dialog.ajax
+
+main-nav:
+  js:
+    js/main-nav.js: {}
+  dependencies:
+  - core/drupalSettings
+
+main-nav-mobile:
+  js:
+    js/main-nav-mobile.js: {}
+  dependencies:
+  - core/drupalSettings
+
+switcher:
+  js:
+    js/switcher.js: {}
+  dependencies:
+  - core/drupalSettings
+
+mob-switcher:
+  js:
+    js/mob-switcher.js: {}
+  dependencies:
+  - core/drupalSettings  
+
+markets-home:
+  version: VERSION
+  js:
+    js/markets-home.js: {}
+  css:
+    theme:
+      css/markets-home.css: {}
+  dependencies:
+    - core/drupalSettings
+    - hycm_services/slick
+
+paragraph-slick:
+  js:
+    js/paragraph-slick.js: {}
+  css:
+    theme:
+      css/paragraph-slick.css: {}
+  dependencies:
+  - core/drupalSettings
+  - hycm_services/slick
+
+workshop_faq:
+  js:
+    js/workshop-faq.js: {}
+  dependencies:
+    - core/drupalSettings
+
+join-workshop:
+#  css:
+#    theme:
+#      workshop-form.css: {}
+  js:
+    js/join-workshop.js: {}
+  dependencies:
+    - core/drupalSettings
+    - hycm_services/modernizr-custom
+    - hycm_services/select2
+    - hycm_services/parsley
+    - hycm_services/ajax-setcookies
+    - hycm_services/landing-cookies
+  #- core/modernizr
+
+client-portal-language-block:
+  js:
+    js/client-portal-language-block.js: {}
+  dependencies:
+      - core/drupalSettings
+
+form-join-webinar-html:
+  css:
+    theme:
+      css/form-join-webinar-html.css: {}
+  js:
+    js/form-join-webinar-html.js: {}
+  dependencies:
+    - core/drupalSettings
+    - core/jquery
+    - core/jquery.once
+    - core/jquery.cookie
+    - hycm_services/parsley
+
+awards:
+  css:
+    theme:
+      css/awards.css: {}
+  js:
+    js/awards.js: {}
+  dependencies:
+    - core/drupalSettings
+    - core/jquery
+    - core/jquery.once
+    - hycm_services/slick

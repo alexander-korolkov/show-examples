@@ -1,0 +1,26 @@
+{#
+ File comments
+#}
+
+<div {{ attributes }}>
+    <div class="faq-container">
+        {% for item in items %}
+            <div {{ item.attributes }}>
+                <div class="question-header">
+                    <h5 class="mb-0">
+                        {{ item.question }}
+                    </h5>
+                </div>
+                <div class="answer-body">
+                    {{ item.answer }}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    {% if has_more %}
+    <div class="show-more">
+        <button>{{ 'Load more' }}</button>
+    </div>
+    {% endif %}
+</div>

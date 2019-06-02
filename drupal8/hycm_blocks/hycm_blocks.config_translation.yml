@@ -1,0 +1,11 @@
+hycm_blocks.marketscontent:
+  title: 'Markets content'
+  base_route_name: hycm_blocks.markets_content_form
+  names:
+    - hycm_blocks.marketscontent
+
+hycm_blocks.awards:
+  title: 'Awards content'
+  base_route_name: hycm_blocks.awards
+  names:
+    - hycm_blocks.awards

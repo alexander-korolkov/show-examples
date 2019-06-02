@@ -1,0 +1,418 @@
+.join-webinar-form-wrap {}
+
+.join-webinar-form-wrap .field_wrap {
+  margin-bottom: 22px;
+}
+
+.join-webinar-form-wrap h2 {
+  font-size: 36px;
+  font-weight: 500;
+  line-height: 1.24;
+  color: #2d2d2d;
+}
+.join-webinar-form-wrap.field-label {
+  position: absolute;
+  display: block;
+  color: #000;
+  line-height: 10px;
+  margin-top: 15px;
+  font-size: 14px;
+  font-weight: 400;
+  -webkit-transform: translateY(24px);
+  -ms-transform: translateY(24px);
+  transform: translateY(24px);
+  -webkit-transition: -webkit-transform 0.3s, color 0.3s;
+  transition: transform 0.3s, color 0.3s;
+  -webkit-transform-origin: 0 50%;
+  -ms-transform-origin: 0 50%;
+  transform-origin: 0 50%;
+  z-index: 999;
+}
+
+.join-webinar-form-wrap .field-input {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 60px;
+  padding-top: 26px;
+  line-height: 16px;
+  font-weight: 500;
+  background: transparent;
+  border: none;
+  -webkit-appearance: none;
+  outline: none;
+  color: #2d2d2d;
+  font-size: 16px;
+}
+
+.join-webinar-form-wrap .field_wrap.w_border::before {
+  content: '';
+  height: 1px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: #2d2d2d;
+  z-index: 999;
+}
+
+.join-webinar-form-wrap .field_wrap:not(.select_container)::after {
+  background-color: #53BC88;
+  -webkit-transform: scaleX(0);
+  -ms-transform: scaleX(0);
+  transform: scaleX(0);
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+
+.join-webinar-form-wrap .field_wrap.is-focused:after {
+  -webkit-transform: scaleX(1);
+  height: 2px;
+  -ms-transform: scaleX(1);
+  transform: scaleX(1);
+}
+
+.join-webinar-form-wrap .field_wrap.w_border::after,
+.join-webinar-form-wrap .field_wrap.w_border::before {
+  content: '';
+  height: 1px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: #2d2d2d;
+  z-index: 999;
+}
+
+.join-webinar-form-wrap .btn_wrap button {
+  font-weight: 700;
+  cursor: pointer;
+  padding: 25px;
+  background-image: none;
+  white-space: nowrap;
+  line-height: 0;
+  border-radius: 4px;
+  display: block;
+  max-height: 36px;
+  text-align: center;
+  margin: auto;
+  border: none;
+  width: 100%;
+  -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+  text-transform: none;
+  background-color: #53bc88;
+  font-size: 18px;
+  color: #f5f9fc;
+}
+
+
+#redirect_animation {
+  display: none;
+  width: 100%;
+  height: 100%;
+  background: url(/themes/custom/hycm/assets/registration/images/svg/ring-alt.svg) 50% no-repeat white;
+  position: fixed;
+  z-index: 999999;
+}
+.join-webinar-form-wrap{
+  color: #2d2d2d;
+}
+.join-webinar-form-wrap .btn {
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 25px;
+  background-image: none;
+  white-space: nowrap;
+  line-height: 0;
+  border-radius: 4px;
+  display: block;
+  max-height: 36px;
+  text-align: center;
+  margin: auto;
+  border: none;
+  color: white;
+  background-color: #ee464c;
+  width: 100%;
+  -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+.join-webinar-form-wrap .btn[type='submit']{
+  text-transform: uppercase;
+}
+.join-webinar-form-wrap .btn:hover, .btn:focus {
+  color: white;
+  -webkit-box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  -moz-box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+  box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+}
+.join-webinar-form-wrap .field-input:-webkit-autofill{
+  -webkit-box-shadow: 0 0 0 1000px #FFFFFF inset!important;
+  -webkit-text-fill-color: #7a879c!important;
+}
+.join-webinar-form-wrap .field-label {
+  position: absolute;
+  display: block;
+  color: #2d2d2d;
+  line-height: 10px;
+  margin-top: 15px;
+  font-size: 14px;
+  font-weight: 400;
+  -webkit-transform: translateY(24px);
+  -ms-transform: translateY(24px);
+  transform: translateY(24px);
+  -webkit-transition: -webkit-transform 0.3s, color 0.3s;
+  transition: transform 0.3s, color 0.3s;
+  -webkit-transform-origin: 0 50%;
+  -ms-transform-origin: 0 50%;
+  transform-origin: 0 50%;
+  z-index: 999;
+}
+.join-webinar-form-wrap .field-input {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 60px;
+  padding-top: 26px;
+  line-height: 16px;
+  font-weight: 500;
+  background: transparent;
+  border: none;
+  -webkit-appearance: none;
+  outline: none;
+  color: #2d2d2d;
+  font-size: 16px;
+}
+.has-label .field-input{
+  top:0;
+}
+.join-webinar-form-wrap .field_wrap{
+  margin-bottom:16px;
+}
+.ie .field-input{
+  border-bottom: 1px solid;
+}
+.join-webinar-form-wrap .field_wrap:not(.select_container){
+  position:relative;
+}
+.join-webinar-form-wrap .field_wrap.w_border:after,
+.join-webinar-form-wrap .field_wrap.w_border:before {
+  content: '';
+  height: 1px;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: #2d2d2d;
+  z-index: 999;
+}
+.join-webinar-form-wrap .field_wrap:not(.select_container):after {
+  background-color: #53BC88;
+  -webkit-transform: scaleX(0);
+  -ms-transform: scaleX(0);
+  transform: scaleX(0);
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -ms-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+.join-webinar-form-wrap .field_wrap.is-focused:after {
+  -webkit-transform: scaleX(1);
+  height: 2px;
+  -ms-transform: scaleX(1);
+  transform: scaleX(1);
+}
+.join-webinar-form-wrap .has-label .field-label {
+  -webkit-transform: translateY(0) scale(0.75);
+  -ms-transform: translateY(0) scale(0.75);
+  transform: translateY(0) scale(0.75);
+  text-transform: uppercase;
+  margin-top: 15px;
+}
+.join-webinar-form-wrap .is-focused .field-label {
+  color: #53BC88;
+  text-transform: uppercase;
+}
+.join-webinar-form-wrap .parsley-errors-list{
+  position:absolute;
+  font-size:11px;
+  color:#ee464c;
+  font-weight: 300;
+}
+.join-webinar-form-wrap ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.join-webinar-form-wrap .error .field-input{
+  background: url(/themes/custom/hycm/assets/registration/images/svg/error.svg) right 31px  no-repeat;
+}
+.join-webinar-form-wrap .error.field_wrap:before,
+.join-webinar-form-wrap .error.field_wrap:after{
+  background-color:#ee464c;
+}
+.join-webinar-form-wrap .error .field-label{
+  color:#ee464c;
+}
+.join-webinar-form-wrap .error .field-label:after{
+  color:#ee464c;
+}
+.join-webinar-form-wrap .btn.red{
+  color: white;
+  background-color: #ee464c;
+}
+.join-webinar-form-wrap .select_wrap_item.error .btn.select_btn{
+  border-color:#ee464c;
+}
+.join-webinar-form-wrap .select_wrap_item.error .btn.select_btn:after{
+  background: url(/themes/custom/hycm/assets/registration/images/svg/select_chevron_red.svg) no-repeat;
+}
+.join-webinar-form-wrap .btn.select_btn:hover, .btn.select_btn:focus, .open .btn.select_btn{
+  background-color:#f4f9fc;
+  border-color:#53BC88;
+  color: #2D2D2D!important;
+}
+.join-webinar-form-wrap .btn.select_btn{
+  background: url(/themes/custom/hycm/assets/registration/images/svg/select_chevron.svg) no-repeat;
+  background-size: 10px;
+  background-position-y: calc(50% + 1px);
+  background-position-x: calc(100% - 20px);
+}
+.join-webinar-form-wrap .btn.select_btn.prefix{
+  background-position-y: calc(50% + 1px);
+  background-position-x: calc(100% - 10px);
+  text-align: left;
+  padding-left: 10px;
+  font-size: 13px!important;
+}
+.join-webinar-form-wrap .col-xs-4 .btn.select_btn{
+  background-position-x: calc(100% - 10px);
+}
+.join-webinar-form-wrap .btn.select_btn{
+  margin-top: 0;
+  width: 100%;
+  max-width: 100%;
+  min-width:inherit;
+  height:40px;
+  position: relative;
+  text-align: center;
+  z-index:100;
+  box-shadow: none;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  font-weight: 300;
+  font-size: 13px;
+  padding: 9px 0;
+  border: 1px solid #2d2d2d;
+  background-color: #f5f7f8;
+  color: #2d2d2d;
+}
+.join-webinar-form-wrap ul.options_list{
+  display: none;
+  list-style-type: none;
+  margin: 5px 0;
+  top: inherit;
+  padding: 0;
+  position: absolute;
+  z-index: 1000;
+  float: left;
+  width:100%;
+  overflow: hidden;
+  max-height: 310px;
+  font-size: 14px;
+  text-align: left;
+  background-color: #fff;
+  -webkit-background-clip: padding-box;
+  background-clip: padding-box;
+  border: 1px solid #53BC88;
+  cursor: pointer;
+  border-radius: 4px;
+  -webkit-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+  box-shadow: 0 6px 12px rgba(0,0,0,.175);
+  -moz-box-shadow: 0 6px 12px rgba(0,0,0,.175);
+}
+.join-webinar-form-wrap ul.options_list li{
+  padding: 5px 18px;
+  cursor: pointer;
+  margin: 0;
+  line-height: inherit;
+  min-height: inherit;
+}
+.options_list li span{
+  margin-right: 5px;
+  display:inline-block;
+}
+.join-webinar-form-wrap .options_list span.cant_find{
+  padding: 16px;
+  display:inline-block;
+}
+.join-webinar-form-wrap ul.options_list li:hover{
+  background-color: #f5f5f5;
+}
+
+.join-webinar-form-wrap .checkbox input[type="checkbox"] {
+  display: none;
+}
+
+.join-webinar-form-wrap .checkbox label::after,
+.join-webinar-form-wrap .checkbox label::before {
+  content: '';
+  display: block;
+  left: 0;
+  top: 1px;
+  width: 15px;
+  position: absolute;
+  height: 15px;
+  border: 1px solid #2d2d2d;
+  border-radius: 3px;
+  background-size: 75%;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}
+
+.join-webinar-form-wrap .checkbox label::after {
+  opacity: 0;
+  border-color: #53BC88;
+  background: url(/themes/custom/hycm/assets/landing_pages/new_land/images/wed-webinar/svg/white_checkbox.svg) center no-repeat;
+  background-color: rgba(0, 0, 0, 0);
+  background-size: auto;
+  background-color: #53BC88;
+  background-size: 95%;
+}
+
+.join-webinar-form-wrap .checkbox label::after,
+.join-webinar-form-wrap .checkbox label::before {
+  content: '';
+  display: block;
+  left: 0;
+  top: 1px;
+  width: 15px;
+  position: absolute;
+  height: 15px;
+  border: 1px solid #2d2d2d;
+  border-top-color: rgb(45, 45, 45);
+  border-right-color: rgb(45, 45, 45);
+  border-bottom-color: rgb(45, 45, 45);
+  border-left-color: rgb(45, 45, 45);
+  border-radius: 3px;
+  background-size: 75%;
+  -webkit-transition: all 0.3s ease;
+  transition: all 0.3s ease;
+}

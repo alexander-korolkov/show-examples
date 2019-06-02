@@ -1,0 +1,26 @@
+#hycm_landing_pages.example:
+#  path: '/hy-lp/{landing_page}'
+#  defaults:
+#    _title: 'HYCM'
+#    _controller: '\Drupal\hycm_landing_pages\Controller\HycmLandingPagesController::build'
+#  requirements:
+#    _permission: 'access content'
+#  options:
+#    _custom_theme: 'hycm_landing'
+
+#hycm_landing_pages.settings_form:
+#  path: '/admin/config/system/hycm-landing-pages'
+#  defaults:
+#    _title: 'HYCM Landing pages settings'
+#    _form: 'Drupal\hycm_landing_pages\Form\SettingsForm'
+#  requirements:
+#    _permission: 'administer hycm_landing_pages configuration'
+
+hycm_landing_pages.join_webinar_form:
+  path: '/hylp/join-webinar'
+  defaults:
+    _form: '\Drupal\hycm_landing_pages\Form\JoinWebinarForm'
+    _title: 'JoinWebinarForm'
+  requirements:
+    _access: 'TRUE'
+  

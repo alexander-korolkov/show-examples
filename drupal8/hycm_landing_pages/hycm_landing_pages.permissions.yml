@@ -1,0 +1,34 @@
+#administer hycm_landing_pages configuration:
+#  title: 'Administer hycm_landing_pages configuration'
+#  description: 'Optional description.'
+#  restrict access: true
+add landing page entities:
+  title: 'Create new Landing page entities'
+
+administer landing page entities:
+  title: 'Administer Landing page entities'
+  description: 'Allow to access the administration form to configure Landing page entities.'
+  restrict access: true
+
+delete landing page entities:
+  title: 'Delete Landing page entities'
+
+edit landing page entities:
+  title: 'Edit Landing page entities'
+
+view published landing page entities:
+  title: 'View published Landing page entities'
+
+view unpublished landing page entities:
+  title: 'View unpublished Landing page entities'
+
+view all landing page revisions:
+  title: 'View all Landing page revisions'
+
+revert all landing page revisions:
+  title: 'Revert all Landing page revisions'
+  description: 'Role requires permission <em>view Landing page revisions</em> and <em>edit rights</em> for landing page entities in question or <em>administer landing page entities</em>.'
+
+delete all landing page revisions:
+  title: 'Delete all revisions'
+  description: 'Role requires permission to <em>view Landing page revisions</em> and <em>delete rights</em> for landing page entities in question or <em>administer landing page entities</em>.'

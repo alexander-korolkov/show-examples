@@ -1,0 +1,817 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display workshop_emirates layout.
+ *
+ * Available variables:
+ * - content: The content for this layout.
+ * - attributes: HTML attributes for the layout wrapper.
+ *
+ * @ingroup themeable
+ */
+#}
+{%
+  set classes = [
+    'layout',
+    'layout--workshop-emirates',
+  ]
+%}
+
+<div class="wrapper">
+    <div class="header-figure">
+        <div class="figure-wrapper">
+            <div class="img"></div>
+        </div>
+    </div>
+    <section class="header">
+        <div class="bg"></div>
+        <div class="container">
+            <header>
+                <a href="https://www.hycm.com" target="_blank" class="logo">
+                    <img src="/themes/custom/hycm_landing/assets/workshop_emirates/img/logo.svg"/>
+                </a>
+                <a href="https://www.hycm.com" target="_blank" class="logo-white">
+                    <img src="/themes/custom/hycm_landing/assets/workshop_emirates/img/logo_white.svg"/>
+                </a>
+                <div class="content">
+                    <p class="category">Seminar & workshop</p>
+                    <h1>Forex Trading:</h1>
+                    <p class="description">Ultimate Beginner's Guide</p>
+                    <span class="dash"></span>
+                    <p class="two-days">2-Day Intensive Course</p>
+                    <p class="dates">
+                        <span>10 & 11 December</span> - Dukes hotel, Dubai
+                    </p>
+                    <button class="btn red">Register Now</button>
+                </div>
+            </header>
+        </div>
+    </section>
+
+    <section class="event">
+        <div class="container">
+            <div class="content">
+                <div class="tabs">
+                    <div class="not-authorized-tabs">
+                        <a class="tab active" href="#tab-1">
+                            <p class="title">Seminar</p>
+                            <span>Theory</span>
+                        </a>
+                        <a class="tab" href="#tab-2">
+                            <p class="title">Workshop</p>
+                            <span>Practice</span>
+                        </a>
+                    </div>
+                </div>
+                <div class="tab-content active tab-1" id="tab-1">
+                    <div class="event-time-content">
+                        <div class="event-time">
+                            <div class="date">
+                                <i class="icon-calendar"></i>
+                                <div class="description">
+                                    <span>10</span>December
+                                </div>
+                            </div>
+                            <div class="time">
+                                <i class="icon-clock"></i>
+                                <div class="description">
+                                    <span>18:00 - 22:30</span>
+                                </div>
+                            </div>
+                            <div class="pin">
+                                <i class="icon-pin"></i>
+                                <div class="description">
+                                    <span>Dukes hotel,</span>Dubai
+                                </div>
+                            </div>
+                        </div>
+                        <span class="dash"></span>
+                        <p class="free-charge">Free of charge</p>
+                    </div>
+                    <div class="description-items justify-content-center row">
+                        <div class="col-sm-12 col-md-6 col-lg-4 col-xl">
+                            <div class="item">
+                                <span>01</span>
+                                <p class="description">
+                                    Understand the importance of fundamental analysis
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-4 col-xl">
+                            <div class="item">
+                                <span>02</span>
+                                <p class="description">
+                                    Learn key technical concepts and how to use them
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-4 col-xl">
+                            <div class="item">
+                                <span>03</span>
+                                <p class="description">
+                                    Find out ways to define and limit your risk
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-4 col-xl">
+                            <div class="item">
+                                <span>04</span>
+                                <p class="description">
+                                    Understand how to deal with trading psychology
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-4 col-xl">
+                            <div class="item">
+                                <span>05</span>
+                                <p class="description">
+                                    Benefit from live Q&A session with an industry expert
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="graph">
+                        <div class="graph-wrapper">
+                            <div class="graph-content">
+                                <img src="/themes/custom/hycm_landing/assets/workshop_emirates/img/graph.svg"/>
+                                <div class="vertical-graph"></div>
+                                <div class="items">
+                                    <div class="item ">
+                                        <span class="graph-point red"></span>
+                                        <a class="time-description">
+                                            <span class="time">18:00</span>
+                                            <p class="description">
+                                                Registration:
+                                                Welcome drinks
+                                                and snacks
+                                            </p>
+                                        </a>
+                                    </div>
+                                    <div class="item ">
+                                        <span class="graph-point red"></span>
+                                        <a class="time-description">
+                                            <span class="time">18:45</span>
+                                            <p class="description">
+                                                Welcome
+                                                speech
+                                            </p>
+                                        </a>
+                                    </div>
+                                    <div class="item  ">
+                                        <span class="graph-point red"></span>
+                                        <a class="time-description" href="#fundamental-graph-1">
+                                            <span class="time">19:00</span>
+                                            <p class="description">
+                                                Fundamental and
+                                                technical analysis
+                                            </p>
+                                        </a>
+
+                                    </div>
+                                    <div class="item  ">
+                                        <span class="graph-point red"></span>
+                                        <a class="time-description">
+                                            <span class="time">20:30</span>
+                                            <p class="description">
+                                                Coffee break
+                                            </p>
+                                        </a>
+
+                                    </div>
+                                    <div class="item  ">
+                                        <span class="graph-point red"></span>
+                                        <a class="time-description" href="#sentiment-graph-1">
+                                            <span class="time">21:00</span>
+                                            <p class="description">
+                                                Sentiment analysis,
+                                                risk management
+                                                and psychology
+                                            </p>
+                                        </a>
+                                    </div>
+                                    <div class="item  ">
+                                        <span class="graph-point red"></span>
+                                        <a class="time-description">
+                                            <span class="time">22:15</span>
+                                            <p class="description">
+                                                Q&A session
+                                            </p>
+                                        </a>
+
+                                    </div>
+                                </div>
+
+
+                                <div class="graph-popup" id="fundamental-graph-1">
+                                    <ul>
+                                        <li><p>Central Bank analysis</p></li>
+                                        <li><p>Overview of the world’s largest central banks</p></li>
+                                        <li><p>Reasons why fundamental analysis is so important</p></li>
+                                        <li><p>Key technical concepts and how to use them:</p></li>
+                                        <p>Japanese candlestick patterns, Support and Resistance,</p>
+                                        <p>Fibonacci levels, Pivot points, Moving averages - SMA and EMA</p>
+                                        <li><p>How to combine technical and fundamental analysis</p></li>
+                                    </ul>
+                                    <i class="close"></i>
+                                </div>
+                                <div class="graph-popup" id="sentiment-graph-1">
+                                    <ul>
+                                        <li><p>Importance of sentiment and ways to identify it</p></li>
+                                        <li><p>What is leverage and how to use it professionally</p></li>
+                                        <li><p>Defining and limiting your risk</p></li>
+                                        <li><p>Dealing with negative thoughts</p></li>
+                                        <li><p>Developing the right mindset</p></li>
+                                        <li><p>The psychology of winning and losing</p></li>
+                                        <li><p>Factors influencing the decision making process</p></li>
+
+                                    </ul>
+                                    <i class="close"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="button-content">
+                        <button class="btn white">Register now</button>
+                        {#<div class="log-in">#}
+                            {#<div class="log-in-content">#}
+                                {#Already have an account with HYCM?#}
+                                {#<a href="/en/login" class="log-in-mobile" onclick="setRedirect()">Log#}
+                                    {#in here</a>#}
+                                {#<div class="log-in-desktop">#}
+                                    {#Log in#}
+                                    {#<a href="/en/login" onclick="setRedirect()">here</a>#}
+                                {#</div>#}
+                            {#</div>#}
+                            {#<p class="cima">HYCM Ltd is authorized and regulated under the CIMA</p>#}
+                        {#</div>#}
+                    </div>
+                </div>
+
+                <div class="tab-content tab-2" id="tab-2">
+                    <div class="event-time-content">
+                        <div class="event-time">
+                            <div class="date">
+                                <i class="icon-calendar"></i>
+                                <div class="description">
+                                    <span>11</span>December
+                                </div>
+                            </div>
+                            <div class="time">
+                                <i class="icon-clock"></i>
+                                <div class="description">
+                                    <span>18:00 - 22:30</span>
+                                </div>
+                            </div>
+                            <div class="pin">
+                                <i class="icon-pin"></i>
+                                <div class="description">
+                                    <span>Dukes hotel,</span>Dubai
+                                </div>
+                            </div>
+                        </div>
+                        <span class="dash"></span>
+                        <p class="free-charge">Account activation required</p>
+                    </div>
+                    <div class="description-items justify-content-center row">
+                        <div class="col-sm-12 col-md-6 col-lg-4 col-xl">
+                            <div class="item">
+                                <span>01</span>
+                                <p class="description">
+                                    Watch a professional trader in action and learn insights
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-4 col-xl">
+                            <div class="item">
+                                <span>02</span>
+                                <p class="description">
+                                    Learn the step-by-step decision making process
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-4 col-xl">
+                            <div class="item">
+                                <span>03</span>
+                                <p class="description">
+                                    Complete practical exercises under the guidance of a pro
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-4 col-xl">
+                            <div class="item">
+                                <span>04</span>
+                                <p class="description">
+                                    Get a personalized approach to your queries
+                                </p>
+                            </div>
+                        </div>
+                        <div class="col-sm-12 col-md-6 col-lg-4 col-xl">
+                            <div class="item">
+                                <span>05</span>
+                                <p class="description">
+                                    Receive a certificate of a 2-Day Intensive Course completion
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="graph">
+                        <div class="graph-wrapper">
+                            <div class="graph-content">
+                                <img src="/themes/custom/hycm_landing/assets/workshop_emirates/img/graph.svg"/>
+                                <div class="vertical-graph"></div>
+                                <div class="items">
+                                    <div class="item">
+                                        <span class="graph-point red"></span>
+                                        <div class="time-description">
+                                            <span class="time">18:00</span>
+                                            <p class="description">
+                                                Registration:
+                                                Welcome drinks
+                                                and snacks
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <span class="graph-point red"></span>
+                                        <div class="time-description">
+                                            <span class="time">18:45</span>
+                                            <p class="description">
+                                                Welcome
+                                                speech
+                                            </p>
+                                        </div>
+
+                                    </div>
+                                    <div class="item">
+                                        <span class="graph-point red"></span>
+                                        <a class="time-description" href="#sentiment-graph-2">
+                                            <span class="time">19:00</span>
+                                            <p class="description">
+                                                Practical approach to sentiment,
+                                                fundamentals and timeframes
+                                            </p>
+                                        </a>
+                                    </div>
+                                    <div class="item">
+                                        <span class="graph-point red"></span>
+                                        <div class="time-description">
+                                            <span class="time">20:00</span>
+                                            <p class="description">
+                                                Coffee break
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="item">
+                                        <span class="graph-point red"></span>
+                                        <a class="time-description" href="#psychology-graph-2">
+                                            <span class="time">20:30</span>
+                                            <p class="description">
+                                                Practical approach to
+                                                technicals, risk
+                                                and psychology
+                                            </p>
+                                        </a>
+                                    </div>
+                                    <div class="item">
+                                        <span class="graph-point red"></span>
+                                        <div class="time-description">
+                                            <span class="time">22:00</span>
+                                            <p class="description">
+                                                Q&A session
+                                            </p>
+                                        </div>
+
+                                    </div>
+
+                                    <div class="graph-popup" id="sentiment-graph-2">
+                                        <ul>
+                                            <li><p>We will put into practice all acquired theory from the first day and will go through a step-by-step decision making process before placing a trade. You will learn how to implement analysis into your trading routine, pair up currencies and set timeframes.</p></li>
+
+                                        </ul>
+                                        <i class="close"></i>
+                                    </div>
+                                    <div class="graph-popup" id="psychology-graph-2">
+                                        <ul>
+                                            <li><p>We will analyse chosen pairs technically, look for key levels to enter and place orders as well as ensure that our risk is managed properly. You will learn how to apply psychology in practice and avoid common errors</p></li>
+                                        </ul>
+                                        <i class="close"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="button-content">
+                        <button class="btn white">Register now</button>
+                        <div class="log-in">
+                            {#<div class="log-in-content">#}
+                                {#Already have an account with HYCM?#}
+                                {#<a href="/en/login" class="log-in-mobile" onclick="setRedirect()">Log#}
+                                    {#in here</a>#}
+                                {#<div class="log-in-desktop">#}
+                                    {#Log in#}
+                                    {#<a href="/en/login" onclick="setRedirect()">here</a>#}
+                                {#</div>#}
+                            {#</div>#}
+                            {#<p class="cima">HYCM Ltd is authorized and regulated under the CIMA</p>#}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="sections">
+        <section class="meet-the-speaker">
+            <div class="content">
+                <div class="desc">
+                    <h2>
+                        Meet the Speaker
+                    </h2>
+                    <p class="name">Giles Coghlan</p>
+                    <span class="dash"></span>
+                    <p class="description">
+                        Giles Coghlan is a professional trader and a currency analyst with over 8 years' of experience
+                        in technical and fundamental analysis of currency markets who trades for the AsAc fund and
+                        contributes to <span>ForexLive.</span>
+                    </p>
+                </div>
+                <div class="video-wrapper">
+                    <div class="video">
+                        <div class="video-padding">
+                            <iframe src="https://www.youtube.com/embed/KB0gWwJfIUo" frameborder="0"
+                                    allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+
+        <div class="offer-figure">
+            <div class="figure-wrapper">
+                <div class="img"></div>
+            </div>
+        </div>
+
+        <section class="exclusive-offer">
+            <div class="content">
+                <h3>Exclusive offer</h3>
+                <p class="attendees-only">Available to attendees only.</p>
+                <span class="dash"></span>
+                <div class="prices">
+                    <div class="item">
+                        <p>Deposit bonus:</p>
+                        <span>40%</span>
+                    </div>
+                    <div class="item">
+                        <p>Up to:</p>
+                        <span>$2,500*</span>
+                    </div>
+                </div>
+                <div class="ready-mobile">
+                    <p class="ready">Are You Ready?</p>
+                    <button class="btn red">Book my seat</button>
+                    {#<p class="limited">Limited places. Reserve your spot now</p>#}
+                </div>
+            </div>
+            <div class="ready-desktop">
+                <p class="ready">Are You Ready?</p>
+                <button class="btn white">Book my seat</button>
+                {#<p class="limited">Limited places. Reserve your spot now</p>#}
+            </div>
+        </section>
+
+        <div class="faq-registration">
+            <section class="registration">
+                <div class="container">
+                    <div class="content">
+                        <div class="tabs">
+                            <div class="tab tab-1 active" id="registration-tab-1">
+                                <p class="title">Join Seminar</p>
+                                <span>Only</span>
+                            </div>
+                            <div class="tab" id="registration-tab-2">
+                                <p class="title">Join 2-Day</p>
+                                <span>Intensive Course</span>
+                            </div>
+                        </div>
+
+                        <div class="form not-authorized active">
+                            <div class="not-authorized-tab-content">
+                                <form data-parsley-validate id="shortForm">
+
+                                    <div class="steps step-1">
+                                        <p>Only few seats left. Book your spot now!</p>
+                                    </div>
+                                    <div class="steps step-2">
+                                        <div class="item blue">
+                                            <p class="title">Step 1</p>
+                                            <span class="graph-point blue"></span>
+                                            <p class="description">basic info</p>
+                                        </div>
+                                        <div class="item red">
+                                            <p class="title">Step 2</p>
+                                            <span class="graph-point red"></span>
+                                            <p class="description">additional info</p>
+                                        </div>
+                                        <div class="item gray">
+                                            <p class="title">Step 3</p>
+                                            <span class="graph-point gray"></span>
+                                            <p class="description">password info</p>
+                                        </div>
+                                    </div>
+
+                                    <div class="field_wrap w_border">
+                                        <label for="first_name"
+                                               class="field-label">First name</label>
+                                        <input type="text" id="first_name" name="first_name" class="field-input"
+                                               data-parsley-pattern="[A-Za-z\-\' ]+" maxlength="40"
+                                               data-parsley-error-message="This value is invalid. Please enter correct details"
+                                               data-parsley-required-message="This value is required">
+                                    </div>
+                                    <div class="field_wrap w_border">
+                                        <label for="surname"
+                                               class="field-label">Last name</label>
+                                        <input type="text" id="surname" name="surname" class="field-input"
+                                               data-parsley-pattern="[A-Za-z\-\' ]+"
+                                               maxlength="45"
+                                               data-parsley-error-message="This value is invalid. Please enter correct details"
+                                               data-parsley-required-message="This value is required">
+                                    </div>
+                                    <div class="field_wrap w_border">
+                                        <label for="email" class="field-label">Email</label>
+                                        <input type="email" id="email" name="email" class="field-input"
+                                               data-parsley-type="email"
+                                               data-parsley-email maxlength="80"
+                                               data-parsley-pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,4}$"
+                                               data-parsley-required-message="This value is required">
+                                    </div>
+                                    <div class="phone_wrap">
+                                        <div class="select_wrap">
+                                            <div class="select_wrap_item">
+                                                <input type="text" class="btn select_btn prefix" id="phone_prefix"
+                                                       name="phone_prefix"
+                                                       placeholder="Prefix" autocomplete="off" data-parsley-prefix
+                                                       data-parsley-required-message="This value is required">
+                                            </div>
+                                        </div>
+                                        <div class="field_wrap w_border last_in_step">
+                                            <label for="phone"
+                                                   class="field-label">Phone</label>
+                                            <input type="tel" id="phone" name="phone" class="field-input"
+                                                   data-parsley-minlength="6"
+                                                   maxlength="20" data-parsley-pattern="([0-9])+"
+                                                   data-parsley-error-message="This value is invalid. Please enter correct details"
+                                                   data-parsley-required-message="This value is required">
+                                        </div>
+                                    </div>
+                                    <input type="hidden" id="country" value="failed" name="country">
+                                    <input type="hidden" id="landing_page" name="landing_page" value="true">
+                                    <input type="hidden" id="formTab" name="seminar" value="short">
+
+                                    <div class="field_wrap checkbox">
+
+                                        <label for="agree_pp">I have read and accept the <a
+                                                    href="/sites/www.hycm.com/files/pdfs/HYCM_CIMA_Privacy_Policy.pdf"
+                                                    target="_blank">Privacy Policy</a> of HYCM </label>
+                                        <input type="checkbox" id="agree_pp" required="required">
+
+                                    </div>
+                                    <div class="btn_wrap">
+                                        <button id="btn_sbmt" type="submit" class="btn red active">REGISTER NOW</button>
+                                        <div class="account">Already have an account with HYCM?
+                                            <a class="log-in-mobile" href="/en/login"
+                                               onclick="setRedirect()">Log in here</a>
+                                            <div class="log-in-desktop">
+                                                Log in
+                                                <a href="/en/login" onclick="setRedirect()">here</a>
+                                            </div>
+                                        </div>
+                                        <p class="cima">HYCM Ltd is authorized and regulated under the CIMA</p>
+                                    </div>
+                                </form>
+                            </div>
+                            <div class="authorized-tab-content">
+                                <div class="img_wrap1">
+                                    <img src="/themes/custom/hycm_landing/assets/workshop_emirates/img/meetup.png">
+                                </div>
+                                <div class="img_wrap2" style="display: none;">
+                                    <img src="/themes/custom/hycm_landing/assets/workshop_emirates/img/find.png">
+                                </div>
+                                <button id="#auth_reg" class="btn red">Register Now</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <div class="faq-figure">
+
+            </div>
+
+            <section class="faq">
+                <div class="container">
+                    <h4>Frequently Asked Questions</h4>
+                    <div class="questions">
+                        <div class="item">
+                            <div class="question">
+                                How can I join the 2-Day intensive course?
+                                <div class="plus-minus">
+                                    <i class="icon-plus"></i>
+                                    <i class="icon-minus"></i>
+                                </div>
+                            </div>
+                            <div class="body">
+                                You will need to have an activated account with HYCM, meaning you should have at least
+                                $100 deposited in your account. As all attendees are eligible for an exclusive offer
+                                of 40% deposit bonus*, you will benefit from extra funds in your account available
+                                to trade with immediately.
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="question">
+                                Can I only attend the Day 1 seminar?
+                                <div class="plus-minus">
+                                    <i class="icon-plus"></i>
+                                    <i class="icon-minus"></i>
+                                </div>
+                            </div>
+                            <div class="body">
+                                Yes, you can skip the workshop and only attend the first day. From basic terminology,
+                                analysis, and key technical concepts, to professional methods of managing risk
+                                and trading psychology, you will learn the ins and outs of trading. Simply book
+                                your spot and come along on the 10th of December!
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="question">
+                                What if I attend the Day 1 seminar and decide that I also want to join the Day 2
+                                workshop?
+                                <div class="plus-minus">
+                                    <i class="icon-plus"></i>
+                                    <i class="icon-minus"></i>
+                                </div>
+                            </div>
+                            <div class="body">
+                                If you attend the seminar and realize that you would like to practice applying your
+                                newly
+                                acquired knowledge, then we can help you activate your account on the spot. However,
+                                please bear in mind that places are limited, and attendees will be served on a
+                                first come, first served basis.
+                            </div>
+                        </div>
+                        <div class="item">
+                            <div class="question">
+                                What should I bring with me?
+                                <div class="plus-minus">
+                                    <i class="icon-plus"></i>
+                                    <i class="icon-minus"></i>
+                                </div>
+                            </div>
+                            <div class="body">
+                                During the seminar, you will be supplied with pens and notepads so you can take notes.
+                                On the workshop day, you will have to bring your laptop and have your demo account ready
+                                as we will be completing practical exercises. You will also receive a useful handout
+                                which you can take home with you and use on a daily basis.
+                            </div>
+                        </div>
+                    </div>
+                    {#<span class="load-more">Load more</span>#}
+                </div>
+            </section>
+
+        </div>
+    </div>
+
+
+    <div class="location-footer">
+        <section class="location">
+            <div class="container no-padding-mobile">
+                <div class="content">
+                    <div class="desc">
+                        <h5>DUKES hotel</h5>
+                        <p class="address">The Palm Jumeirah, Dubai</p>
+                        <span class="dash"></span>
+                        <p class="two-day-course">2-Day Intensive Course</p>
+                        <p class="days">10 & 11 December</p>
+                    </div>
+                    <div class="map">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3612.6852894084163!2d55.135754614760394!3d25.112512441294097!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3e5f6b2cc833cd11%3A0xe987a53d39744485!2sDUKES+DUBAI!5e0!3m2!1sru!2sua!4v1542012686938"
+                                width="100%" height="100%" frameborder="0" style="border:0" allowfullscreen=""></iframe>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+        <div class="footer-figure"></div>
+        <div class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="social-icons">
+                        <p class="title">Share This Event</p>
+                        <div class="icons">
+                            <a target="_blank"
+                               href="https://facebook.com/sharer/sharer.php?u=https%3A%2F%2Fhycm.com%2Fen%2Fseminars%2Fdecember2018">
+                                <i class="icon-fb"></i>
+                            </a>
+                            <a target="_blank"
+                               href="https://twitter.com/share?ref_src=twsrc%5Etfw;url=https%3A%2F%2Fhycm.com%2Fen%2Fseminars%2Fdecember2018;text=Join%20a%202-Day%20Intensive%20Trading%20Course%20in%20Dubai%20and%20get%20armed%20with%20FX%20knowledge%20and%20practical%20skills."
+                               class="jssocials-share-link">
+                                <i class="icon-twitter"></i>
+                            </a>
+                            <a target="_blank"
+                               href="https://plus.google.com/share?url=https%3A%2F%2Fhycm.com%2Fen%2Fseminars%2Fdecember2018">
+                                <i class="icon-google-plus"></i>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="points">
+                        <a href="https://www.hycm.com/sites/www.hycm.com/files/pdfs/HYCM_CI_Trading_Credits_Terms_and_Conditions.pdf"
+                           class="terms">*Terms and conditions apply</a>
+                        <ul>
+                            <li>
+                                <a href="https://help.hycm.com/hc/en-us/categories/115000275689-Forms-Documents"
+                                   target="_blank">Legal Forms & Documents</a>
+                            </li>
+                            <li>
+                                <a href="https://help.hycm.com/hc/en-us/articles/115005688565-Risk-Warning-Disclosure"
+                                   target="_blank">Risk Warnings</a>
+                            </li>
+                            <li>
+                                <a href="https://help.hycm.com/hc/en-us/articles/115005676349-Cookies-Policy"
+                                   target="_blank">Cookies Policy</a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="description">
+                        <p>High Risk Investment Warning: Contracts for Difference are complex products that are traded on margin. Trading Contracts for Difference carries a high degree of risk. It is possible to lose all your capital. These products may not be suitable for everyone and you should ensure that you understand the risks involved. Seek independent expert advice if necessary and speculate only with funds that you can afford to lose. Please think carefully whether such trading suits you, taking into consideration all the relevant circumstances as well as your personal resources. We do not recommend clients posting their entire account balance to meet margin requirements. Clients can minimise their level of exposure by requesting a change in leverage limit. For more information please refer to HYCM’s Risk Disclosure.</p>
+
+                        <p>Disclaimer: The content of this page is for information purposes only and it is not intended
+                            as a
+                            recommendation or advice. Any indication of past performance or simulated past performance
+                            included
+                            in
+                            advertisements published by HYCM is not a reliable indicator of future results. The customer
+                            carries
+                            the
+                            sole responsibility for all the businesses or investments that are carried out at HYCM. Any
+                            opinions
+                            made may be personal to the author and may not reflect the opinions of HYCM. All expressions
+                            of
+                            opinion
+                            are subject to change without notice. This material is considered a marketing communication
+                            and
+                            does
+                            not
+                            contain, and should not be construed as containing, investment advice or an investment
+                            recommendation
+                            or, an offer of or solicitation for any transactions in financial instruments. HYCM makes no
+                            representation and assumes no liability as to the accuracy or completeness of the
+                            information
+                            provided,
+                            nor any loss arising from any investment based on a recommendation, forecast or other
+                            information
+                            supplied by an employee of HYCM, a third party or otherwise.</p>
+
+                        <p>Regional Restrictions: We do not offer our services to residents of certain jurisdictions
+                            such as
+                            Afghanistan, Belgium, Hong Kong, Japan, the United States of America and some other regions.
+                            For
+                            more
+                            information please refer to our <a
+                                    href="https://help.hycm.com/hc/en-us/articles/115001326645-Where-can-I-apply-from-"
+                                    target="_blank">Help Center.</a></p>
+
+                    </div>
+                    <div class="links-copyright">
+                        <div class="regulated-items">
+                            <span>FCA</span>
+                            <span>CySEC</span>
+                            <span>CIMA</span>
+                        </div>
+                        <span class="copyright">Copyright © 2018 HYCM.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="registration-popup">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content registration-popup">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                </button>
+                <div class="modal-body">
+                    <p class="title">Thank you for
+                        your registration.</p>
+                    <p class="message">
+                        A confirmation email has been sent to you.
+                    </p>
+                    <span>See you soon!</span>
+                    <div class="dash"></div>
+                </div>
+                <div class="bg"></div>
+            </div>
+        </div>
+    </div>
+</div>

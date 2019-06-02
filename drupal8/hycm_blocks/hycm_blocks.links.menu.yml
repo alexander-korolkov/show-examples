@@ -1,0 +1,20 @@
+hycm_blocks.markets_content_form:
+  title: 'Markets content'
+  route_name: hycm_blocks.markets_content_form
+  description: 'Markets content settings'
+  parent: system.admin_content
+  weight: 99
+
+hycm_blocks.frequently_asked_questions_form:
+  title: 'Frequently Asked Questions'
+  route_name: hycm_blocks.frequently_asked_questions_form
+  description: 'Frequently Asked Questions'
+  parent: system.admin_content
+  weight: 99
+
+hycm_blocks.awards_form:
+  title: 'Awards'
+  route_name: hycm_blocks.awards
+  description: 'Awards'
+  parent: system.admin_content
+  weight: 98

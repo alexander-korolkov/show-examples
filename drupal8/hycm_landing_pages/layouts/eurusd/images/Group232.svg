@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 72.265 72.806">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #f37c80;
+      }
+
+      .cls-2 {
+        fill: #fff;
+        opacity: 0.165;
+      }
+
+      .cls-3 {
+        fill: #cc4c51;
+        opacity: 0.581;
+      }
+
+      .cls-4 {
+        fill: #ffd8d9;
+      }
+    </style>
+  </defs>
+  <g id="Group_232" data-name="Group 232" transform="translate(-521 -1269)">
+    <circle id="Ellipse_29" data-name="Ellipse 29" class="cls-1" cx="36.133" cy="36.133" r="36.133" transform="translate(521 1269)"/>
+    <path id="Subtraction_3" data-name="Subtraction 3" class="cls-2" d="M36.132,84.806a36.132,36.132,0,1,1,0-72.265l.368,0V84.8h-.368Z" transform="translate(521 1257)"/>
+    <path id="Path_445" data-name="Path 445" class="cls-3" d="M561.576,968.088l21.45,21.041a36.675,36.675,0,0,1-4.13,12.694,35.327,35.327,0,0,1-24.136,18.225l-21.826-18.437,5.283-9.033.9-4.923.739-1.694,5.365,4.975a22.433,22.433,0,0,0,2.245-1.594,23.366,23.366,0,0,0,1.2-4.465c.012-.882.8-6.224.8-6.224l1.365-1.66,6.75,6.438s1.594-6.481,1.754-7.695S561.576,968.088,561.576,968.088Z" transform="translate(10 320)"/>
+    <path id="Union_4" data-name="Union 4" class="cls-4" d="M21.748,33.507V0H28.7V33.507ZM11,33.507V8.851h6.954V33.507Zm-11,0V17.851H6.954V33.507Z" transform="translate(542.875 1288.088)"/>
+  </g>
+</svg>

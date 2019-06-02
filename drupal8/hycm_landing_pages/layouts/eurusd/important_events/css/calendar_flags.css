@@ -1,0 +1,974 @@
+#fxst_grid .fxst-flag {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  background-image: url("../images/flags.png") !important;
+  background-repeat: no-repeat;
+}
+
+.fxst-flag.fxst-i-ad {
+  background-position: 0 0;
+}
+
+.fxst-flag.fxst-i-ae {
+  background-position: -32px 0;
+}
+
+.fxst-flag.fxst-i-af {
+  background-position: -64px 0;
+}
+
+.fxst-flag.fxst-i-ag {
+  background-position: -96px 0;
+}
+
+.fxst-flag.fxst-i-ai {
+  background-position: -128px 0;
+}
+
+.fxst-flag.fxst-i-al {
+  background-position: -160px 0;
+}
+
+.fxst-flag.fxst-i-am {
+  background-position: -192px 0;
+}
+
+.fxst-flag.fxst-i-an {
+  background-position: -224px 0;
+}
+
+.fxst-flag.fxst-i-ao {
+  background-position: -256px 0;
+}
+
+.fxst-flag.fxst-i-aq {
+  background-position: -288px 0;
+}
+
+.fxst-flag.fxst-i-ar {
+  background-position: -320px 0;
+}
+
+.fxst-flag.fxst-i-as {
+  background-position: -352px 0;
+}
+
+.fxst-flag.fxst-i-at {
+  background-position: -384px 0;
+}
+
+.fxst-flag.fxst-i-au {
+  background-position: -416px 0;
+}
+
+.fxst-flag.fxst-i-aw {
+  background-position: -448px 0;
+}
+
+.fxst-flag.fxst-i-ax {
+  background-position: -480px 0;
+}
+
+.fxst-flag.fxst-i-az {
+  background-position: 0 -32px;
+}
+
+.fxst-flag.fxst-i-ba {
+  background-position: -32px -32px;
+}
+
+.fxst-flag.fxst-i-bb {
+  background-position: -64px -32px;
+}
+
+.fxst-flag.fxst-i-bd {
+  background-position: -96px -32px;
+}
+
+.fxst-flag.fxst-i-be {
+  background-position: -128px -32px;
+}
+
+.fxst-flag.fxst-i-bf {
+  background-position: -160px -32px;
+}
+
+.fxst-flag.fxst-i-bg {
+  background-position: -192px -32px;
+}
+
+.fxst-flag.fxst-i-bh {
+  background-position: -224px -32px;
+}
+
+.fxst-flag.fxst-i-bi {
+  background-position: -256px -32px;
+}
+
+.fxst-flag.fxst-i-bj {
+  background-position: -288px -32px;
+}
+
+.fxst-flag.fxst-i-bl {
+  background-position: -320px -32px;
+}
+
+.fxst-flag.fxst-i-bm {
+  background-position: -352px -32px;
+}
+
+.fxst-flag.fxst-i-bn {
+  background-position: -384px -32px;
+}
+
+.fxst-flag.fxst-i-bo {
+  background-position: -416px -32px;
+}
+
+.fxst-flag.fxst-i-br {
+  background-position: -448px -32px;
+}
+
+.fxst-flag.fxst-i-bs {
+  background-position: -480px -32px;
+}
+
+.fxst-flag.fxst-i-bt {
+  background-position: 0 -64px;
+}
+
+.fxst-flag.fxst-i-bw {
+  background-position: -32px -64px;
+}
+
+.fxst-flag.fxst-i-by {
+  background-position: -64px -64px;
+}
+
+.fxst-flag.fxst-i-bz {
+  background-position: -96px -64px;
+}
+
+.fxst-flag.fxst-i-ca {
+  background-position: -128px -64px;
+}
+
+.fxst-flag.fxst-i-cc {
+  background-position: -160px -64px;
+}
+
+.fxst-flag.fxst-i-cd {
+  background-position: -192px -64px;
+}
+
+.fxst-flag.fxst-i-cf {
+  background-position: -224px -64px;
+}
+
+.fxst-flag.fxst-i-cg {
+  background-position: -256px -64px;
+}
+
+.fxst-flag.fxst-i-ch {
+  background-position: -288px -64px;
+}
+
+.fxst-flag.fxst-i-ci {
+  background-position: -320px -64px;
+}
+
+.fxst-flag.fxst-i-ck {
+  background-position: -352px -64px;
+}
+
+.fxst-flag.fxst-i-cl {
+  background-position: -384px -64px;
+}
+
+.fxst-flag.fxst-i-cm {
+  background-position: -416px -64px;
+}
+
+.fxst-flag.fxst-i-cn {
+  background-position: -448px -64px;
+}
+
+.fxst-flag.fxst-i-co {
+  background-position: -480px -64px;
+}
+
+.fxst-flag.fxst-i-cr {
+  background-position: 0 -96px;
+}
+
+.fxst-flag.fxst-i-cu {
+  background-position: -32px -96px;
+}
+
+.fxst-flag.fxst-i-cv {
+  background-position: -64px -96px;
+}
+
+.fxst-flag.fxst-i-cw {
+  background-position: -96px -96px;
+}
+
+.fxst-flag.fxst-i-cx {
+  background-position: -128px -96px;
+}
+
+.fxst-flag.fxst-i-cy {
+  background-position: -160px -96px;
+}
+
+.fxst-flag.fxst-i-cz {
+  background-position: -192px -96px;
+}
+
+.fxst-flag.fxst-i-de {
+  background-position: -224px -96px;
+}
+
+.fxst-flag.fxst-i-dj {
+  background-position: -256px -96px;
+}
+
+.fxst-flag.fxst-i-dk {
+  background-position: -288px -96px;
+}
+
+.fxst-flag.fxst-i-dm {
+  background-position: -320px -96px;
+}
+
+.fxst-flag.fxst-i-do {
+  background-position: -352px -96px;
+}
+
+.fxst-flag.fxst-i-dz {
+  background-position: -384px -96px;
+}
+
+.fxst-flag.fxst-i-ec {
+  background-position: -416px -96px;
+}
+
+.fxst-flag.fxst-i-ee {
+  background-position: -448px -96px;
+}
+
+.fxst-flag.fxst-i-eg {
+  background-position: -480px -96px;
+}
+
+.fxst-flag.fxst-i-eh {
+  background-position: 0 -128px;
+}
+
+.fxst-flag.fxst-i-er {
+  background-position: -32px -128px;
+}
+
+.fxst-flag.fxst-i-es {
+  background-position: -64px -128px;
+}
+
+.fxst-flag.fxst-i-et {
+  background-position: -96px -128px;
+}
+
+.fxst-flag.fxst-i-emu {
+  background-position: -128px -128px;
+}
+
+.fxst-flag.fxst-i-fi {
+  background-position: -160px -128px;
+}
+
+.fxst-flag.fxst-i-fj {
+  background-position: -192px -128px;
+}
+
+.fxst-flag.fxst-i-fk {
+  background-position: -224px -128px;
+}
+
+.fxst-flag.fxst-i-fm {
+  background-position: -256px -128px;
+}
+
+.fxst-flag.fxst-i-fo {
+  background-position: -288px -128px;
+}
+
+.fxst-flag.fxst-i-fr {
+  background-position: -320px -128px;
+}
+
+.fxst-flag.fxst-i-ga {
+  background-position: -352px -128px;
+}
+
+.fxst-flag.fxst-i-uk {
+  background-position: -384px -128px;
+}
+
+.fxst-flag.fxst-i-gd {
+  background-position: -416px -128px;
+}
+
+.fxst-flag.fxst-i-ge {
+  background-position: -448px -128px;
+}
+
+.fxst-flag.fxst-i-gg {
+  background-position: -480px -128px;
+}
+
+.fxst-flag.fxst-i-gh {
+  background-position: 0 -160px;
+}
+
+.fxst-flag.fxst-i-gi {
+  background-position: -32px -160px;
+}
+
+.fxst-flag.fxst-i-gl {
+  background-position: -64px -160px;
+}
+
+.fxst-flag.fxst-i-gm {
+  background-position: -96px -160px;
+}
+
+.fxst-flag.fxst-i-gn {
+  background-position: -128px -160px;
+}
+
+.fxst-flag.fxst-i-gq {
+  background-position: -160px -160px;
+}
+
+.fxst-flag.fxst-i-gr {
+  background-position: -192px -160px;
+}
+
+.fxst-flag.fxst-i-gs {
+  background-position: -224px -160px;
+}
+
+.fxst-flag.fxst-i-gt {
+  background-position: -256px -160px;
+}
+
+.fxst-flag.fxst-i-gu {
+  background-position: -288px -160px;
+}
+
+.fxst-flag.fxst-i-gw {
+  background-position: -320px -160px;
+}
+
+.fxst-flag.fxst-i-gy {
+  background-position: -352px -160px;
+}
+
+.fxst-flag.fxst-i-hk {
+  background-position: -384px -160px;
+}
+
+.fxst-flag.fxst-i-hn {
+  background-position: -416px -160px;
+}
+
+.fxst-flag.fxst-i-hr {
+  background-position: -448px -160px;
+}
+
+.fxst-flag.fxst-i-ht {
+  background-position: -480px -160px;
+}
+
+.fxst-flag.fxst-i-hu {
+  background-position: 0 -192px;
+}
+
+.fxst-flag.fxst-i-ic {
+  background-position: -32px -192px;
+}
+
+.fxst-flag.fxst-i-id {
+  background-position: -64px -192px;
+}
+
+.fxst-flag.fxst-i-ie {
+  background-position: -96px -192px;
+}
+
+.fxst-flag.fxst-i-il {
+  background-position: -128px -192px;
+}
+
+.fxst-flag.fxst-i-im {
+  background-position: -160px -192px;
+}
+
+.fxst-flag.fxst-i-in {
+  background-position: -192px -192px;
+}
+
+.fxst-flag.fxst-i-iq {
+  background-position: -224px -192px;
+}
+
+.fxst-flag.fxst-i-ir {
+  background-position: -256px -192px;
+}
+
+.fxst-flag.fxst-i-is {
+  background-position: -288px -192px;
+}
+
+.fxst-flag.fxst-i-it {
+  background-position: -320px -192px;
+}
+
+.fxst-flag.fxst-i-je {
+  background-position: -352px -192px;
+}
+
+.fxst-flag.fxst-i-jm {
+  background-position: -384px -192px;
+}
+
+.fxst-flag.fxst-i-jo {
+  background-position: -416px -192px;
+}
+
+.fxst-flag.fxst-i-jp {
+  background-position: -448px -192px;
+}
+
+.fxst-flag.fxst-i-ke {
+  background-position: -480px -192px;
+}
+
+.fxst-flag.fxst-i-kg {
+  background-position: 0 -224px;
+}
+
+.fxst-flag.fxst-i-kh {
+  background-position: -32px -224px;
+}
+
+.fxst-flag.fxst-i-ki {
+  background-position: -64px -224px;
+}
+
+.fxst-flag.fxst-i-km {
+  background-position: -96px -224px;
+}
+
+.fxst-flag.fxst-i-kn {
+  background-position: -128px -224px;
+}
+
+.fxst-flag.fxst-i-kp {
+  background-position: -160px -224px;
+}
+
+.fxst-flag.fxst-i-kr {
+  background-position: -192px -224px;
+}
+
+.fxst-flag.fxst-i-kw {
+  background-position: -224px -224px;
+}
+
+.fxst-flag.fxst-i-ky {
+  background-position: -256px -224px;
+}
+
+.fxst-flag.fxst-i-kz {
+  background-position: -288px -224px;
+}
+
+.fxst-flag.fxst-i-la {
+  background-position: -320px -224px;
+}
+
+.fxst-flag.fxst-i-lb {
+  background-position: -352px -224px;
+}
+
+.fxst-flag.fxst-i-lc {
+  background-position: -384px -224px;
+}
+
+.fxst-flag.fxst-i-li {
+  background-position: -416px -224px;
+}
+
+.fxst-flag.fxst-i-lk {
+  background-position: -448px -224px;
+}
+
+.fxst-flag.fxst-i-lr {
+  background-position: -480px -224px;
+}
+
+.fxst-flag.fxst-i-ls {
+  background-position: 0 -256px;
+}
+
+.fxst-flag.fxst-i-lt {
+  background-position: -32px -256px;
+}
+
+.fxst-flag.fxst-i-lu {
+  background-position: -64px -256px;
+}
+
+.fxst-flag.fxst-i-lv {
+  background-position: -96px -256px;
+}
+
+.fxst-flag.fxst-i-ly {
+  background-position: -128px -256px;
+}
+
+.fxst-flag.fxst-i-ma {
+  background-position: -160px -256px;
+}
+
+.fxst-flag.fxst-i-mc {
+  background-position: -192px -256px;
+}
+
+.fxst-flag.fxst-i-md {
+  background-position: -224px -256px;
+}
+
+.fxst-flag.fxst-i-me {
+  background-position: -256px -256px;
+}
+
+.fxst-flag.fxst-i-mf {
+  background-position: -288px -256px;
+}
+
+.fxst-flag.fxst-i-mg {
+  background-position: -320px -256px;
+}
+
+.fxst-flag.fxst-i-mh {
+  background-position: -352px -256px;
+}
+
+.fxst-flag.fxst-i-mk {
+  background-position: -384px -256px;
+}
+
+.fxst-flag.fxst-i-ml {
+  background-position: -416px -256px;
+}
+
+.fxst-flag.fxst-i-mm {
+  background-position: -448px -256px;
+}
+
+.fxst-flag.fxst-i-mn {
+  background-position: -480px -256px;
+}
+
+.fxst-flag.fxst-i-mo {
+  background-position: 0 -288px;
+}
+
+.fxst-flag.fxst-i-mp {
+  background-position: -32px -288px;
+}
+
+.fxst-flag.fxst-i-mq {
+  background-position: -64px -288px;
+}
+
+.fxst-flag.fxst-i-mr {
+  background-position: -96px -288px;
+}
+
+.fxst-flag.fxst-i-ms {
+  background-position: -128px -288px;
+}
+
+.fxst-flag.fxst-i-mt {
+  background-position: -160px -288px;
+}
+
+.fxst-flag.fxst-i-mu {
+  background-position: -192px -288px;
+}
+
+.fxst-flag.fxst-i-mv {
+  background-position: -224px -288px;
+}
+
+.fxst-flag.fxst-i-mw {
+  background-position: -256px -288px;
+}
+
+.fxst-flag.fxst-i-mx {
+  background-position: -288px -288px;
+}
+
+.fxst-flag.fxst-i-my {
+  background-position: -320px -288px;
+}
+
+.fxst-flag.fxst-i-mz {
+  background-position: -352px -288px;
+}
+
+.fxst-flag.fxst-i-na {
+  background-position: -384px -288px;
+}
+
+.fxst-flag.fxst-i-nc {
+  background-position: -416px -288px;
+}
+
+.fxst-flag.fxst-i-ne {
+  background-position: -448px -288px;
+}
+
+.fxst-flag.fxst-i-nf {
+  background-position: -480px -288px;
+}
+
+.fxst-flag.fxst-i-ng {
+  background-position: 0 -320px;
+}
+
+.fxst-flag.fxst-i-ni {
+  background-position: -32px -320px;
+}
+
+.fxst-flag.fxst-i-nl {
+  background-position: -64px -320px;
+}
+
+.fxst-flag.fxst-i-no {
+  background-position: -96px -320px;
+}
+
+.fxst-flag.fxst-i-np {
+  background-position: -128px -320px;
+}
+
+.fxst-flag.fxst-i-nr {
+  background-position: -160px -320px;
+}
+
+.fxst-flag.fxst-i-nu {
+  background-position: -192px -320px;
+}
+
+.fxst-flag.fxst-i-nz {
+  background-position: -224px -320px;
+}
+
+.fxst-flag.fxst-i-om {
+  background-position: -256px -320px;
+}
+
+.fxst-flag.fxst-i-pa {
+  background-position: -288px -320px;
+}
+
+.fxst-flag.fxst-i-pe {
+  background-position: -320px -320px;
+}
+
+.fxst-flag.fxst-i-pf {
+  background-position: -352px -320px;
+}
+
+.fxst-flag.fxst-i-pg {
+  background-position: -384px -320px;
+}
+
+.fxst-flag.fxst-i-ph {
+  background-position: -416px -320px;
+}
+
+.fxst-flag.fxst-i-pk {
+  background-position: -448px -320px;
+}
+
+.fxst-flag.fxst-i-pl {
+  background-position: -480px -320px;
+}
+
+.fxst-flag.fxst-i-pn {
+  background-position: 0 -352px;
+}
+
+.fxst-flag.fxst-i-pr {
+  background-position: -32px -352px;
+}
+
+.fxst-flag.fxst-i-ps {
+  background-position: -64px -352px;
+}
+
+.fxst-flag.fxst-i-pt {
+  background-position: -96px -352px;
+}
+
+.fxst-flag.fxst-i-pw {
+  background-position: -128px -352px;
+}
+
+.fxst-flag.fxst-i-py {
+  background-position: -160px -352px;
+}
+
+.fxst-flag.fxst-i-qa {
+  background-position: -192px -352px;
+}
+
+.fxst-flag.fxst-i-ro {
+  background-position: -224px -352px;
+}
+
+.fxst-flag.fxst-i-rs {
+  background-position: -256px -352px;
+}
+
+.fxst-flag.fxst-i-ru {
+  background-position: -288px -352px;
+}
+
+.fxst-flag.fxst-i-rw {
+  background-position: -320px -352px;
+}
+
+.fxst-flag.fxst-i-sa {
+  background-position: -352px -352px;
+}
+
+.fxst-flag.fxst-i-sb {
+  background-position: -384px -352px;
+}
+
+.fxst-flag.fxst-i-sc {
+  background-position: -416px -352px;
+}
+
+.fxst-flag.fxst-i-sd {
+  background-position: -448px -352px;
+}
+
+.fxst-flag.fxst-i-se {
+  background-position: -480px -352px;
+}
+
+.fxst-flag.fxst-i-sg {
+  background-position: 0 -384px;
+}
+
+.fxst-flag.fxst-i-sh {
+  background-position: -32px -384px;
+}
+
+.fxst-flag.fxst-i-si {
+  background-position: -64px -384px;
+}
+
+.fxst-flag.fxst-i-sk {
+  background-position: -96px -384px;
+}
+
+.fxst-flag.fxst-i-sl {
+  background-position: -128px -384px;
+}
+
+.fxst-flag.fxst-i-sm {
+  background-position: -160px -384px;
+}
+
+.fxst-flag.fxst-i-sn {
+  background-position: -192px -384px;
+}
+
+.fxst-flag.fxst-i-so {
+  background-position: -224px -384px;
+}
+
+.fxst-flag.fxst-i-sr {
+  background-position: -256px -384px;
+}
+
+.fxst-flag.fxst-i-ss {
+  background-position: -288px -384px;
+}
+
+.fxst-flag.fxst-i-st {
+  background-position: -320px -384px;
+}
+
+.fxst-flag.fxst-i-sv {
+  background-position: -352px -384px;
+}
+
+.fxst-flag.fxst-i-sy {
+  background-position: -384px -384px;
+}
+
+.fxst-flag.fxst-i-sz {
+  background-position: -416px -384px;
+}
+
+.fxst-flag.fxst-i-tc {
+  background-position: -448px -384px;
+}
+
+.fxst-flag.fxst-i-td {
+  background-position: -480px -384px;
+}
+
+.fxst-flag.fxst-i-tf {
+  background-position: 0 -416px;
+}
+
+.fxst-flag.fxst-i-tg {
+  background-position: -32px -416px;
+}
+
+.fxst-flag.fxst-i-th {
+  background-position: -64px -416px;
+}
+
+.fxst-flag.fxst-i-tj {
+  background-position: -96px -416px;
+}
+
+.fxst-flag.fxst-i-tk {
+  background-position: -128px -416px;
+}
+
+.fxst-flag.fxst-i-tl {
+  background-position: -160px -416px;
+}
+
+.fxst-flag.fxst-i-tm {
+  background-position: -192px -416px;
+}
+
+.fxst-flag.fxst-i-tn {
+  background-position: -224px -416px;
+}
+
+.fxst-flag.fxst-i-to {
+  background-position: -256px -416px;
+}
+
+.fxst-flag.fxst-i-tr {
+  background-position: -288px -416px;
+}
+
+.fxst-flag.fxst-i-tt {
+  background-position: -320px -416px;
+}
+
+.fxst-flag.fxst-i-tv {
+  background-position: -352px -416px;
+}
+
+.fxst-flag.fxst-i-tw {
+  background-position: -384px -416px;
+}
+
+.fxst-flag.fxst-i-tz {
+  background-position: -416px -416px;
+}
+
+.fxst-flag.fxst-i-ua {
+  background-position: -448px -416px;
+}
+
+.fxst-flag.fxst-i-ug {
+  background-position: -480px -416px;
+}
+
+.fxst-flag.fxst-i-us {
+  background-position: 0 -448px;
+}
+
+.fxst-flag.fxst-i-uy {
+  background-position: -32px -448px;
+}
+
+.fxst-flag.fxst-i-uz {
+  background-position: -64px -448px;
+}
+
+.fxst-flag.fxst-i-va {
+  background-position: -96px -448px;
+}
+
+.fxst-flag.fxst-i-vc {
+  background-position: -128px -448px;
+}
+
+.fxst-flag.fxst-i-ve {
+  background-position: -160px -448px;
+}
+
+.fxst-flag.fxst-i-vg {
+  background-position: -192px -448px;
+}
+
+.fxst-flag.fxst-i-vi {
+  background-position: -224px -448px;
+}
+
+.fxst-flag.fxst-i-vn {
+  background-position: -256px -448px;
+}
+
+.fxst-flag.fxst-i-vu {
+  background-position: -288px -448px;
+}
+
+.fxst-flag.fxst-i-wf {
+  background-position: -320px -448px;
+}
+
+.fxst-flag.fxst-i-ws {
+  background-position: -352px -448px;
+}
+
+.fxst-flag.fxst-i-ye {
+  background-position: -384px -448px;
+}
+
+.fxst-flag.fxst-i-yt {
+  background-position: -416px -448px;
+}
+
+.fxst-flag.fxst-i-za {
+  background-position: -448px -448px;
+}
+
+.fxst-flag.fxst-i-zm {
+  background-position: -480px -448px;
+}
+
+.fxst-flag.fxst-i-zw {
+  background-position: 0 -480px;
+}
+/*# sourceMappingURL=../maps/calendar_flags.css.map */

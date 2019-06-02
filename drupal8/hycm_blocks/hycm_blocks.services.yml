@@ -1,0 +1,4 @@
+services:
+  hycm_blocks.vps_request:
+    class: Drupal\hycm_blocks\VpsRequest
+    arguments: ['@entity_type.manager']

@@ -1,0 +1,119 @@
+<div id="block-wed-webinar-lp" class="new-new-lp-block">
+    <header class="page-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                    <a class="navbar-brand" href="/">
+                        <img src="/sites/www.hycm.com/files/2018-01/logo_white (1).svg" alt="HYCM">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="page-wrapper">
+        <section class="hero-section">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-10 offset-xl-1 offset-xs-0">
+                        <div class="col-inner">
+                            <h2>{{ fields.header.subtitle }}</h2>
+                            <h1>{{ fields.header.title }}</h1>
+                            <div class="webinar-time">{{ fields.header.webinar_time }} <span class="webinar-time--divider">|</span>
+                                {{ fields.header.duration }}
+                            </div>
+                            <span class="video-play"></span>
+                            <a href="#" class="register-btn">{{ fields.header.btn_label }}</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="get-prepared">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                        <div class="col-inner">
+                            <h2>{{ fields.top_left.title | raw }}</h2>
+                            {{ fields.top_left.content | raw }}
+                        </div>
+                    </div>
+
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                        <div class="col-inner">
+                            <h2>{{ fields.top_right.title | raw }}</h2>
+                            {{ fields.top_right.content | raw }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="about">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                        <div class="col-inner">
+                            <h2>About the Host</h2>
+                            <div class="author">
+                                <div class="author-avatar">
+                                    <img src="/themes/custom/hycm/assets/landing_pages/new_land/images/wed-webinar/about-avatar.png"
+                                         alt="About the Host">
+                                </div>
+                                <div>
+                                    <h3 class="author-name">Giles Coghlan</h3>
+                                    <p class="author-position">Currency Analyst at forexlive.com</p>
+                                </div>
+                            </div>
+                            <p>Giles Coghlan is a Currency Analyst who currently trades for the AsAc fund and has 8
+                                years’ experience in technical and fundamental analysis of the currency markets. As
+                                well as trading for the fund, Giles is also a daily contributor to ForexLive.com
+                                where he presents a daily ‘Chart in focus’ article.</p>
+                        </div>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6">
+                        <div class="col-inner form-wrapper">
+                            <h2>{{ fields.bottom_right.title }}</h2>
+                            <form method="post" data-parsley-validate id="shortForm"
+                                  action="https://attendee.gotowebinar.com/registration.tmpl">
+                                <div class="field_wrap w_border">
+                                    <label for="first_name" class="field-label">{{ 'First name' |t }}</label>
+                                    <input type="text" id="first_name" name="registrant.givenName"
+                                           class="field-input" data-parsley-pattern="[A-Za-z ]+" maxlength="40"
+                                           data-parsley-error-message="This value is invalid. Please enter correct details"
+                                           data-parsley-required-message="This value is required" required="">
+                                </div>
+                                <div class="field_wrap w_border">
+                                    <label for="surname" class="field-label">{{ 'Last name' |t }}</label>
+                                    <input type="text" id="surname" name="registrant.surname" class="field-input"
+                                           data-parsley-pattern="[A-Za-z ]+" maxlength="45"
+                                           data-parsley-error-message="This value is invalid. Please enter correct details"
+                                           data-parsley-required-message="This value is required" required="">
+                                </div>
+                                <div class="field_wrap w_border">
+                                    <label for="email" class="field-label">{{ 'Email' |t }}</label>
+                                    <input type="email" id="email" name="registrant.email" class="field-input"
+                                           data-parsley-type="email" data-parsley-email maxlength="80"
+                                           data-parsley-pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,4}$"
+                                           data-parsley-required-message="{{ 'This value is required' |t }}" required="">
+                                </div>
+                                <input type="hidden" name="webinar" value="8043258902215163906">
+                                <input type="hidden" id="user_exist" name="registrant.jobTitle" value="">
+                                <input type="hidden" id="agree" name="registrant.comments" value="I agree to receive your newsletters, special offers and also agree to be contacted by HYCM representatives via phone or e-mail. I understand I can opt out from receiving these offers/newsletters any time I wish to.">
+                                <div class="field_wrap checkbox">
+                                    <label for="agree_pp">{{ 'I have read and accept the' |t }} <a
+                                                href="https://help.hycm.com/hc/en-us/articles/360000975365-Privacy-Policy">{{ 'Privacy Policy' |t }}</a> {{ 'of HYCM' |t }} </label>
+                                    <input type="checkbox" id="agree_pp" required="">
+                                </div>
+
+                                <div class="btn_wrap">
+                                    <button id="btn_sbmt" type="submit" class="btn next wave-effect">{{ 'Register now' |t }}</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

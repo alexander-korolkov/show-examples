@@ -1,0 +1,9 @@
+name: HYCM Landing pages
+type: module
+description: HYCM Landing pages
+package: HYCM
+core: 8.x
+
+dependencies:
+  - hycm_graphs
+  - hycm_layouts

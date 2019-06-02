@@ -1,0 +1,153 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display basevpslayout layout.
+ *
+ * Available variables:
+ * - content: The content for this layout.
+ * - attributes: HTML attributes for the layout wrapper.
+ *
+ * @ingroup themeable
+ */
+#}
+{% set domain = hycm_region() %}
+{% set domain_class = 'hycm-layout-' ~ domain %}
+{% set domain_class_region = 'hycm-region-' ~ domain %}
+{%
+    set classes = [
+    'layout',
+    'layout--landing_default_layout',
+    'd-flex flex-column',
+    domain_class,
+    settings.container.extra_classes,
+]
+%}
+
+{% if content %}
+    <div{{ attributes.addClass(classes) }}>
+
+
+        {{ hys_background(settings.header) }}
+
+        {% if content.top %}
+            <div {{ region_attributes.top.addClass('layout__region', settings.top.extra_classes) }}>
+                <div class="container">
+                    <div class="row clearfix">
+                        {{ content.top }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        {% if content.main %}
+            <div {{ region_attributes.main.addClass('layout__region', settings.main.extra_classes) }}>
+                <div class="container">
+                    <div class="row clearfix">
+                        {{ content.main }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        {% if content.main_one %}
+            <div {{ region_attributes.main_one.addClass('layout__region', settings.main_one.extra_classes) }}>
+                <div class="container">
+                    <div class="row clearfix">
+                        {{ content.main_one }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        {% if content.main_two %}
+            <div {{ region_attributes.main_two.addClass('layout__region', settings.main_two.extra_classes) }}>
+                <div class="container">
+                    <div class="row clearfix">
+                        {{ content.main_two }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        {% if content.main_three %}
+            <div {{ region_attributes.main_three.addClass('layout__region', settings.main_three.extra_classes) }}>
+                <div class="container">
+                    <div class="row clearfix">
+                        {{ content.main_three }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        {% if content.main_four %}
+            <div {{ region_attributes.main_four.addClass('layout__region', settings.main_four.extra_classes) }}>
+                <div class="container">
+                    <div class="row clearfix">
+                        {{ content.main_four }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        {% if content.main_five %}
+            <div {{ region_attributes.main_five.addClass('layout__region', settings.main_five.extra_classes) }}>
+                <div class="container">
+                    <div class="row clearfix">
+                        {{ content.main_five }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        {% if content.main_six %}
+            <div {{ region_attributes.main_six.addClass('layout__region', settings.main_six.extra_classes) }}>
+                <div class="container">
+                    <div class="row clearfix">
+                        {{ content.main_six }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        {% if content.main_seven %}
+            <div {{ region_attributes.main_seven.addClass('layout__region', settings.main_seven.extra_classes) }}>
+                <div class="container">
+                    <div class="row clearfix">
+                        {{ content.main_seven }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        {% if content.main_eight %}
+            <div {{ region_attributes.main_eight.addClass('layout__region', settings.main_eight.extra_classes) }}>
+                <div class="container">
+                    <div class="row clearfix">
+                        {{ content.main_eight }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        {% if content.main_nine %}
+            <div {{ region_attributes.main_nine.addClass('layout__region', settings.main_nine.extra_classes) }}>
+                <div class="container">
+                    <div class="row clearfix">
+                        {{ content.main_nine }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if content.main_ten %}
+            <div {{ region_attributes.main_ten.addClass('layout__region', settings.main_ten.extra_classes) }}>
+                <div class="container">
+                    <div class="row clearfix">
+                        {{ content.main_ten }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        {% if content.footer %}
+            <div {{ region_attributes.footer.addClass('layout__region', settings.footer.extra_classes) }}>
+                <div class="container">
+                    <div class="row clearfix">
+                        {{ content.footer }}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+    </div>
+{% endif %}

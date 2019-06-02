@@ -1,0 +1,122 @@
+{%
+    set classes = [
+    'layout',
+    'layout--mt4',
+]
+%}
+
+<div{{ attributes.addClass(classes) }} >
+
+    <header class="page-header">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-12">
+                    <a class="navbar-brand" href="/">
+                        <img src="/themes/custom/hycm_landing/assets/images/svg/logo_white.svg" alt="HYCM">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <div class="overlay"></div>
+
+    <div class="page-wrapper">
+
+        <section class="hero-section">
+            <div class="container">
+                <div class="row">
+                    {% if content.hero_section_left %}
+                        <div {{ region_attributes.hero_section_left.addClass('layout__region', 'layout__region--hero_section_left', 'col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6') }}>
+                            <div class="col-inner">
+                                {{ content.hero_section_left }}
+                            </div>
+                        </div>
+                    {% endif %}
+
+                    {% if content.hero_section_right %}
+                        <div {{ region_attributes.hero_section_right.addClass('layout__region', 'layout__region--hero_section_right', 'col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-6') }}>
+                            <div class="col-inner  form-wrapper">
+                                {{ content.hero_section_right }}
+                            </div>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </section>
+
+        {% if content.why_metatrader %}
+            <section {{ region_attributes.why_metatrader.addClass('layout__region', 'layout__region--why_metatrader', 'why-metatrader') }}>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-11 col-xl-11">
+                            <div class="col-inner">
+                                {{ content.why_metatrader }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        {% endif %}
+
+        {% if content.advantages %}
+            <section {{ region_attributes.advantages.addClass('layout__region', 'layout__region--advantages', 'advantages') }}>
+                <div class="advantages__bg" style="background-image: url('/themes/custom/hycm_landing/assets/images/landing_pages/mt4-lp/All platforms.jpg');"></div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12 col-md-6">
+                            <div class="col-inner">
+                                {{ content.advantages }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        {% endif %}
+
+        {% if content.rights %}
+            <section {{ region_attributes.rights.addClass('layout__region', 'layout__region--rights', 'rights') }}>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="col-inner">
+                                {{ content.rights }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        {% endif %}
+
+        {% if content.why_hycm %}
+            <section {{ region_attributes.why_hycm.addClass('layout__region', 'layout__region--why_hycm', 'why-hycm') }}>
+                <div class="why-hycm__bg" style="background-image: url('/themes/custom/hycm_landing/assets/images/landing_pages/mt4-lp/awards-2.jpg');"></div>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-5 col-xl-5 offset-xl-7 offset-lg-7 offset-md-6 offset-sm-0 offset-xs-0">
+                            <div class="col-inner">
+                              {{ content.why_hycm }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        {% endif %}
+
+        {% if content.footer %}
+            <section {{ region_attributes.footer.addClass('layout__region', 'layout__region--footer', 'pre-footer') }}>
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="col-inner">
+                              {{ content.footer }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        {% endif %}
+
+    </div>
+
+</div>

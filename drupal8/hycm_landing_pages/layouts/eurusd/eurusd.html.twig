@@ -1,0 +1,134 @@
+{#
+/**
+ * @file
+ * Default theme implementation to display eurusd layout.
+ *
+ * Available variables:
+ * - content: The content for this layout.
+ * - attributes: HTML attributes for the layout wrapper.
+ *
+ * @ingroup themeable
+ */
+#}
+{%
+  set classes = [
+    'layout',
+    'layout--eurusd',
+    settings.container.extra_classes,
+  ]
+%}
+
+{% if content %}
+  <div{{ attributes.addClass(classes) }} >
+
+    {% if content.brand_header %}
+      <div {{ region_attributes.brand_header.addClass('layout__region', 'layout__region--brand_header') }}>
+        <div class="container">
+          <div class="row">
+            {{ content.brand_header }}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if content.header %}
+      <div {{ region_attributes.header.addClass('layout__region', 'layout__region--header', 'hero-section') }}>
+        <div class="container">
+          <div class="row">
+            {{ content.header }}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if content.top_header_form %}
+      <div {{ region_attributes.top_header_form.addClass('layout__region', 'layout__region--top_header_form') }}>
+        <div class="container">
+          <div class="row">
+            {{ content.top_header_form }}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if content.highlighted %}
+      <div {{ region_attributes.highlighted.addClass('layout__region', 'layout__region--highlighted') }}>
+        <div class="container">
+          <div class="row">
+            {{ content.highlighted }}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if content.featured_top %}
+      <div {{ region_attributes.featured_top.addClass('layout__region', 'layout__region--featured_top') }}>
+        <div class="container">
+          <div class="row">
+            {{ content.featured_top }}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if content.why_hycm %}
+      <div {{ region_attributes.why_hycm.addClass('layout__region', 'layout__region--why_hycm') }}>
+        <div class="container">
+          <div class="row">
+            {{ content.why_hycm }}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+    {% if content.upcoming_events %}
+      <div {{ region_attributes.upcoming_events.addClass('layout__region', 'layout__region--upcoming_events') }}>
+        <div class="container">
+          <div class="row">
+            {{ content.upcoming_events }}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+    {% if content.trade_own_way %}
+      <div {{ region_attributes.trade_own_way.addClass('layout__region', 'layout__region--trade_own_way') }}>
+        <div class="container">
+          <div class="row">
+            {{ content.trade_own_way }}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if content.trade_eurusd_today %}
+      <div {{ region_attributes.trade_eurusd_today.addClass('layout__region', 'layout__region--trade_eurusd_today') }}>
+        <div class="container">
+          <div class="row">
+            {{ content.trade_eurusd_today }}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if content.main %}
+      <div {{ region_attributes.main.addClass('layout__region', 'layout__region--main') }}>
+        <div class="container">
+          <div class="row">
+            {{ content.main }}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+    {% if content.footer %}
+      <div {{ region_attributes.footer.addClass('layout__region', 'layout__region--footer') }}>
+        <div class="container">
+          <div class="row">
+            {{ content.footer }}
+          </div>
+        </div>
+      </div>
+    {% endif %}
+
+  </div>
+{% endif %}
+

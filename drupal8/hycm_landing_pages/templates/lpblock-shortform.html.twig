@@ -1,0 +1,80 @@
+{% set domain = hycm_region() %}
+
+{% if domain == 'com' %}
+  {% set privacy_policy = "/sites/www.hycm.com/files/pdfs/HYCM_CIMA_Privacy_Policy.pdf" %}
+{% elseif domain == 'uk' %}
+  {% set privacy_policy = "/sites/www.hycm.com/files/pdfs/HYCM_UK_Privacy_Policy.pdf" %}
+{% elseif domain == 'eu' %}
+  {% set privacy_policy = "/sites/www.hycm.com/files/pdfs/HYCM_EU_Privacy_Policy.pdf" %}
+{% endif %}
+
+<div {{ attributes }} >
+  <section class="form_type3"><h3 class="semibold">{{ items.title_form | raw }}</h3>
+    <form data-parsley-validate id="shortForm">
+      <div class="field_wrap w_border">
+        <label for="first_name"
+               class="field-label">{{ 'First name' |t }}</label>
+        <input type="text" id="first_name" name="first_name" class="field-input"
+               data-parsley-pattern="[A-Za-z\-\' ]+" maxlength="40"
+               data-parsley-error-message="{{ 'This value is invalid. Please enter correct details' |t }}"
+               data-parsley-required-message="{{ 'This value is required' |t }}">
+      </div>
+      <div class="field_wrap w_border">
+        <label for="surname"
+               class="field-label">{{ 'Last name' |t }}</label>
+        <input type="text" id="surname" name="surname" class="field-input" data-parsley-pattern="[A-Za-z\-\' ]+"
+               maxlength="45"
+               data-parsley-error-message="{{ 'This value is invalid. Please enter correct details' |t }}"
+               data-parsley-required-message="{{ 'This value is required' |t }}">
+      </div>
+      <div class="field_wrap w_border">
+        <label for="email" class="field-label">{{ 'Email' |t }}</label>
+        <input type="email" id="email" name="email" class="field-input" data-parsley-type="email"
+               data-parsley-email maxlength="80"
+               data-parsley-pattern="[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+.[A-Za-z]{2,4}$"
+               data-parsley-required-message="{{ 'This value is required' |t }}">
+      </div>
+      <div class="phone_wrap">
+        <div class="select_wrap">
+          <div class="select_wrap_item">
+            <input type="text" class="btn select_btn prefix" id="phone_prefix" name="phone_prefix"
+                   placeholder="Prefix" autocomplete="off" data-parsley-prefix
+                   data-parsley-required-message="{{ 'This value is required' |t }}">
+          </div>
+        </div>
+        <div class="field_wrap w_border last_in_step">
+          <label for="phone"
+                 class="field-label">{{ 'Phone' |t }}</label>
+          <input type="tel" id="phone" name="phone" class="field-input" data-parsley-minlength="6"
+                 maxlength="20" data-parsley-pattern="([0-9])+"
+                 data-parsley-error-message="{{ 'This value is invalid. Please enter correct details' |t }}"
+                 data-parsley-required-message="{{ 'This value is required' |t }}">
+        </div>
+      </div>
+      <input type="hidden" id="country" value="failed" name="country">
+      <input type="hidden" id="landing_page" name="landing_page" value="true">
+      <div class="field_wrap checkbox">
+
+        <label for="agree_pp">{{ 'I have read and accept the' |t }} <a
+              href="{{ privacy_policy }}" target="_blank" >{{ 'Privacy Policy' |t }}</a> {{ 'of HYCM' |t }} </label>
+        <input type="checkbox" id="agree_pp" required="required">
+
+      </div>
+      <div class="btn_wrap">
+        <button id="btn_sbmt" type="submit"
+                class="btn next wave-effect">{{ 'Open live account' |t }}</button>
+        {% if domain != 'com' %}
+            <p class="risk">{{ 'Trading CFDs involves significant risk of loss' |t }}</p>
+        {% endif %}
+        {% if domain == 'com' %}
+          <span>{{ 'HYCM Ltd is authorized and regulated under the CIMA' |t }}</span>
+        {% elseif domain == 'uk' %}
+          <span>{{ 'Henyep Capital Markets (UK) Limited is authorized and regulated under the FCA' |t }}</span>
+        {% elseif domain == 'eu' %}
+            <span>{{ 'HYCM (Europe) Limited is regulated by the CySEC' |t }}</span>
+        {% endif %}
+
+      </div>
+    </form>
+  </section>
+</div>

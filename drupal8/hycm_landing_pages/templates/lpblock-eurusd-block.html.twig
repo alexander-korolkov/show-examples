@@ -1,0 +1,9 @@
+{% set svg_id = item.id %}
+<div {{ attributes }}>
+  <div class="graphs-title">{{ title }}</div>
+  <div class="bid-variation">
+    <div class="graphs-bid">{{ item.details.bid }}</div>
+    <div class="graphs-variation">{{ item.details.variation }}</div>
+  </div>
+
+</div>

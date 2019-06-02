@@ -1,0 +1,17 @@
+{#
+ File comments
+#}
+
+<div {{ attributes.addClass('awards-slick') }}>
+    {% for item in items %}
+        <div class="award-item">
+            <div class="award-wrap">
+                <div class="award-img-wrap"><div class="award-img"></div></div>
+                <div class="meta">
+                    <strong>{{ item.label }}</strong>
+                    <span>{{ item.year }} | {{ item.content }}</span>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
