@@ -44,14 +44,14 @@
             };
         $.ajax({
             dataType: "json",
-            url: "https://www.googleapis.com/geolocation/v1/geolocate?key=AIzaSyDO5hn6OmbMkuwdx5q-_VZwGLUHkZ62xGw",
+            url: "https://www.googleapis.com/geolocation/v1/geolocate?",
             method: 'POST',
             contentType: "application/json; charset=utf-8",
             data : JSON.stringify(requestJson)
         }).done(function(data) {
             $.ajax({
                 dataType: "json",
-                url: "https://maps.googleapis.com/maps/api/geocode/json?latlng="+data['location'].lat+","+data['location'].lng+"&key=AIzaSyAzgyfH67CbFgapjc3EGAl6hVuWyITs4fc",
+                url: "https://maps.googleapis.com/maps/api/geocode/json?latlng="+data['location'].lat+","+data['location'].lng+"&key=",
                 method: 'POST'
             }).done(function(data) {
                 function getCountry(addrComponents) {
