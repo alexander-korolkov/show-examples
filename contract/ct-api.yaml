@@ -1,0 +1,3329 @@
+openapi: 3.0.2
+info:
+  title: Copy Trading API
+  description: |-
+    The Copy Trading provides an API:
+
+    * to manage leader and follower accounts
+    * to provide copy-trading statistic
+  contact:
+    name: Alexander Filichev
+    email: alexander.filichev@forextime.com
+  version: "1"
+tags:
+  - name: Strategy manager
+    description: Routes for getting information about strategy managers
+  - name: News
+    description: Routes for working with Stragegy Managers" news
+  - name: Leader account
+    description: Routes for working with leader accounts in MyFXTM / MyAINT
+  - name: Leader profile
+    description: Routes for working with leader's profile
+  - name: Investor account
+    description: Routes for working with Follower's account in MyFXTM / MyAINT
+  - name: Questionnaire
+    description: Routes for working with questionnaires
+  - name: Workflow
+    description: Routes for working with Workflows
+  - name: Technical
+paths:
+  /manager_stats:
+    get:
+      tags:
+        - Strategy manager
+      summary: Returns list of strategy managers
+      description: "For roles: `CLIENT`"
+      parameters:
+        - in: query
+          name: top
+          required: false
+          schema:
+            type: boolean
+          example: true
+          description: show only top managers
+        - in: query
+          name: euOnly
+          required: false
+          schema:
+            type: boolean
+          example: true
+          description: show only managers for eu
+        - in: query
+          name: minInvestorsCount
+          required: false
+          schema:
+            type: integer
+          example: 300
+          description: show only managers with investors" count bigger or equal than value
+        - in: query
+          name: minProfit
+          required: false
+          schema:
+            type: integer
+          example: 500
+          description: show only managers with profit bigger or equal than value
+        - in: query
+          name: maxProfitShare
+          required: false
+          schema:
+            type: integer
+          example: 30
+          description: show only managers with fee lower or equal than value
+        - in: query
+          name: maxDrawdown
+          required: false
+          schema:
+            type: integer
+          example: 30
+          description: show only managers with drawdown lower or equal than value
+        - in: query
+          name: maxRiskLevel
+          required: false
+          schema:
+            type: integer
+          example: 3
+          description: show only managers with risk level lower or equal than value
+        - in: query
+          name: minAge
+          required: false
+          schema:
+            type: integer
+          example: 3
+          description: show only managers with age in months bigger or equal than value
+        - in: query
+          name: veteran
+          required: false
+          schema:
+            type: boolean
+          example: 3
+          description: show only veteran managers
+        - in: query
+          name: country
+          required: false
+          schema:
+            type: string
+          example: "Russia"
+          description: show only managers with country which contains the value
+        - in: query
+          name: name
+          required: false
+          schema:
+            type: string
+          example: "Thenjiwe"
+          description: show only managers with account name which contains the value
+        - in: query
+          name: sortBy
+          required: false
+          schema:
+            type: string
+          example: "investors_count"
+          description: show filtered managers sorted by given name of field
+        - in: query
+          name: sortOrder
+          required: false
+          schema:
+            type: string
+          example: "asc"
+          description: ascendant or descendant sorting order
+        - $ref: "#/components/parameters/limit"
+        - $ref: "#/components/parameters/offset"
+      responses:
+        200:
+          description: list with data of active strategy managers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/StrategyManager"
+        400:
+          $ref: "#/components/responses/bad_request"
+        403:
+          $ref: "#/components/responses/forbidden"
+  /manager_stats/{accountNumber}:
+    get:
+      tags:
+        - Strategy manager
+      summary: Get concrete strategy manager account's data
+      description: "For roles: `CLIENT`"
+      parameters:
+        - $ref: "#/components/parameters/accountNumber"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StrategyManager"
+        400:
+          $ref: "#/components/responses/bad_request"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+  /manager_stats/{accountNumber}/stats:
+    get:
+      tags:
+        - Strategy manager
+      summary: Get trading review of concrete strategy manager
+      description: "For roles: `CLIENT`"
+      parameters:
+        - $ref: "#/components/parameters/accountNumber"
+        - in: query
+          name: date
+          description: date of needed statistics
+          required: false
+          schema:
+            type: string
+          example: "2018-11-22 10:10:12"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/StrategyManagerStats"
+        400:
+          $ref: "#/components/responses/bad_request"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+
+  /news:
+    get:
+      tags:
+        - News
+      summary: Get all approved strategy managers news
+      description: "For roles: `CLIENT`"
+      parameters:
+        - in: query
+          name: accountNumber
+          required: false
+          schema:
+            type: string
+          example: "4345768"
+          description: Returns news of concrete strategy managers
+        - in: query
+          name: clientId
+          required: false
+          schema:
+            type: string
+          example: "5000485768"
+          description: Returns news of strategy managers in which the client invested
+        - in: query
+          name: approvedOnly
+          required: false
+          schema:
+            type: boolean
+          example: true
+          description: if true, endpoint will return only news in status approved
+        - in: query
+          name: rankType
+          required: false
+          schema:
+            type: string
+          example: "global"
+          description: show only news for specific broker (eu, aby, global)
+        - in: query
+          name: isPublic
+          required: false
+          schema:
+            type: boolean
+          example: true
+          description: show news only from public managers
+        - $ref: "#/components/parameters/limit"
+        - $ref: "#/components/parameters/offset"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManagerNewsMultipleResponse"
+        400:
+          $ref: "#/components/responses/bad_request"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+  /leaders/{accountNumber}/news:
+    post:
+      tags:
+        - News
+      summary: Create manager news
+      description: "For roles: `CLIENT`"
+      parameters:
+        - $ref: "#/components/parameters/accountNumber"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ManagerNewsContent"
+        required: true
+      responses:
+        201:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManagerNewsResponse"
+        400:
+          $ref: "#/components/responses/bad_request"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+  /leaders/news/{id}:
+    get:
+      tags:
+        - News
+      summary: Get concrete manager news by id
+      description: "For roles: `CLIENT`"
+      parameters:
+        - $ref: "#/components/parameters/news_id"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManagerNews"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+    patch:
+      tags:
+        - News
+      summary: Update manager news
+      description: "For roles: `CLIENT`, `ADMIN`"
+      parameters:
+        - $ref: "#/components/parameters/news_id"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ManagerNewsContent"
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ManagerNewsResponse"
+        400:
+          $ref: "#/components/responses/bad_request"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+  /leaders/news/{id}/approve:
+    post:
+      tags:
+        - News
+      summary: Approve manager news
+      description: "For roles: `ADMIN`"
+      parameters:
+        - $ref: "#/components/parameters/news_id"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ActionResult"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+  /leaders/news/{id}/reject:
+    post:
+      tags:
+        - News
+      summary: Reject manager news
+      description: "For roles: `ADMIN`"
+      parameters:
+        - $ref: "#/components/parameters/news_id"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ActionResult"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+
+  /leaders/{accountNumber}:
+    get:
+      tags:
+        - Leader account
+      summary: Get leader account
+      description: "For roles: `CLIENT`"
+      parameters:
+        - $ref: "#/components/parameters/accountNumber"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LeaderAccount"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+  /leaders:
+    post:
+      tags:
+        - Leader account
+      summary: Create leader account
+      description: "For roles: `CLIENT`, `ADMIN`"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateLeaderRequest"
+        required: true
+      responses:
+        201:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateAccountResponse"
+              example:
+                status: 0
+                workflow_id: "169008456"
+                result: "200394587"
+        400:
+          $ref: "#/components/responses/bad_request"
+        403:
+          $ref: "#/components/responses/forbidden"
+  /leaders/{accountNumber}/fee:
+    patch:
+      tags:
+        - Leader account
+      summary: Change leader's remuneration fee
+      description: "For roles: `CLIENT`, `ADMIN`"
+      parameters:
+        - $ref: "#/components/parameters/accountNumber"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChangeFeeRequest"
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateWorkflowResult"
+        400:
+          $ref: "#/components/responses/bad_request"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+  /leaders/{accountNumber}/show_equity:
+    patch:
+      tags:
+        - Leader account
+      summary: Change leader's show_equity
+      description: "For roles: `CLIENT`"
+      parameters:
+        - $ref: "#/components/parameters/accountNumber"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChangeShowEquityRequest"
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateWorkflowResult"
+        400:
+          $ref: "#/components/responses/bad_request"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+  /leaders/{accountNumber}/leverage:
+    patch:
+      tags:
+        - Leader account
+      summary: Change leader's leverage
+      description: "For roles: `CLIENT`"
+      parameters:
+        - $ref: "#/components/parameters/accountNumber"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChangeLeverageRequest"
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateWorkflowResult"
+        400:
+          $ref: "#/components/responses/bad_request"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+  /leaders/{accountNumber}/swap_free:
+    patch:
+      tags:
+        - Leader account
+      summary: Change leader's swap free attribute
+      description: "For roles: `CLIENT`"
+      parameters:
+        - $ref: "#/components/parameters/accountNumber"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChangeSwapFreeRequest"
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateWorkflowResult"
+        400:
+          $ref: "#/components/responses/bad_request"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+  /leaders/{accountNumber}/privacy_mode:
+    patch:
+      tags:
+        - Leader account
+      summary: Change leader's privacy mode
+      description: "For roles: `CLIENT`"
+      parameters:
+        - $ref: "#/components/parameters/accountNumber"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChangePrivacyModeRequest"
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateWorkflowResult"
+        400:
+          $ref: "#/components/responses/bad_request"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+  /leaders/{accountNumber}/name:
+    patch:
+      tags:
+        - Leader account
+      summary: Change leader account's name
+      description: "For roles: `CLIENT`"
+      parameters:
+        - $ref: "#/components/parameters/accountNumber"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LeaderNameRequest"
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateWorkflowResult"
+        400:
+          $ref: "#/components/responses/bad_request"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+  /leaders/{accountNumber}/description:
+    patch:
+      tags:
+        - Leader account
+      summary: Change leader account's description
+      description: "For roles: `CLIENT`"
+      parameters:
+        - $ref: "#/components/parameters/accountNumber"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChangeLeaderDescriptionRequest"
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateWorkflowResult"
+        400:
+          $ref: "#/components/responses/bad_request"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+  /leaders/{accountNumber}/copying:
+    patch:
+      tags:
+        - Leader account
+      summary: Change copying mode of leader
+      description: "For roles: `CLIENT`, `ADMIN`"
+      parameters:
+        - $ref: "#/components/parameters/accountNumber"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChangeCopyingModeRequest"
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateWorkflowResult"
+        400:
+          $ref: "#/components/responses/bad_request"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+  /leaders/{accountNumber}/unlock:
+    post:
+      tags:
+        - Leader account
+      summary: Unlock leader's account
+      description: "For roles: `ADMIN`"
+      parameters:
+        - $ref: "#/components/parameters/accountNumber"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateWorkflowResult"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+  /leaders/{accountNumber}/refresh:
+    post:
+      tags:
+        - Leader account
+      summary: Refresh leader's account
+      description: "For roles: `ADMIN`"
+      parameters:
+        - $ref: "#/components/parameters/accountNumber"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateWorkflowResult"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+  /leaders/{accountNumber}/stop_followers:
+    post:
+      tags:
+        - Leader account
+      summary: Stop leader's followers
+      description: "For roles: `ADMIN`"
+      parameters:
+        - $ref: "#/components/parameters/accountNumber"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateWorkflowResult"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+  /leaders/{accountNumber}/close:
+    post:
+      tags:
+        - Leader account
+      summary: Close leader's account
+      description: "For roles: `CLIENT`, `ADMIN`"
+      parameters:
+        - $ref: "#/components/parameters/accountNumber"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateWorkflowResult"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+  /leaders/{clientId}/referrable:
+    get:
+      tags:
+        - Leader account
+      summary: Get referrable by owner
+      description: "For roles: `ADMIN`"
+      parameters:
+        - $ref: "#/components/parameters/clientId"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/LeaderReferrable"
+        403:
+          $ref: "#/components/responses/forbidden"
+  /leaders/{clientId}/{broker}/unique_name:
+    get:
+      tags:
+        - Leader account
+      summary: Get unique name
+      description: "For roles: `CLIENT`"
+      parameters:
+        - $ref: "#/components/parameters/clientId"
+        - name: broker
+          in: path
+          description: broker of client, fxtm or alpari
+          required: true
+          schema:
+            type: string
+            enum: ["fxtm", "aint", "aby"]
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UniqueNameResponse"
+        400:
+          $ref: "#/components/responses/bad_request"
+        403:
+          $ref: "#/components/responses/forbidden"
+  /leaders/is_unique_name:
+    post:
+      tags:
+        - Leader account
+      summary: Check name is unique
+      description: "For roles: `CLIENT`"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LeaderNameRequest"
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ActionResult"
+        400:
+          $ref: "#/components/responses/bad_request"
+        403:
+          $ref: "#/components/responses/forbidden"
+  /leaders/{accountNumber}/statistics/monthly:
+    get:
+      tags:
+        - Leader account
+      summary: Leader monthly statistics by trades
+      description: "For roles: `CLIENT`"
+      parameters:
+        - $ref: "#/components/parameters/accountNumber"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LeaderMonthlyStats"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+  /leaders/{accountNumber}/statistics/status:
+    get:
+      tags:
+        - Leader account
+      summary: Leader status
+      description: "For roles: `CLIENT`"
+      parameters:
+        - $ref: "#/components/parameters/accountNumber"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LeaderStatus"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+  /leaders/{accountName}/investor_accounts:
+    get:
+      tags:
+        - Leader account
+      summary: Get investor accounts list by concrete leader
+      description: "For roles: `CLIENT`"
+      parameters:
+        - $ref: "#/components/parameters/accountName"
+        - $ref: "#/components/parameters/limit"
+        - $ref: "#/components/parameters/offset"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvestorsByManagerNameResponse"
+        400:
+          $ref: "#/components/responses/bad_request"
+        403:
+          $ref: "#/components/responses/forbidden"
+  /leaders/{accountNumber}/restrictions/check:
+    post:
+      tags:
+        - Leader account
+      summary: Remittance Restrictions Check
+      description: "For roles: `ADMIN`"
+      parameters:
+        - $ref: '#/components/parameters/accountNumber'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RemittanceRestrictionsCheckRequest"
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RemittanceRestrictionsCheckStatus'
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+
+  /leaders/{clientId}/profile:
+    get:
+      tags:
+        - Leader profile
+      summary: Get manager's profile
+      description: "For roles: `CLIENT`, `ADMIN`"
+      parameters:
+        - $ref: "#/components/parameters/clientId"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LeaderProfileResponse"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+  /leaders/{clientId}/profile/nickname:
+    patch:
+      tags:
+        - Leader profile
+      summary: Change manager's name
+      description: "For roles: `CLIENT`, `ADMIN`"
+      parameters:
+        - $ref: "#/components/parameters/clientId"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChangeNicknameRequest"
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ActionResult"
+        400:
+          $ref: "#/components/responses/bad_request"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+  /leaders/{clientId}/profile/use_nickname:
+    patch:
+      tags:
+        - Leader profile
+      summary: Change manager's use_nickname setting
+      description: "For roles: `CLIENT`, `ADMIN`"
+      parameters:
+        - $ref: "#/components/parameters/clientId"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChangeUseNicknameRequest"
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ActionResult"
+        400:
+          $ref: "#/components/responses/bad_request"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+  /leaders/{clientId}/profile/show_name:
+    patch:
+      tags:
+        - Leader profile
+      summary: Change manager's show_name setting
+      description: "For roles: `CLIENT`, `ADMIN`"
+      parameters:
+        - $ref: "#/components/parameters/clientId"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChangeShowNameRequest"
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ActionResult"
+        400:
+          $ref: "#/components/responses/bad_request"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+  /leaders/{clientId}/profile/show_country:
+    patch:
+      tags:
+        - Leader profile
+      summary: Change manager's show_country method
+      description: "For roles: `CLIENT`, `ADMIN`"
+      parameters:
+        - $ref: "#/components/parameters/clientId"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChangeShowCountryRequest"
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ActionResult"
+        400:
+          $ref: "#/components/responses/bad_request"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+  /leaders/{clientId}/profile/avatar:
+    post:
+      tags:
+        - Leader profile
+      summary: Upload manager's profile avatar
+      description: "For roles: `CLIENT`"
+      parameters:
+        - $ref: "#/components/parameters/clientId"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChangeAvatarRequest"
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ActionResult"
+        400:
+          $ref: "#/components/responses/bad_request"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+    delete:
+      tags:
+        - Leader profile
+      summary: Remove manager's profile avatar
+      description: "For roles: `CLIENT`, `ADMIN`"
+      parameters:
+        - $ref: "#/components/parameters/clientId"
+      responses:
+        204:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ActionResult"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+
+  /client/{clientId}/investor_accounts:
+    get:
+      tags:
+        - Investor account
+      summary: Returns investor accounst for concrete client
+      description: "For roles: `CLIENT`"
+      parameters:
+        - $ref: "#/components/parameters/clientId"
+        - in: query
+          name: logins
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+              example: "100010574"
+          style: form
+          explode: false
+          description: show only accounts with given logins
+        - $ref: "#/components/parameters/limit"
+        - $ref: "#/components/parameters/offset"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/InvestorAccount"
+        400:
+          $ref: "#/components/responses/bad_request"
+        403:
+          $ref: "#/components/responses/forbidden"
+  /client/{clientId}/investor_accounts/min_deposit:
+    get:
+      tags:
+        - Investor account
+      summary: Returns min deposit of investor accounts for concrete client
+      description: "For roles: `CLIENT`"
+      parameters:
+        - $ref: "#/components/parameters/clientId"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/InvestorAccountMinDeposit"
+        400:
+          $ref: "#/components/responses/bad_request"
+        403:
+          $ref: "#/components/responses/forbidden"
+  /client/{clientId}/closed_investor_accounts:
+    get:
+      tags:
+        - Investor account
+      summary: Get closed investor accounts list for concrete client
+      description: "For roles: `CLIENT`"
+      parameters:
+        - $ref: "#/components/parameters/clientId"
+        - $ref: "#/components/parameters/limit"
+        - $ref: "#/components/parameters/offset"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/ClosedInvestorAccount"
+        400:
+          $ref: "#/components/responses/bad_request"
+        403:
+          $ref: "#/components/responses/forbidden"
+  /followers/{accountNumber}:
+    get:
+      tags:
+        - Investor account
+      summary: Returns investor account
+      description: "For roles: `CLIENT`, `ADMIN`"
+      parameters:
+        - $ref: "#/components/parameters/accountNumber"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvestorAccount"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+  /followers/{accountNumber}/short_data:
+    get:
+      tags:
+        - Investor account
+      summary: Returns investor account's short data
+      description: "For roles: `CLIENT`, `ADMIN`"
+      parameters:
+        - $ref: "#/components/parameters/accountNumber"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LightInvestorAccount"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+  /followers/{accountNumber}/min_deposit:
+    get:
+      tags:
+        - Investor account
+      summary: Returns min deposit of investor account
+      description: "For roles: `CLIENT`"
+      parameters:
+        - $ref: "#/components/parameters/accountNumber"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvestorAccountMinDeposit"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+  /followers/{accountNumber}/stats:
+    get:
+      tags:
+        - Investor account
+      summary: Returns investor account's statistics
+      description: "For roles: `CLIENT`"
+      parameters:
+        - $ref: "#/components/parameters/accountNumber"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvestorAccountStats"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+  /followers/{accountNumber}/paid_fees:
+    get:
+      tags:
+        - Investor account
+      summary: Get paid fees for investor account
+      description: "For roles: `CLIENT`"
+      parameters:
+        - $ref: "#/components/parameters/accountNumber"
+        - $ref: "#/components/parameters/limit"
+        - $ref: "#/components/parameters/offset"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvestorPaidFees"
+        403:
+          $ref: "#/components/responses/forbidden"
+  /followers/{accountNumber}/pending_workflows:
+    get:
+      tags:
+        - Investor account
+      summary: Get pending workflows for investor account
+      description: "For roles: `CLIENT`"
+      parameters:
+        - $ref: "#/components/parameters/accountNumber"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InvestorPendingWorkflows"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+  /followers:
+    post:
+      tags:
+        - Investor account
+      summary: Creates new investor account
+      description: "For roles: `CLIENT`, `ADMIN`"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateFollowerRequest"
+        required: true
+      responses:
+        201:
+          description: Created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateAccountResponse"
+              example:
+                status: 0
+                workflow_id: "169008456"
+                result: "4000766598"
+        400:
+          $ref: "#/components/responses/bad_request"
+        403:
+          $ref: "#/components/responses/forbidden"
+  /followers/{accountNumber}/protection_level:
+    patch:
+      tags:
+        - Investor account
+      summary: Change follower's protection level
+      description: "For roles: `CLIENT`, `ADMIN`"
+      parameters:
+        - $ref: "#/components/parameters/accountNumber"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChangeProtectionLevelRequest"
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateWorkflowResult"
+        400:
+          $ref: "#/components/responses/bad_request"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+  /followers/{accountNumber}/copy_coefficient:
+    patch:
+      tags:
+        - Investor account
+      summary: Change follower's copy coefficient
+      description: "For roles: `CLIENT`, `ADMIN`"
+      parameters:
+        - $ref: "#/components/parameters/accountNumber"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChangeCopyCoefficientRequest"
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateWorkflowResult"
+        400:
+          $ref: "#/components/responses/bad_request"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+  /followers/{accountNumber}/pause:
+    post:
+      tags:
+        - Investor account
+      summary: Pause copying
+      description: "For roles: `CLIENT`, `ADMIN`"
+      parameters:
+        - $ref: "#/components/parameters/accountNumber"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateWorkflowResult"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+  /followers/{accountNumber}/resume:
+    post:
+      tags:
+        - Investor account
+      summary: Resume copying
+      description: "For roles: `CLIENT`, `ADMIN`"
+      parameters:
+        - $ref: "#/components/parameters/accountNumber"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateWorkflowResult"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+  /followers/{accountNumber}/lock:
+    post:
+      tags:
+        - Investor account
+      summary: Lock copying
+      description: "For roles: `CLIENT`, `ADMIN`"
+      parameters:
+        - $ref: "#/components/parameters/accountNumber"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateAccountResponse"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+  /followers/{accountNumber}/unlock:
+    post:
+      tags:
+        - Investor account
+      summary: Unlock copying
+      description: "For roles: `CLIENT`, `ADMIN`"
+      parameters:
+        - $ref: "#/components/parameters/accountNumber"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateAccountResponse"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+  /followers/{accountNumber}/withdraw:
+    post:
+      tags:
+        - Investor account
+      summary: Withdraw funds
+      description: "For roles: `CLIENT`, `ADMIN`"
+      parameters:
+        - $ref: "#/components/parameters/accountNumber"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WithdrawalRequest"
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateWorkflowResult"
+        400:
+          $ref: "#/components/responses/bad_request"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+  /followers/{accountNumber}/close:
+    post:
+      tags:
+        - Investor account
+      summary: Close follower account
+      description: "For roles: `CLIENT`, `ADMIN`"
+      parameters:
+        - $ref: "#/components/parameters/accountNumber"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateWorkflowResult"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+  /followers/{clientId}/referrable:
+    get:
+      tags:
+        - Investor account
+      summary: Get referrable by owner
+      description: "For roles: `ADMIN`"
+      parameters:
+        - $ref: "#/components/parameters/clientId"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/FollowerReferrable"
+        403:
+          $ref: "#/components/responses/forbidden"
+  /followers/{accountNumber}/restrictions/check:
+    post:
+      tags:
+        - Investor account
+      summary: Remittance Restrictions Check
+      description: "For roles: `ADMIN`"
+      parameters:
+        - $ref: '#/components/parameters/accountNumber'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RemittanceRestrictionsCheckRequest"
+        required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RemittanceRestrictionsCheckStatus'
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+
+  # todo: get better naming
+  /followers/{accountNumber}/trading_stats/{dateFrom}/{dateTo}:
+    get:
+      tags:
+        - Investor account
+      summary: Returns followers trading statisics (summary - number of closed orders)
+        Used by trading report request validation
+      description: "For roles: `CLIENT`, `ADMIN`"
+      parameters:
+        - $ref: "#/components/parameters/accountNumber"
+        - name: dateFrom
+          in: path
+          schema:
+            type: string
+            pattern: '^([0-9]{4})-([0-9]{2})-([0-9]{2})$'
+          required: true
+        - name: dateTo
+          in: path
+          schema:
+            type: string
+            pattern: '^([0-9]{4})-([0-9]{2})-([0-9]{2})$'
+          required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FollowerTradingStatsResponse"
+        403:
+          $ref: "#/components/responses/forbidden"
+  /followers/{accountNumber}/trading_history/{dateFrom}/{dateTo}:
+    get:
+      tags:
+        - Investor account
+      summary: Returns followers trading history (detailed - array of closed otders)
+        Used by trading report generating
+      description: "For roles: `CLIENT`, `ADMIN`"
+      parameters:
+        - $ref: "#/components/parameters/accountNumber"
+        - name: dateFrom
+          in: path
+          schema:
+            type: string
+            pattern: '^([0-9]{4})-([0-9]{2})-([0-9]{2})$'
+          required: true
+        - name: dateTo
+          in: path
+          schema:
+            type: string
+            pattern: '^([0-9]{4})-([0-9]{2})-([0-9]{2})$'
+          required: true
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FollowerTradingHistoryResponse"
+        403:
+          $ref: "#/components/responses/forbidden"
+  /followers/{accountNumber}/trade_statistics:
+    get:
+      tags:
+        - Investor account
+      summary: Returns followers trading statisics (summary + detailed)
+      description: "For roles: `CLIENT`, `ADMIN`"
+      parameters:
+        - $ref: "#/components/parameters/accountNumber"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FollowerTradingStatistics"
+        403:
+          $ref: "#/components/responses/forbidden"
+
+  /questionnaires/{clientId}:
+    get:
+      tags:
+        - Questionnaire
+      summary: Get questionnaire attempt id of client
+      description: "For roles: `CLIENT`"
+      parameters:
+        - $ref: "#/components/parameters/clientId"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Questionnaire"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+  /questionnaires/last_attempt/{clientId}:
+    get:
+      tags:
+        - Questionnaire
+      summary: Get last questionnaire attempt data of client
+      description: "For roles: `CLIENT`"
+      parameters:
+        - $ref: "#/components/parameters/clientId"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LastQuestionnaireAttempt"
+        403:
+          $ref: "#/components/responses/forbidden"
+  /questionnaires/{clientId}/submit:
+    post:
+      tags:
+        - Questionnaire
+      summary: Submit questionnaire attempt
+      description: "For roles: `CLIENT`"
+      parameters:
+        - $ref: "#/components/parameters/clientId"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/QuestionnaireAttempt"
+        required: true
+      responses:
+        201:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ActionResult"
+        400:
+          $ref: "#/components/responses/bad_request"
+        403:
+          $ref: "#/components/responses/forbidden"
+
+  /workflows/{workflowId}/reload:
+    post:
+      tags:
+        - Workflow
+      summary: Reload workflow by ID
+      parameters:
+        - $ref: "#/components/parameters/workflowId"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ActionResult"
+        403:
+          $ref: "#/components/responses/forbidden"
+        404:
+          $ref: "#/components/responses/not_found"
+
+  /settings:
+    get:
+      tags:
+        - Technical
+      summary: Get copy-trading settings
+      description: "For roles: `CLIENT`"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Settings"
+        403:
+          $ref: "#/components/responses/forbidden"
+
+  /balance_operation:
+    put:
+      tags:
+        - Technical
+      summary: Sends prelimary data
+      description: "For roles: `CLIENT`, `ADMIN`"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActionResult'
+        403:
+          $ref: "#/components/responses/forbidden"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChangeBalanceRequest"
+
+components:
+  parameters:
+    accountNumber:
+      name: accountNumber
+      in: path
+      description: trade account's login
+      required: true
+      schema:
+        type: string
+      example: "103335656"
+    accountName:
+      name: accountName
+      in: path
+      description: trade account's name
+      required: true
+      schema:
+        type: string
+        pattern: '^[A-z0-9_\-\s]{3,15}$'
+      example: "FX_Nagibator777"
+    clientId:
+      name: clientId
+      in: path
+      description: client's MyFXTM id
+      required: true
+      schema:
+        type: string
+      example: "6000456876"
+    workflowId:
+      name: workflowId
+      in: path
+      description: workflow's id
+      required: true
+      schema:
+        type: integer
+      example: 25346
+    limit:
+      name: limit
+      in: query
+      schema:
+        type: integer
+      example: "100"
+      required: false
+    offset:
+      name: offset
+      in: query
+      schema:
+        type: integer
+      example: "0"
+      required: false
+    news_id:
+      name: id
+      in: path
+      description: id of concrete news
+      required: true
+      schema:
+        type: string
+      example: "12345"
+  responses:
+    not_found:
+      description: Entity not found.
+    forbidden:
+      description: The role of your token is not allowed to this endpoint.
+    bad_request:
+      description: Bad request.
+  schemas:
+    StrategyManager:
+      type: object
+      properties:
+        account_number:
+          type: string
+          description: number of manager's trade account
+        account_name:
+          type: string
+          description: account's name
+        account_description:
+          type: string
+          description: account's description
+        manager_name:
+          type: string
+          description: manager's name
+        avatar:
+          type: string
+          description: path to manager's avatar
+        country:
+          type: string
+          description: code of manager's country in ISO 3166-1 Alpha-2
+        currency:
+          type: string
+          description: manager account's currency in ISO 4217
+        is_veteran:
+          type: boolean
+          description: veteran badge
+        chart:
+          type: string
+          description: path to manager's chart preview image
+        age:
+          type: integer
+          description: manager account's age in days
+        profit_share:
+          type: integer
+          description: manager's remuneration  fee
+        leverage:
+          type: integer
+          description: account's leverage
+        is_swap_free:
+          type: boolean
+          description: account's swap_free option
+        rank:
+          type: integer
+          nullable: true
+          description: manager's place in the top
+        popularity:
+          type: integer
+          description: manager's popularity points from 0 to 5
+        investors_count:
+          type: integer
+          description: count of manager's investors
+        investors_funds:
+          type: string
+          description: approximate range of investors funds
+        risk_level:
+          type: integer
+          description: manager's risk level
+        max_drawdown:
+          type: number
+          description: manager's max drawdown
+        profit:
+          type: number
+          description: all time profit
+        profit_1w:
+          type: number
+          description: profit for last week
+        profit_td:
+          type: number
+          description: today profit
+        profit_1m:
+          type: number
+          description: profit for last month
+        profit_3m:
+          type: number
+          description: profit for last 3 months
+        profit_6m:
+          type: number
+          description: profit for last 6 months
+        min_deposit:
+          type: integer
+          description: minimum deposit for investors to start follow this manager
+        min_deposit_in_safety_mode:
+          type: integer
+          description: minimum deposit in safety mode for investors to start follow this manager
+      example:
+        account_number: "4200034"
+        account_name: "Thenjiwe Msutu"
+        account_description: "Hello Dear Investor, I trade with a unique and tested strategy..."
+        manager_name: "Darius_Trader12"
+        avatar: "/static/ct/profiles/61111240_1552361960.jpeg"
+        country: "CY"
+        currency: "USD"
+        is_veteran: true
+        chart: "/static/ct/charts/2002.png"
+        age: 383
+        profit_share: 50
+        leverage: 1000
+        is_swap_free: false
+        rank: 71
+        popularity: 1
+        investors_count: 100
+        investors_funds: "50,000 - 100,000"
+        risk_level: 3
+        max_drawdown: 61.78
+        profit: 9873.86
+        profit_1w: -7.35
+        profit_td: 0.03
+        profit_1m: 5.67
+        profit_3m: 13.89
+        profit_6m: 24.12
+        min_deposit: 210
+        min_deposit_in_safety_mode: 420
+    LightStrategyManager:
+      type: object
+      properties:
+        account_number:
+          type: string
+          description: number of manager's trade account
+        account_name:
+          type: string
+          description: account's name
+        manager_name:
+          type: string
+          description: manager's name
+        avatar:
+          type: string
+          description: path to manager's avatar
+        country:
+          type: string
+          description: code of manager's country in ISO 3166-1 Alpha-2
+        currency:
+          type: string
+          description: manager account's currency in ISO 4217
+        is_veteran:
+          type: boolean
+          description: veteran badge
+        risk_level:
+          type: integer
+          description: manager's risk level
+          example: 3
+        volatility:
+          type: number
+          example: 34.08
+        chart:
+          type: string
+          description: path to manager's chart preview image
+        min_deposit:
+          type: integer
+          description: minimum deposit for investors to start follow this manager
+        min_deposit_in_safety_mode:
+          type: integer
+          description: minimum deposit in safety mode for investors to start follow this manager
+      example:
+        account_number: "4200034"
+        account_name: "Thenjiwe Msutu"
+        manager_name: "Darius_Trader12"
+        avatar: "/static/ct/profiles/61111240_1552361960.jpeg"
+        country: "CY"
+        currency: "USD"
+        is_veteran: true
+        chart: "/static/ct/charts/2002.png"
+        min_deposit: 240
+        min_deposit_in_safety_mode: 480
+    ManagerNewsMultipleResponse:
+      type: object
+      properties:
+        total_items:
+          type: number
+          example: 1000
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/ManagerNews"
+    ManagerNews:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: id of news
+          example: 1174
+        content:
+          $ref: "#/components/schemas/ManagerNewsContent"
+        status:
+          type: integer
+          description: status of the news
+          enum: [1,2,3]
+          example: 2
+        submitted_at:
+          type: string
+          example: "2018-10-22 10:12:24"
+        updated_at:
+          type: string
+          example: "2018-10-22 10:18:13"
+        reviewed_at:
+          type: string
+          example: "2018-10-22 10:18:13"
+        author:
+          $ref: "#/components/schemas/LightStrategyManager"
+    ManagerNewsContent:
+      type: object
+      properties:
+        title:
+          type: string
+          description: news title
+          example: "Check your investment status"
+        text:
+          type: string
+          description: news text
+          example: "IF STATUS is Paused , it cannot follow my trading. Please change it into Active.!"
+    ManagerNewsResponse:
+      type: object
+      properties:
+        status:
+          type: number
+          description: result of the action - creating or updating
+          example: 0
+        result:
+          $ref: "#/components/schemas/ManagerNews"
+    InvestorAccount:
+      type: object
+      properties:
+        account_number:
+          type: string
+          description: investor's account number
+          example: "15678909"
+        account_currency:
+          type: string
+          description: account's currency
+          example: "USD"
+        status:
+          type: integer
+          description: account's status
+          enum: [0,1,2]
+          example: 1
+        is_copying:
+          type: boolean
+          description: status of investor's copying mode
+          example: true
+        lock_copying:
+          type: boolean
+          example: false
+        safety_mode:
+          type: boolean
+          description: true if safety mode is enable
+          example: true
+        copy_coefficient:
+          type: number
+          description: investor's copy coefficient
+          example: 1.0
+        lock_copy_coefficient:
+          type: boolean
+          example: false
+        profit_share:
+          type: integer
+          description: value of manager's remuneration fee in percents
+          example: 35
+        activated_at:
+          type: string
+          description: date of account's activation
+          example: '2017-02-04 18:56:03'
+        protection_equity:
+          type: number
+          description: protection level in money
+          example: 400
+        protection_level:
+          type: integer
+          description: investor's protection level in percents
+          example: 40
+        protection_action:
+          type: number
+          example: 1
+        settling_equity:
+          type: number
+          description: equity on last payout date
+          example: 1000
+        settled_at:
+          type: string
+          description: date of last payout
+          example: '2019-06-24 12:09:14'
+        next_payout_date:
+          type: string
+          description: date of next payout
+          example: "2019-07-18 15:08:58"
+        equity:
+          type: number
+          description: actual account's equity
+          example: 4000
+        plugin_rel_coefficient:
+          type: number
+        plugin_copy_coefficient_current:
+          type: number
+        profit_td:
+          type: number
+          description: investor's profit for today
+          example: 1.73
+        profit_yd:
+          type: number
+          description: investor's profit for yesterday
+          example: -2.56
+        profit_1w:
+          type: number
+          description: investor's profit for last week
+          example: 5.57
+        profit_1m:
+          type: number
+          description: investor's profit for last month
+          example: 13.34
+        profit_3m:
+          type: number
+          description: investor's profit for last three month
+          example: 27.92
+        profit_6m:
+          type: number
+          description: investor's profit for last half of year
+          example: 54.08
+        profit_all:
+          type: number
+          description: investor's overall profit
+          example: 56.99
+        leader:
+          $ref: "#/components/schemas/LightStrategyManager"
+    LightInvestorAccount:
+      type: object
+      properties:
+        account_number:
+          type: string
+          description: investor's account number
+          example: "15678909"
+        account_currency:
+          type: string
+          description: account's currency
+          example: "USD"
+        status:
+          type: integer
+          description: account's status
+          enum: [0,1,2]
+          example: 1
+        is_copying:
+          type: boolean
+          description: status of investor's copying mode
+          example: true
+        lock_copying:
+          type: boolean
+          example: false
+        safety_mode:
+          type: boolean
+          description: true if safety mode is enable
+          example: true
+        copy_coefficient:
+          type: number
+          description: investor's copy coefficient
+          example: 1.0
+        lock_copy_coefficient:
+          type: boolean
+          example: false
+        profit_share:
+          type: integer
+          description: value of manager's remuneration fee in percents
+          example: 35
+        activated_at:
+          type: string
+          description: date of account's activation
+          example: '2017-02-04 18:56:03'
+        protection_equity:
+          type: number
+          description: protection level in money
+          example: 400
+        protection_level:
+          type: integer
+          description: investor's protection level in percents
+          example: 40
+        protection_action:
+          type: number
+          example: 1
+        settling_equity:
+          type: number
+          description: equity on last payout date
+          example: 1000
+        settled_at:
+          type: string
+          description: date of last payout
+          example: '2019-06-24 12:09:14'
+        next_payout_date:
+          type: string
+          description: date of next payout
+          example: "2019-07-18 15:08:58"
+        equity:
+          type: number
+          description: actual account's equity
+          example: 4000
+        plugin_rel_coefficient:
+          type: number
+        plugin_copy_coefficient_current:
+          type: number
+        profit_td:
+          type: number
+          description: investor's profit for today
+          example: 1.73
+        leader:
+          $ref: "#/components/schemas/LightStrategyManager"
+    ShortInvestorAccount:
+      type: object
+      properties:
+        account_number:
+          type: string
+          description: investor's account number
+          example: "15678909"
+        status:
+          type: boolean
+          description: account's status
+          example: true
+        equity:
+          type: number
+          description: actual account's equity
+          example: 4000
+        profit:
+          type: number
+          description: investor's profit
+          example: 1.73
+    StrategyManagerStats:
+      type: object
+      properties:
+        unit_prices:
+          type: array
+          items:
+            type: object
+            properties:
+              acc_no:
+                type: string
+              date_time:
+                type: string
+              equity:
+                type: number
+              in_out:
+                type: number
+              unit_price:
+                type: number
+        symbol_review:
+          type: object
+          properties:
+            totals_and_stats:
+              type: object
+              properties:
+                total_profit_perc:
+                  type: string
+                total_stop_loss_perc:
+                  type: string
+                total_take_profit_perc:
+                  type: string
+                total_buy_perc:
+                  type: string
+                total_sell_perc:
+                  type: string
+                total_loss_perc:
+                  type: string
+              description: stats of leader account
+            pairs:
+              type: array
+              description: pair of currencies
+              items:
+                type: object
+                properties:
+                  symbol:
+                    type: string
+                  buy:
+                    type: number
+                  sell:
+                    type: number
+                  profit:
+                    type: number
+                  loss:
+                    type: number
+                  stop_loss:
+                    type: number
+                  take_profit:
+                    type: number
+                  avg_profit:
+                    type: number
+                  avg_loss:
+                    type: number
+                  avg_pips:
+                    type: number
+                  avg_tp:
+                    type: number
+                  avg_sl:
+                    type: number
+                  avg_duration:
+                    type: number
+        trading_review:
+          type: object
+          properties:
+            buy:
+              $ref: "#/components/schemas/ManagerTradingReview"
+            sell:
+              $ref: "#/components/schemas/ManagerTradingReview"
+            profitable:
+              $ref: "#/components/schemas/ManagerTradingReview"
+            unprofitable:
+              $ref: "#/components/schemas/ManagerTradingReview"
+    ManagerTradingReview:
+      type: object
+      properties:
+        acc_id:
+          type: string
+          example: "15678909"
+        date:
+          type: string
+          example: "2013-02-01"
+        h0:
+          type: integer
+          example: 0
+        h1:
+          type: integer
+          example: 0
+        h2:
+          type: integer
+          example: 0
+        h3:
+          type: integer
+          example: 0
+        h4:
+          type: integer
+          example: 0
+        h5:
+          type: integer
+          example: 0
+        h6:
+          type: integer
+          example: 0
+        h7:
+          type: integer
+          example: 0
+        h8:
+          type: integer
+          example: 5
+        h9:
+          type: integer
+          example: 7
+        h10:
+          type: integer
+          example: 7
+        h11:
+          type: integer
+          example: 12
+        h12:
+          type: integer
+          example: 1
+        h13:
+          type: integer
+          example: 0
+        h14:
+          type: integer
+          example: 3
+        h15:
+          type: integer
+          example: 12
+        h16:
+          type: integer
+          example: 18
+        h17:
+          type: integer
+          example: 3
+        h18:
+          type: integer
+          example: 8
+        h19:
+          type: integer
+          example: 0
+        h20:
+          type: integer
+          example: 0
+        h21:
+          type: integer
+          example: 0
+        h22:
+          type: integer
+          example: 0
+        h23:
+          type: integer
+          example: 0
+        d1:
+          type: integer
+          example: 20
+        d2:
+          type: integer
+          example: 34
+        d3:
+          type: integer
+          example: 45
+        d4:
+          type: integer
+          example: 21
+        d5:
+          type: integer
+          example: 7
+        ts:
+          type: string
+          example: "2019-09-11 14:02:23"
+    ActionResult:
+      type: object
+      properties:
+        result:
+          type: boolean
+          description: result of the action
+          example: true
+        status:
+          type: number
+          description: status of the request
+          example: 0
+    LeaderAccount:
+      type: object
+      properties:
+        acc_no:
+          type: string
+          description: number of leader's trade account
+          example: "103335656"
+        acc_curr:
+          type: string
+          description: currency
+          example: "USD"
+        owner_id:
+          type: string
+          description: client id of owner
+          example: "50004857654"
+        opened_at:
+          type: string
+          description: account opening date
+          example: "2018-12-22 10:10:12"
+        activated_at:
+          type: string
+          description: datetime of activation
+          example: "2018-12-22 10:10:12"
+        acc_name:
+          type: string
+          description: account's name
+          example: "TheBestFxTraider"
+        status:
+          type: number
+          description: account's status
+          example: 1
+        remun_fee:
+          type: number
+          description: account's remuneration fee
+          example: 25
+        is_public:
+          type: boolean
+          description: privacy mode
+          example: true
+        hidden_reason:
+          type: number
+          description: why account is private or switched off
+          example: 1
+        is_followable:
+          type: boolean
+          description: followable mode of account
+          example: true
+        show_equity:
+          type: boolean
+          description: is should show equity
+          example: true
+        volatility:
+          type: number
+          example: 34.08
+        profit:
+          type: number
+          description: all time profit
+          example: 5578.89
+        pop:
+          type: number
+          description: popularity points
+          example: 12.34
+        income:
+          type: number
+          example: 9.01
+        income_td:
+          type: number
+          example: -1.34
+        income_yd:
+          type: number
+          example: 2.12
+        income_1w:
+          type: number
+          example: -3.27
+        income_1m:
+          type: number
+          example: 14.45
+        foll_now:
+          type: integer
+          description: count of followers
+          example: 212
+        foll_funds_now:
+          type: number
+          description: sum of followers equity
+          example: 127569.76
+        foll_today:
+          type: integer
+          description: count of new followers
+          example: 12
+        foll_funds_today:
+          type: number
+          description: sum of new followers equity
+          example: 4500
+        next_payout:
+          type: string
+          example: "2018-12-22 00:00:00"
+        next_income:
+          type: number
+          example: 12.23
+        is_name_updated:
+          type: boolean
+          example: true
+        descr:
+          type: object
+          properties:
+            text:
+              type: string
+              description: description text
+              example: "Lorem ipsum..."
+            status:
+              type: string
+              description: status of the description
+              example: "approved"
+        daily_stats:
+          type: object
+          properties:
+            last_month:
+              type: array
+              items:
+                type: object
+                properties:
+                  date:
+                    type: string
+                    example: "2019-01-13 10:10:12"
+                  followers:
+                    type: integer
+                    example: 9
+                  funds:
+                    type: number
+                    example: 438.1214
+                  income:
+                    type: number
+                    example: 14.4356
+            all_time:
+              type: array
+              items:
+                type: object
+                properties:
+                  date:
+                    type: string
+                    example: "2019-01-13 10:10:12"
+                  followers:
+                    type: integer
+                    example: 9
+                  funds:
+                    type: number
+                    example: 438.1214
+                  income:
+                    type: number
+                    example: 14.4356
+        commissions:
+          type: array
+          items:
+            type: object
+            properties:
+              acc_no:
+                type: string
+                example: "103335656"
+              date:
+                type: string
+                example: "2019-01-13 10:10:12"
+              amount:
+                type: string
+                example: 438.1214
+              reason:
+                type: number
+                example: 1
+              comment:
+                type: string
+                example: "withdrawal"
+        investors:
+          type: array
+          items:
+            type: object
+            properties:
+              acc_no:
+                type: string
+                example: "103335656"
+              is_copying:
+                type: boolean
+                example: true
+              funds:
+                type: number
+                example: 438.1214
+              next_payout:
+                type: string
+                example: "2019-01-13 10:10:12"
+              pay_fee:
+                type: integer
+                example: 25
+              profit:
+                type: number
+                example: 7514.79
+        is_test:
+          type: boolean
+          example: false
+        top_checkpoints:
+          type: object
+          properties:
+            profit:
+              type: object
+              properties:
+                value:
+                  type: number
+                  example: -12.04
+                threshold:
+                  type: number
+                  example: 0
+                passed:
+                  type: boolean
+                  example: false
+            current_equity:
+              type: object
+              properties:
+                value:
+                  type: number
+                  example: 2384.12
+                threshold:
+                  type: number
+                  example: 1000
+                passed:
+                  type: boolean
+                  example: true
+            average_equity:
+              type: object
+              properties:
+                value:
+                  type: number
+                  example: 1214.18
+                threshold:
+                  type: number
+                  example: 1000
+                passed:
+                  type: boolean
+                  example: true
+            trading_days_count:
+              type: object
+              properties:
+                value:
+                  type: number
+                  example: 53
+                threshold:
+                  type: number
+                  example: 70
+                passed:
+                  type: boolean
+                  example: false
+            last_time_opened_orders_count:
+              type: object
+              properties:
+                value:
+                  type: number
+                  example: 0
+                threshold:
+                  type: number
+                  example: 0
+                passed:
+                  type: boolean
+                  example: false
+            closed_orders_count:
+              type: object
+              properties:
+                value:
+                  type: number
+                  example: 714
+                threshold:
+                  type: number
+                  example: 30
+                passed:
+                  type: boolean
+                  example: true
+            leverage:
+              type: object
+              properties:
+                value:
+                  type: number
+                  example: 1000
+                threshold:
+                  type: number
+                  example: 200
+                passed:
+                  type: boolean
+                  example: false
+            approved_description:
+              type: object
+              nullable: true
+              properties:
+                value:
+                  type: number
+                  nullable: true
+                  example: null
+                threshold:
+                  type: number
+                  example: null
+                  nullable: true
+                passed:
+                  type: boolean
+                  example: true
+            active_profile:
+              type: object
+              nullable: true
+              properties:
+                value:
+                  type: number
+                  nullable: true
+                  example: null
+                threshold:
+                  type: number
+                  example: null
+                  nullable: true
+                passed:
+                  type: boolean
+                  example: true
+    CreateLeaderRequest:
+      type: object
+      properties:
+        account_number:
+          type: string
+          description: id of existing non-leader account, not nead if account doesn't exists
+          example: "10009584675"
+        account_name:
+          type: string
+          description: name for leader account
+          example: "xXx_TR4D3R_xXx"
+        broker:
+          type: string
+          enum: ["fxtm", "aint", "aby"]
+          description: "broker of client"
+        fee:
+          type: number
+          description: leader's remuneration fee
+          example: 50
+        private:
+          type: boolean
+          description: if true, new account will be in state private
+          example: false
+        reason:
+          type: number
+          description: reason of private state of account
+          example: 1
+    CreateWorkflowResult:
+      type: object
+      properties:
+        result:
+          type: boolean
+          example: true
+        status:
+          type: integer
+          example: 0
+        workflow_id:
+          type: string
+          example: "3635654"
+    CreateAccountResponse:
+      type: object
+      properties:
+        result:
+          type: string
+          description: new investor account's login
+          example: "10005764532"
+        status:
+          type: integer
+          example: 0
+        workflow_id:
+          type: string
+          example: "3635654"
+    ChangeFeeRequest:
+      type: object
+      properties:
+        fee:
+          type: number
+          description: new leader's remuneration fee
+          example: 30
+    ChangeLeverageRequest:
+      type: object
+      properties:
+        leverage:
+          type: integer
+          description: new leader's leverage
+          example: 100
+    ChangeSwapFreeRequest:
+      type: object
+      properties:
+        broker:
+          type: string
+          enum: ["fxtm", "aint", "aby"]
+          description: leader's broker
+        is_swap_free:
+          type: boolean
+          description: new leader's swap free attribute
+          example: true
+    ChangePrivacyModeRequest:
+      type: object
+      properties:
+        privacy_mode:
+          type: integer
+          enum: [1,2,3]
+          description: new privacy mode (1 - public, 2 - private, 3 - switched
+            off)
+        close_followers:
+          type: boolean
+          description: if true, follower accounts of this leader will be closed
+          example: false
+    ChangeShowEquityRequest:
+      type: object
+      properties:
+        show_equity:
+          type: boolean
+          description: new leader's show_equity value
+          example: true
+    LeaderNameRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: new account's name
+          example: "TheTruthTrader"
+    ChangeLeaderDescriptionRequest:
+      type: object
+      properties:
+        description:
+          type: string
+          description: new account's description
+          example: "Lorem ipsum dolor sit amet ..."
+    ChangeCopyingModeRequest:
+      type: object
+      properties:
+        copying:
+          type: boolean
+          description: enable/disable copying
+          example: false
+    LeaderReferrable:
+      type: object
+      properties:
+        lead_acc_no:
+          type: string
+          example: "209998787"
+        lead_acc_name:
+          type: string
+          example: "TheBestFxtmTrader"
+        lead_acc_profit:
+          type: number
+          example: 1324.6787
+    LeaderMonthlyStats:
+      type: object
+      properties:
+        result:
+          type: array
+          description: result of the action
+          items:
+            type: object
+            properties:
+              date:
+                type: string
+                example: "2018-11-22 10:10:12"
+              quantity:
+                type: integer
+                example: 120
+    LeaderStatus:
+      type: object
+      properties:
+        has_open_orders:
+          type: boolean
+          example: true
+        has_active_investors:
+          type: number
+          example: 10
+        has_activated_followers:
+          type: number
+          example: 20
+    LeaderProfile:
+      type: object
+      properties:
+        nickname:
+          type: string
+          description: nickname of the leader
+          example: "FxtmBestTrader"
+        leader_id:
+          type: number
+          description: leader id
+          example: 12345
+        avatar:
+          type: string
+          description: address to leader's avatar
+          example: "avatars/12345/e12b00oldpei.png"
+        use_nickname:
+          type: boolean
+          example: true
+        show_name:
+          type: boolean
+          example: false
+        show_country:
+          type: boolean
+          example: true
+    LeaderProfileResponse:
+      type: object
+      properties:
+        status:
+          type: integer
+          description: status of the request
+          example: 0
+        result:
+          $ref: "#/components/schemas/LeaderProfile"
+    ChangeNicknameRequest:
+      type: object
+      properties:
+        nickname:
+          type: string
+          description: changed nickname of profile
+          example: "FxtmBestTrader"
+    ChangeUseNicknameRequest:
+      type: object
+      properties:
+        use_nickname:
+          type: boolean
+          description: should the site use nickname instead real leader's name ?
+          example: true
+    ChangeShowNameRequest:
+      type: object
+      properties:
+        show_name:
+          type: boolean
+          description: should the site show leader's name ?
+          example: false
+    ChangeShowCountryRequest:
+      type: object
+      properties:
+        show_country:
+          type: boolean
+          description: should the site show leader's country ?
+          example: true
+    ChangeAvatarRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: file's name
+          example: "6000456756_112344858574938.jpeg"
+        avatar:
+          type: string
+          description: leader's avatar binary data in base64 encode
+          example: "data:image/jpeg;base64,/9j/4RiDRXhpZgAATU0AKgA..."
+    ClosedInvestorAccount:
+      type: object
+      properties:
+        acc_no:
+          type: string
+          example: "209998787"
+        strategy_name:
+          type: string
+          example: "qwerty678"
+        opened_at:
+          type: string
+          example: "2018-11-22 10:10:12"
+        activated_at:
+          type: string
+          example: "2018-11-23 10:10:12"
+        closed_at:
+          type: string
+          example: "2018-12-22 10:10:12"
+    InvestorAccountStats:
+      type: object
+      properties:
+        all_time:
+          type: array
+          items:
+            type: object
+            properties:
+              acc_no:
+                type: string
+                example: "209998787"
+              date:
+                type: string
+                example: "2018-12-22 10:10:12"
+              equity:
+                type: number
+                example: 10034.12
+              profit:
+                type: number
+                example: -112.22
+        last_month:
+          type: array
+          items:
+            type: object
+            properties:
+              acc_no:
+                type: string
+                example: "209998787"
+              date:
+                type: string
+                example: "2018-12-22 10:10:12"
+              equity:
+                type: number
+                example: 10034.12
+              profit:
+                type: number
+                example: -112.22
+    InvestorPaidFees:
+      type: object
+      properties:
+        total_amount_paid:
+          type: number
+          example: 1024.42
+        total_items:
+          type: number
+          example: 1000
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/InvestorPaidFee"
+    InvestorPaidFee:
+      type: object
+      properties:
+        date:
+          type: string
+          example: '2021-09-12 16:54:42'
+        amount:
+          type: number
+          example: 126.59
+        reason:
+          type: string
+          enum: ['monthly_fee', 'partial_withdrawal', 'account_closing']
+    InvestorPendingWorkflows:
+      type: object
+      properties:
+        result:
+          type: object
+          properties:
+            is_being_deposited:
+              type: boolean
+              example: false
+            is_being_resumed:
+              type: boolean
+              example: false
+            strategy_is_being_liquidated:
+              type: boolean
+              example: false
+            level_is_being_updated:
+              type: boolean
+              example: false
+            is_period_closing:
+              type: boolean
+              example: false
+            is_being_paused:
+              type: boolean
+              example: false
+            is_being_withdrew:
+              type: boolean
+              example: false
+            mode_is_being_updated:
+              type: boolean
+              example: false
+            is_being_liquidated:
+              type: boolean
+              example: false
+          description: result of the action
+        status:
+          type: number
+          description: status of the request
+          example: 0
+    CreateFollowerRequest:
+      type: object
+      properties:
+        leader_account_number:
+          type: string
+          description: login of leader's account
+          example: "209998787"
+        client_id:
+          type: string
+          description: owner id of new follower account
+          example: "60004837564"
+        broker:
+          type: string
+          enum: ["fxtm", "aint", "aby"]
+          description: broker of client
+        protection_level:
+          type: integer
+          description: equity protection level
+          example: 50
+        copy_coefficient:
+          type: number
+          description: follower's copy coefficient
+          example: 1
+    ChangeProtectionLevelRequest:
+      type: object
+      properties:
+        protection_level:
+          type: integer
+          description: new equity protection level
+          example: 70
+        stop_copying:
+          type: boolean
+          description: should we pause copying when equity falls below protection level? default true
+          example: true
+    ChangeCopyCoefficientRequest:
+      type: object
+      properties:
+        copy_coefficient:
+          type: number
+          description: new follower's copy coefficient
+          example: 0.5
+    WithdrawalRequest:
+      type: object
+      properties:
+        amount:
+          type: number
+          description: amount which follower want to withdraw from his account
+          example: 2000
+    FollowerReferrable:
+      type: array
+      items:
+        type: object
+        properties:
+          foll_acc_no:
+            type: string
+            example: "209998787"
+          lead_acc_no:
+            type: string
+            example: "209998787"
+          lead_acc_name:
+            type: string
+            example: "TheBestFxtmTrader"
+          lead_acc_profit:
+            type: string
+            example: 1324.6787
+    Questionnaire:
+      type: object
+      properties:
+        result:
+          type: number
+          description: id of client's questionnaire attempt
+          example: 56483
+        status:
+          type: number
+          description: status of the request
+          example: 0
+    QuestionnaireAttempt:
+      type: object
+      properties:
+        answers:
+          type: array
+          items:
+            type: object
+            properties:
+              question:
+                type: string
+                example: 14
+              answer:
+                type: string
+                example: 2
+          description: array of question numbers and chosen answer variants
+        broker:
+          type: string
+          enum: ["fxtm", "aint", "aby"]
+          description: broker of client
+    LastQuestionnaireAttempt:
+      type: object
+      properties:
+        status:
+          type: number
+          description: status of the request
+          example: 0
+        result:
+          type: object
+          properties:
+            id:
+              type: string
+              example: "10042"
+            client_id:
+              type: string
+              example: "50314184"
+            questionnaire_id:
+              type: integer
+              example: 8
+            submitted_at:
+              type: string
+              example: "2019-03-29 14:04:46"
+            points:
+              type: integer
+              example: -34
+            result:
+              type: integer
+              example: 1
+    Settings:
+      type: object
+      properties:
+        leader_hide_inactive_days_threshold:
+          type: number
+          description: when account has not trade activity so long, mode
+            will be switched to private
+          example: 30
+        leader_min_equity_ecn:
+          type: number
+          description: minimal equity for leader accounts on ecn server
+          example: 500
+        follower_acc_min_equity:
+          type: number
+          description: minimal equity for follower accounts
+          example: 100
+        leader_hide_profit_threshold:
+          type: number
+          description: when account falls below this level, mode will be
+            switched to private
+          example: -95
+        leader_min_equity_ecn_zero:
+          type: number
+          description: minimal equity for leader accounts on ecn_zero server
+          example: 200
+        leader_min_equity_ai_ecn:
+          type: number
+          description: minimal equity for leader accounts on ai ecn server
+          example: 500
+        leader_min_equity_advantage_ecn:
+          type: number
+          description: minimal equity for leader accounts on advantage ecn mt4 server
+          example: 500
+        leader_min_equity_ai_ecn_mt5:
+          type: number
+          description: minimal equity for leader accounts on ai ecn mt5 server
+          example: 500
+        leader_acc_min_equity:
+          type: number
+          description: minimal equity for leader accounts
+          example: 200
+        follower_min_equity:
+          type: number
+          description: minimal equity for follower accounts
+          example: 100
+    UniqueNameResponse:
+      type: object
+      properties:
+        status:
+          type: number
+          description: status of the request
+          example: 0
+        result:
+          type: string
+          description: unique manager's name for given client
+          example: "email_21"
+    InvestorsByManagerNameResponse:
+      type: object
+      properties:
+        leader_account_number:
+          type: string
+          example: "10056742"
+        investors:
+          type: array
+          items:
+            $ref: "#/components/schemas/ShortInvestorAccount"
+    RemittanceRestrictionsCheckRequest:
+      type: object
+      properties:
+        direction:
+          type: integer
+          enum: [-1, 1]
+          description: "-1 means direction from account; 1 - direction to account"
+        transfer_type_id:
+          type: integer
+          enum: [1, 2, 3]
+          description: "1 is a deposit, 2 - withdraw, 3 - transfer"
+        amount:
+          type: string
+          example: "23.34"
+    RemittanceRestrictionsCheckStatus:
+      type: object
+      properties:
+        allowed:
+          type: boolean
+        message:
+          type: string
+          nullable: true
+        code:
+          type: integer
+          nullable: true
+        min:
+          type: number
+          nullable: true
+    FollowerTradingStatsResponse:
+      type: object
+      properties:
+        closed_orders:
+          type: integer
+          description: number of closed orders
+          example: 100500
+    FollowerTradingHistoryResponse:
+      type: array
+      items:
+        $ref: '#/components/schemas/ClosedOrder'
+    FollowerTradingStatistics:
+      type: object
+      properties:
+        balance:
+          type: number
+        equity:
+          type: number
+        current_result:
+          type: number
+        closed_orders:
+          type: array
+          items:
+            $ref: '#/components/schemas/ClosedOrder'
+        open_orders:
+          type: array
+          items:
+            $ref: '#/components/schemas/OpenOrder'
+    OpenOrder:
+      type: object
+      properties:
+        ticket:
+          type: integer
+        order_type:
+          type: string
+        volume:
+          type: number
+        symbol:
+          type: string
+        open_time:
+          type: integer
+        open_price:
+          type: number
+        stop_loss:
+          type: number
+        take_profit:
+          type: number
+
+    ClosedOrder:
+      type: object
+      properties:
+        ticket:
+          type: integer
+        order_type:
+          type: string
+        volume:
+          type: number
+        symbol:
+          type: string
+        open_time:
+          type: integer
+        open_price:
+          type: number
+        close_time:
+          type: integer
+        close_price:
+          type: number
+        stop_loss:
+          type: number
+        take_profit:
+          type: number
+        commission:
+          type: number
+        swap:
+          type: number
+        profit:
+          type: number
+        comment:
+          type: string
+    ChangeBalanceRequest:
+      type: object
+      properties:
+        account:
+          type: string
+          example: "12345"
+        amount:
+          type: number
+          description: amount which follower or leader is going to be added or deducted to trading account
+          example: 2000
+        order:
+          type: integer
+          example: 123456
+        order_time:
+          type: integer
+          example: 123456
+        equity:
+          type: number
+          example: 100.5
+    InvestorAccountMinDeposit:
+      type: object
+      properties:
+        login:
+          type: string
+        min_deposit:
+          type: integer
+
+  securitySchemes:
+    jwt:
+      type: oauth2
+      flows:
+        clientCredentials:
+          tokenUrl: https://ct-api-app1.fxtm/v1/auth/login
+          scopes:
+            ROLE_CLIENT: client of the ct-api (web-api or mobile)
+            ROLE_ADMIN: cms
+security:
+  - jwt: []
