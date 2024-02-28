@@ -1,9 +1,0 @@
-name: Hycm Blocks
-description: 'Provide specific custom functionality for project.'
-type: module
-package: HYCM
-core: 8.x
-
-dependencies:
-  - hycm_services
-  - hycm_graphs

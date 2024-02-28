@@ -1,7 +1,0 @@
-div.dkc-wrapper {
-    display: inline-block;
-}
-
-.fieldset-wrapper div.dkc-wrapper:last-child {
-    margin: 0 30px;
-}

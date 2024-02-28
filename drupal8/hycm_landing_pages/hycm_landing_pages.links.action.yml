@@ -1,5 +1,0 @@
-entity.hylp.add_form:
-  route_name: entity.hylp.add_form
-  title: 'Add Landing page'
-  appears_on:
-    - entity.hylp.collection

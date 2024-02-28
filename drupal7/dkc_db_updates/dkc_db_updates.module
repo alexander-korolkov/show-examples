@@ -1,4 +1,0 @@
-<?php
-/**
- * This module is really only used for it's update.php hooks in dkc_db_updates.install. You probably won't add any code to this file.
- */
